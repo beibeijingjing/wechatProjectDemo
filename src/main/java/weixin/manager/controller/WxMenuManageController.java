@@ -29,7 +29,7 @@ public class WxMenuManageController extends BaseController {
 	public Object toGetWxMenuList(HttpServletRequest request,
 			@RequestParam(required = false) String sessionId) {
 		request.setAttribute("sessionId", sessionId);
-		return "weixin/wxMenu/wxMenuList";
+		return "weixin/wxMenu/wxMenuList  ";
 	}
 
 	@RequestMapping(value = "/toGetAddWxMenu.do")
