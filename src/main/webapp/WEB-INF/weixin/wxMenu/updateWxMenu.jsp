@@ -103,13 +103,6 @@ body {
 		<input type="hidden" name="id" id="id" value="${menu.id }"/>
 		<table class="table table-bordered table-hover m10">
 			<tr>
-				<td class="tableleft">类别</td>
-				<td>
-					<input type="radio" name="wxMenuType" value="0" checked="checked">系统
-					<input type="radio" name="wxMenuType" value="1">微信
-				</td>
-			</tr>
-			<tr>
 				<td width="10%" class="tableleft">上级</td>
 				<td>
 					<select name="parentId" id="parentId">
