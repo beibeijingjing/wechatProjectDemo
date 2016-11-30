@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+.content {
+	background: #fff;
+	padding: 0 0 .5rem;
+}
+
+.singer-header {
+	border-bottom: solid #eee .1rem;
+}
+
+.singer-header img {
+	margin-bottom: -4px;
+}
+
+.singer-header h1 {
+	border-bottom: solid #ddd 1px;
+	color: #333;
+	font-size: .14rem;
+	height: .45rem;
+	line-height: .45rem;
+	text-align: center;
+}
+
+.p-singer-info {
+	border-top: solid #ddd 1px;
+	color: #666;
+	font-size: .12rem;
+	line-height: 1.75em;
+	padding: .15rem .14rem .08rem;
+}
+
+.btn-back {
+	background: #ed3571;
+	border-radius: .03rem;
+	color: #fff;
+	display: block;
+	font-family: STHeiti;
+	font-size: .14rem;
+	height: .36rem;
+	line-height: .36rem;
+	margin: 0 .7rem;
+	text-align: center;
+}

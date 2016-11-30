@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+body {
+	background: #f9f9f1;
+}
+
+.header {
+	background: #fff;
+	border-bottom: solid #ccc 1px;
+	color: #333;
+	font-size: .16rem;
+	height: .48rem;
+	line-height: .48rem;
+	text-align: center;
+}
+
+.par-announce {
+	color: #444;
+	line-height: 1.5em;
+	font-size: .12rem;
+	padding: .15rem;
+}
+
+.par-announce h1,.par-announce h2 {
+	font-size: .135rem;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+
+.par-announce p {
+	margin: 0 0 1.5em;
+}
+
+dt {
+	font-weight: bold;
+}

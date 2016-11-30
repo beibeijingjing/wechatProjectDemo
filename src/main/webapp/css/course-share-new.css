@@ -1,0 +1,316 @@
+@charset "utf-8";
+
+.content {
+	position: relative;
+	z-index: 4;
+}
+
+.bg-img-singer {
+	background: #fff;
+	/*background: url(../image/bg-img-singer.jpg) no-repeat;
+	background-size: 100% 100%;
+	background-attachment: fixed;*/
+}
+/*.bg-img-singer{
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+	-webkit-filter: blur(20px);
+	   -moz-filter: blur(20px);
+	    -ms-filter: blur(20px);
+            filter: blur(20px);
+}*/
+.bg_mask {
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
+
+.mask-header {
+	height: .77rem;
+	position: absolute;
+}
+
+.video-top {
+	display: none;
+	color: #d1cbc7;
+	font-family: Helvetica;
+	font-size: .11rem;
+	height: .77rem;
+	padding: 0 0 0 .16rem;
+	position: relative;
+}
+
+.video-info {
+	position: absolute;
+	z-index: 5;
+}
+
+.video-header {
+	color: #333;
+	font-size: .14rem;
+	padding: .19rem 0 .11rem;
+}
+
+.ico {
+	background: url(../image/ico-course-list.png) no-repeat top left/.12rem
+		auto;
+	display: inline-block;
+	height: .12rem;
+	margin: 0 .02rem -.01rem 0;
+	width: .12rem;
+}
+
+.ico-clock {
+	background-position: 0 -.12rem;
+	margin-left: .25rem;
+}
+
+.gap-line {
+	background: #d1cbc7;
+	display: inline-block;
+	height: .08rem;
+	margin: 0 .09rem;
+	width: 1px;
+}
+
+.video-list-header {
+	color: #dadada;
+	font-family: STHeiti;
+	font-size: .11rem;
+	height: .4rem;
+	line-height: .4rem;
+	padding: 0 0 0 .06rem;
+}
+
+.video-list-wrap {
+	margin: 0 0 0 15px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.video-list-li {
+	background: none;
+	border-bottom: solid #eee 1px;
+	color: #aeaeae;
+	font-size: .11rem;
+}
+
+.video-list-li a {
+	color: #d1cbc7;
+	display: block;
+}
+
+.video-list-li:after,.video-list-li::after {
+	background: #fff;
+	clear: both;
+	content: "";
+	display: block;
+	height: 1px;
+	opacity: 0.12;
+}
+
+.video-list-li img {
+	float: left;
+	width: 1.2rem;
+	height: auto;
+	margin: .08rem .2rem .07rem 0;
+}
+
+.video-list-li .video-header {
+	padding: .15rem 0 .15rem 1.4rem;
+}
+
+.video-header p {
+	font-size: .12rem !important;
+	padding: .07rem 0 0;
+}
+
+.pop-download {
+	font-size: .14rem;
+	position: relative;
+	width: 100%;
+}
+
+.bg-mask-pink {
+	bottom: 0;
+	background: #fff;
+	height: .55rem;
+	left: 0;
+	opacity: 0.9;
+	position: fixed;
+	width: 100%;
+	z-index: 5;
+}
+
+.pop-download-cont {
+	bottom: 0;
+	color: #2fb9c3;
+	height: .55rem;
+	position: fixed;
+	width: 100%;
+	z-index: 6;
+}
+
+.pop-download-cont p {
+	padding: .1rem 0 0;
+}
+
+.pop-download-cont p span {
+	display: block;
+	font-size: .12rem;
+	margin: .04rem 0 0;
+}
+
+.pop-download-cont img {
+	border-radius: .03rem;
+	float: left;
+	height: .43rem;
+	margin: .06rem .07rem;
+	margin-right: .1rem;
+	width: .43rem;
+}
+
+.btn-download {
+	background: #2fb9c3;
+	border-radius: .03rem;
+	color: #fff;
+	display: inline-block;
+	float: right;
+	font-family: STHeiti;
+	font-size: .13rem;
+	height: .33rem;
+	line-height: .33rem;
+	margin: .11rem .11rem 0 0;
+	text-align: center;
+	width: 1rem;
+}
+
+.video-top-wrap {
+	position: relative;
+}
+
+.video-info-wrap {
+	width: 100%;
+	height: .45rem;
+	background: rgba(0, 0, 0, .44);
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+video {
+	width: 100%;
+	height: auto;
+	margin-bottom: -4px;
+}
+
+.video-head {
+	font-size: 13px;
+	padding: 5px 15px 4px;
+}
+
+.video-info {
+	height: 9px;
+	line-height: 9px;
+	padding: 0 15px;
+}
+
+.video-info li {
+	font-size: 11px;
+	font-weight: lighter;
+	font-family: Helvetica;
+	float: left;
+	overflow: visible;
+}
+
+.video-info li:first-child {
+	padding: 0 15px 0 0;
+	border-right: solid #cdc4bf 1px;
+}
+
+.video-info li i {
+	display: inline-block;
+	width: 9px;
+	height: 9px;
+	background: url(../image/ico-video.png) no-repeat 0 0/18px 9px;
+	margin: 0 2px -1px 0;
+}
+
+.ico-time {
+	background-position: -9px 0 !important;
+	margin: 0 2px -1px 15px !important;
+}
+
+.btn_download_wrap {
+	background: #eee;
+	padding: 5px 15px;
+}
+
+.btn_download {
+	display: block;
+	width: 100%;
+	height: 45px;
+	border-radius: 5px;
+	background: #2fb9c3;
+	color: #fff;
+	font-size: 14px;
+	line-height: 45px;
+	text-align: center;
+}
+
+#pop_download_starapp .pop_content {
+	top: 50%;
+	margin-top: -75px;
+}
+
+.pop_hint {
+	color: #333;
+}
+
+.btn_pop_wrap {
+	padding: 0 8px;
+	height: 72px;
+}
+
+.btn_pop_ul li {
+	width: 50%;
+	float: left;
+}
+
+.btn_popnew {
+	display: block;
+	width: 82px;
+	height: 42px;
+	line-height: 42px;
+	background: #2fb9c3;
+	border-radius: 5px;
+	border: none !important;
+	color: #fff !important;
+	margin: 15px auto !important;
+	font-size: 15px;
+	text-align: center;
+}
+
+.btn_miss {
+	background: #999;
+}
+/* audio */
+.player-wrap {
+	overflow: hidden;
+	position: relative;
+}
+
+.player-wrap img {
+	margin-bottom: -5px;
+}
+
+audio {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}

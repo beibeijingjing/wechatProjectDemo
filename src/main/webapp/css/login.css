@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+.content {
+	background: #fff;
+	max-width: 4.2rem;
+	padding: 0 0 .22rem;
+	margin: 0 auto;
+}
+
+.frm-wrap {
+	margin: 0 .1rem;
+}
+
+.frm-header {
+	color: #8a40dd;
+	font-size: .12rem;
+	font-weight: bold;
+	margin: .3rem 0 .05rem;
+}
+
+label {
+	display: block;
+	width: 100%;
+	height: .34rem;
+	border: solid #4e4e4e 1px;
+	box-sizing: border-box;
+	color: #111;
+	padding: .06rem .09rem;
+	margin: 0 0 -1px;
+}
+
+.inp-txt {
+	width: 100%;
+	height: .2rem;
+	border: none;
+	outline: none;
+	font-size: .14rem;
+	line-height: .2rem;
+}
+
+.inp-radio {
+	border: solid #4e4e4e 1px;
+	color: #111;
+	margin: .02rem 0 0;
+}
+
+.btn-submit {
+	width: 100%;
+	height: .33rem;
+	background: #9f4cfe;
+	color: #fff;
+	line-height: .3rem;
+	font-size: .18rem;
+	font-weight: bold;
+	margin: .28rem 0 .22rem;
+}
+
+.tel-explain {
+	font-size: .09rem;
+	color: #333;
+	margin: .03rem 0 0;
+}
+
+.btn-call {
+	display: block;
+	width: 100px;
+	height: 20px;
+	border: solid #9854e9 1px;
+	border-radius: 10px;
+	color: #9854e9;
+	font-size: .12rem;
+	line-height: 20px;
+	letter-spacing: 3px;
+	margin: 0 auto;
+}
+
+.btn-call i {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background: url(../images/ioc-tel.jpg) no-repeat 0 0/18px 18px;
+	border: solid #9854e9 2px;
+	border-radius: 50%;
+	float: left;
+	margin: -1px 5px 0 -2px;
+}

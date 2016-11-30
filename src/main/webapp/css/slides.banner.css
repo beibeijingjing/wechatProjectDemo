@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+img {
+	/* Responsive image (ensure image don't scale beyond their parents) */
+	max-width: 100%;
+	/* Part 1: Set a maxium relative to the parent */
+	width: auto\9;
+	/* IE7-8 need help adjusting responsive image */
+	height: auto;
+	/* Part 2: Scale the height according to the width, otherwise you get stretching */
+	vertical-align: middle;
+	border: 0;
+	-ms-interpolation-mode: bicubic;
+}
+
+.navbar {
+	overflow: hidden
+}
+
+#slides {
+	display: none
+}
+
+.slides-container {
+	margin: 0 auto;
+	width: auto;
+	z-index: 0;
+}
+
+.slidesjs-control {
+	z-index: 1;
+}
+
+.navbar .slides-container {
+	width: auto !important;
+}
+
+#slides {
+	display: none;
+	margin: 0 0 30px;
+	position: relative;
+}
+
+.slidesjs-slide img {
+	width: 100%;
+}
+
+.slidesjs-pagination {
+	bottom: 15px;
+	display: inline-block;
+	margin: 0 0 0 -25px;
+	padding: 0;
+	position: absolute;
+	left: 50%;
+	list-style: none;
+	z-index: 2;
+}
+
+.slidesjs-pagination li {
+	float: left;
+}
+
+.slidesjs-pagination li a {
+	display: block;
+	width: 25px;
+	height: 0;
+	padding-top: 25px;
+	background: url(../image/pagination.png) no-repeat left top/25px 75px;
+	background-position: 0 0;
+	float: left;
+	overflow: hidden;
+}
+
+.slidesjs-pagination li a.active,.slidesjs-pagination li a:hover.active
+	{
+	background-position: 0 -25px
+}
+
+.slidesjs-pagination li a:hover {
+	background-position: 0 -50px
+}
+
+#slides a:link,#slides a:visited {
+	color: #333
+}
+
+#slides a:hover,#slides a:active {
+	color: #9e2020
+}
+
+/* control */
+a.slidesjs-next,a.slidesjs-previous {
+	background: url(../image/btns-next-prev.png) no-repeat left top/128px
+		64px;
+	display: inline-block;
+	width: 64px;
+	height: 64px;
+	overflow: hidden;
+	text-indent: -9999px;
+	z-index: 2;
+	display: none;
+}
+
+a.slidesjs-next {
+	background-position: -64px 0;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin: -32px 0 0;
+}
+
+a.slidesjs-previous {
+	background-position: 0 0;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	margin: -32px 0 0;
+}

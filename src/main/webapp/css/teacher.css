@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+.content {
+	background: #fff;
+}
+
+.p-teacher-info {
+	border-top: solid #ddd 1px;
+	font-size: .13rem;
+	line-height: 1.85em;
+	margin: .1rem 0 0;
+	padding: 20px 18px;
+}
