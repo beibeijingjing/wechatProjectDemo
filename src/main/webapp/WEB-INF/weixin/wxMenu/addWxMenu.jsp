@@ -46,13 +46,14 @@ body {
   		var sessionId='<%=sessionId%>';
   		
   		 $(function () {
+  			 
   			$('#backid').click(function(){
-  					window.location.href=basePath+'/pc/toGetSysMenuList.do';
+  					window.location.href=basePath+'/pc/toGetWxMenuList.do';
   			});
   			
   			$('#subBtn').click(submitData);
   			
-  			showRootMenu();
+  			//showRootMenu();
   	    });
   		 function showRootMenu(){
   			 var show="";
@@ -60,51 +61,45 @@ body {
   				show+="<option value='${menu.id}'>${menu.menuName}</option>"
 			</c:forEach>
   			$('#parentId').append(show);
-  			
-  			 var menuType="${menu.menuType}";
-  			 $('input[type=radio][name=menuType][value='+menuType+']').attr('checked','checked');
-  			 
-  			var parentId="${menu.parentId}";
-  			$('#parentId').val(parentId);
-  			
-  			var delFlag="${menu.delFlag}";
-  			$('input[type=radio][name=status][value='+delFlag+']').attr('checked','checked');
   		 }
+  		 
   		 function submitData(){
-  			// window.open(basePath+'/pc/toGetSysMenuList.do','_self')
-  			 $.ajax({
+  			$.ajax({
 	    			type : "POST",
-	    			url : basePath + "/pc/updateSysMenu.do",
+	    			url : basePath + "/pc/addWxMenu.do",
 	    			data : {
-	    				"id":$('#id').val(),
 	    				"parentId" : $('#parentId').val(),
-	    				"menuName" : $('#menuName').val(),
-	    				"menuLevel":$('#menuLevel').val(),
+	    				"wxMenuName" : $('#wxMenuName').val(),
+	    				"wxMenuLevel":$('#wxMenuLevel').val(),
 	    				"menuType":$('input[type=radio][name=menuType]:checked').val(),
-	    				"menuNo":$('#menuNo').val(),
+	    				"wxMenuNo":$('#wxMenuNo').val(),
+	    				"wxMenuKey":$('#wxMenuKey').val(),
+	    				"wxMenuUrl":$('#wxMenuUrl').val(),
+	    				"wxMediaId":$('#wxMediaId').val(),
 	    				"delFlag":$('input[type=radio][name=status]:checked').val()
 	    			},
 	    			async : false,
 	    			dataType : "json",
 	    			success : function(result) {
 	    				if(result.rtnCode == 1){
-	    					alert("修改成功");
+	    					alert("添加成功");
 	    				}else{
-	    					alert("修改失败");
+	    					alert("添加失败");
 	    				}
+	    				
+	    				window.location.href=basePath+'/pc/toGetSysMenuList.do';
 	    			}
 	    		});
   		 }
  </script>
  
 	<form action="" method="post" class="definewidth m20">
-		<input type="hidden" name="id" id="id" value="${menu.id }"/>
 		<table class="table table-bordered table-hover m10">
 			<tr>
 				<td class="tableleft">类别</td>
 				<td>
-					<input type="radio" name="menuType" value="0" checked="checked">系统
-					<input type="radio" name="menuType" value="1">微信
+					<input type="radio" name="wxMenuType" value="0" checked="checked">系统
+					<input type="radio" name="wxMenuType" value="1">微信
 				</td>
 			</tr>
 			<tr>
@@ -117,12 +112,35 @@ body {
 			</tr>
 			<tr>
 				<td class="tableleft">菜单名称</td>
-				<td><input type="text" name="menuName" id="menuName" value="${menu.menuName }"/></td>
+				<td><input type="text" name="wxMenuName" id="wxMenuName"/></td>
 			</tr>
+			<!-- <tr>
+				<td class="tableleft">级别</td>
+				<td>
+					<select name="menuLevel" id="menuLevel">
+						<option value="0">一级</option>
+						<option value='1' />二级</option>
+					</select>
+				</td>
+			</tr> -->
 			<tr>
 				<td class="tableleft">序号</td>
-				<td><input type="text" name="menuNo"  id="menuNo" value="${menu.menuNo }"/></td>
+				<td><input type="text" name="wxMenuNo"  id="wxMenuNo"/></td>
 			</tr>
+			
+			<tr>
+				<td class="tableleft">菜单key值</td>
+				<td><input type="text" name="wxMenuKey"  id="wxMenuKey"/></td>
+			</tr>
+			<tr>
+				<td class="tableleft">链接地址</td>
+				<td><input type="text" name="wxMenuUrl"  id="wxMenuUrl"/></td>
+			</tr>
+			<tr>
+				<td class="tableleft">素材</td>
+				<td><input type="text" name="wxMediaId"  id="wxMediaId"/></td>
+			</tr>
+			
 			<tr>
 				<td class="tableleft">状态</td>
 				<td><input type="radio" name="status" value="0" checked /> 启用 <input

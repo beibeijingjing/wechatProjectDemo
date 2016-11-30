@@ -65,16 +65,15 @@
 		        	[{text:'系统管理',items:
 		        		[
 		        		 {id:'6',text:'菜单管理',href:'<%=path%>/pc/toGetSysMenuList.do'},
-		        		 {id:'12',text:'机构管理',href:'Node/index.html'},
-		        		 {id:'3',text:'角色管理',href:'Role/index.html'},
-		        		 {id:'4',text:'用户管理',href:'User/index.html'}
+		        		 {id:'4',text:'用户管理',href:'<%=path%>/pc/toGetSysUserList.do'},
+		        		 {id:'3',text:'角色管理',href:'Role/index.html'}
 		        		]
 		        	}]
 	            }
 	            ,{id:'7',homePage : '9',menu:
-	            	[{text:'业务管理',items:
+	            	[{text:'公众号管理',items:
 	            		[
-	            		 {id:'9',text:'查询业务',href:'Node/index.html'}
+	            		 {id:'9',text:'微信菜单管理',href:'<%=path%>/pc/toGetWxMenuList.do'}
 	            		]
 	                }]
 	            }

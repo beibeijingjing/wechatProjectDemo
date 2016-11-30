@@ -11,7 +11,6 @@
 <title></title>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="<%=path%>/weixin/Css/bootstrap.css" />
-<%-- <link rel="stylesheet" type="text/css" href="<%=path%>/weixin/Css/bootstrap.min.css" /> --%>
 <link rel="stylesheet" type="text/css" href="<%=path%>/weixin/Css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="<%=path%>/weixin/Css/style.css" />
 <link rel="stylesheet" type="text/css" href="<%=path%>/weixin/Css/bootstrap-table.css" />
@@ -23,7 +22,7 @@
 <script type="text/javascript" src="<%=path%>/weixin/Js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="<%=path%>/weixin/Js/ckform.js"></script>
 <script type="text/javascript" src="<%=path%>/weixin/Js/common.js"></script>
-<script type="text/javascript" src="<%=path%>/weixin/Js/wxMenu/wxMenu.js"></script>
+<script type="text/javascript" src="<%=path%>/weixin/Js/sysUser/sysUser.js"></script>
 
 <style type="text/css">
 body {

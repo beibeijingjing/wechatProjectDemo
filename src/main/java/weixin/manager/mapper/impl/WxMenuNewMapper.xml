@@ -52,7 +52,7 @@
 			 now(),
 			 now(),
 			<if test="delFlag != null">
-				 #{delFlag,jdbcType=INTEGER},
+				 #{delFlag,jdbcType=INTEGER}
 			</if>
 		 )
 	</insert>
@@ -87,11 +87,11 @@
 			<if test="wxMenuKey != null">
 				wx_menu_key,
 			</if>
-			<if test="wxMenuKey != null">
-				wx_menu_key,
+			<if test="wxMenuUrl != null">
+				wx_menu_url,
 			</if>
-			<if test="wxMenuKey != null">
-				wx_menu_key,
+			<if test="wxMediaId != null">
+				wx_media_id,
 			</if>
 				create_time,
 				update_time,
@@ -103,43 +103,43 @@
 		
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
-				#{id,jdbcType=VARCHAR}
+				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="parentId != null">
-				#{parentId,jdbcType=VARCHAR}
+				#{parentId,jdbcType=VARCHAR},
 			</if>
 			<if test="wxMenuName != null">
-				#{wxMenuName,jdbcType=VARCHAR}
+				#{wxMenuName,jdbcType=VARCHAR},
 			</if>
 			<if test="wxMenuLevel != null">
-				#{wxMenuLevel,jdbcType=INTEGER}
+				#{wxMenuLevel,jdbcType=INTEGER},
 			</if>
 			<if test="wxMenuType != null">
-				#{wxMenuType,jdbcType=INTEGER}
+				#{wxMenuType,jdbcType=INTEGER},
 			</if>
 			<if test="wxMenuNo != null">
-				#{wxMenuNo,jdbcType=INTEGER}
+				#{wxMenuNo,jdbcType=INTEGER},
 			</if>
 			<if test="wxMenuKey != null">
-				#{wxMenuKey,jdbcType=INTEGER}
+				#{wxMenuKey,jdbcType=VARCHAR},
 			</if>
 			<if test="wxMenuUrl != null">
-				#{wxMenuUrl,jdbcType=INTEGER}
+				#{wxMenuUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="wxMediaId != null">
-				#{wxMediaId,jdbcType=INTEGER}
+				#{wxMediaId,jdbcType=INTEGER},
 			</if>
 				now(),
 				now(),
 			<if test="delFlag != null">
-				#{delFlag,jdbcType=INTEGER}
+				#{delFlag,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>
 	
 	
 	<update id="updateByPrimaryKeySelective" parameterType="weixin.manager.bean.WxMenu">
-		update sys_menu
+		update wx_menu
 		<set>
 			<if test="parentId != null">
 				parent_id = #{parentId,jdbcType=VARCHAR},

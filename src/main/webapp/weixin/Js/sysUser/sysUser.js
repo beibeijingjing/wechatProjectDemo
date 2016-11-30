@@ -10,6 +10,7 @@
                 striped: true,                      //是否显示行间隔色
                 cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
                 pagination: true,                   //是否显示分页（*）
+                paginationHAlign:'left',
                 showRefresh:false,
                 queryParams:function(params) {
                 	 return {
@@ -18,8 +19,6 @@
                 		 status:$('#status').val()
                 		 };
                 },
-                sortable: false,                     //是否启用排序
-                sortOrder: "asc",                   //排序方式
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber:1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
@@ -30,7 +29,6 @@
                 detailView: false,                   //是否显示父子表
                 contentType: 'application/json;charset=UTF-8',//这里我就加了个utf-8
                 dataType: 'json',
-                //showPaginationSwitch:true,
                 onLoadSuccess: function(data){
                 },
                   onLoadError: function(){  //加载失败时执行
@@ -69,7 +67,7 @@
                         return msg;
                     }
                 }, {
-                    field: 'telephone',
+                    field: 'telphone',
                     title: '手机号'
                 }
                 , {

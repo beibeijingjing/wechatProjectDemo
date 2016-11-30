@@ -89,7 +89,7 @@ public class SysUserManageController extends BaseController {
 	public Object addSysUser(SysUser user) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
-		sysUserService.insert(user);
+		sysUserService.insertSelective(user);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;

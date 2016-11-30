@@ -8,15 +8,15 @@ import weixin.manager.mapper.WxMenuNewMapper;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
 
-@Repository
-public class WxMenuServiceImpl extends BaseService<WxMenu> implements
-		WxMenuService {
+@Repository(value = "wxMenuServiceNew")
+public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
+		WxMenuServiceNew {
 	@Autowired
-	private WxMenuNewMapper wxMenuMapper;
+	private WxMenuNewMapper wxMenuNewMapper;
 
 	@Override
 	public IBaseMapper<WxMenu> getBaseMapper() {
-		return wxMenuMapper;
+		return wxMenuNewMapper;
 	}
 
 }

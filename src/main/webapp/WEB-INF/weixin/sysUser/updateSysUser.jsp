@@ -47,7 +47,7 @@ body {
   		
   		 $(function () {
   			$('#backid').click(function(){
-  					window.location.href=basePath+'/pc/toGetSysMenuList.do';
+  					window.location.href=basePath+'/pc/toGetSysUserList.do';
   			});
   			
   			$('#subBtn').click(submitData);
@@ -70,10 +70,12 @@ body {
  	    			data : {
  	    				"id":$('#id').val(),
  	    				"loginName" : $('#loginName').val(),
- 	    				"nickname":$('#menuLevel').val(),
- 	    				"sex":$('input[type=radio][name=sex]:checked').val(),
- 	    				"telephone":$('#telephone').val(),
- 	    				"delFlag":$('input[type=radio][name=status]:checked').val()
+	    				"password" : $('#password').val(),
+	    				"nickname":$('#nickname').val(),
+	    				"sex":$('input[type=radio][name=sex]:checked').val(),
+	    				"telphone":$('#telphone').val(),
+	    				"remark":$('#remark').val(),
+	    				"delFlag":$('input[type=radio][name=status]:checked').val()
  	    			},
  	    			async : false,
  	    			dataType : "json",
@@ -96,16 +98,18 @@ body {
  			<tr>
  				<td width="10%" class="tableleft">用户名</td>
  				<td>
- 					<td><input type="text" name="loginName" id="loginName" value="${user.loginName }"/></td>
+ 				  <input type="text" name="loginName" id="loginName" value="${user.loginName }"/>
  				</td>
  			</tr>
- 			<!-- <tr>
- 				<td class="tableleft">密码</td>
- 				<td><input type="password" name="password" id="password" /></td>
- 			</tr> -->
+ 			<tr>
+ 				<td width="10%" class="tableleft">昵称</td>
+ 				<td>
+ 				  <input type="text" name="nickname" id="nickname" value="${user.loginName }"/>
+ 				</td>
+ 			</tr>
  			<tr>
  				<td class="tableleft">手机号</td>
- 				<td><input type="text" name="telephone" id="telephone" value="${user.telephone }"/></td>
+ 				<td><input type="text" name="telphone" id="telphone" value="${user.telphone }"/></td>
  			</tr>
  		    <tr>
  				<td class="tableleft">性别</td>
@@ -117,7 +121,7 @@ body {
  			<tr>
  				<td class="tableleft">备注</td>
  				<td>
- 					<textarea id="remaark" name="remark" rows="20" cols="40">${user.remark }</textarea>
+ 					<textarea id="remark" name="remark" rows="6" cols="40">${user.remark }</textarea>
  				</td>
  			</tr>
  			

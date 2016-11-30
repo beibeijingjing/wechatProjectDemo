@@ -13,7 +13,7 @@ public class SysUser extends BaseBean implements Serializable {
 	private String password;
 	private String nickname;
 	private Integer sex;
-	private String telephone;
+	private String telphone;
 	private String avatar;
 	private Integer userType;
 	private Long lastLoginTime;
@@ -51,12 +51,12 @@ public class SysUser extends BaseBean implements Serializable {
 		this.sex = sex;
 	}
 
-	public String getTelephone() {
-		return telephone;
+	public String getTelphone() {
+		return telphone;
 	}
 
-	public void setTelephone(String telephone) {
-		this.telephone = telephone;
+	public void setTelphone(String telphone) {
+		this.telphone = telphone;
 	}
 
 	public String getAvatar() {

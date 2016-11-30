@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import weixin.manager.bean.WxMenu;
-import weixin.manager.service.WxMenuService;
+import weixin.manager.service.WxMenuServiceNew;
 import core.controller.BaseController;
 
 @Controller
@@ -23,13 +23,13 @@ import core.controller.BaseController;
 public class WxMenuManageController extends BaseController {
 
 	@Resource
-	private WxMenuService wxMenuService;
+	private WxMenuServiceNew wxMenuServiceNew;
 
 	@RequestMapping(value = "/toGetWxMenuList.do")
 	public Object toGetWxMenuList(HttpServletRequest request,
 			@RequestParam(required = false) String sessionId) {
 		request.setAttribute("sessionId", sessionId);
-		return "weixin/wxMenu/wxMenuList  ";
+		return "weixin/wxMenu/wxMenuList";
 	}
 
 	@RequestMapping(value = "/toGetAddWxMenu.do")
@@ -38,7 +38,7 @@ public class WxMenuManageController extends BaseController {
 		request.setAttribute("sessionId", sessionId);
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("del_flag", "0");
-		List<WxMenu> wxMenuList = wxMenuService.selectByMap(condition);
+		List<WxMenu> wxMenuList = wxMenuServiceNew.selectByMap(condition);
 		if (wxMenuList != null) {
 			request.setAttribute("wxMenuList", wxMenuList);
 		}
@@ -49,14 +49,14 @@ public class WxMenuManageController extends BaseController {
 	public Object toGetUpdateWxMenu(HttpServletRequest request, String id,
 			@RequestParam(required = false) String sessionId) {
 		request.setAttribute("sessionId", sessionId);
-		WxMenu menu = wxMenuService.selectByPrimaryKey(id);
+		WxMenu menu = wxMenuServiceNew.selectByPrimaryKey(id);
 		if (menu != null) {
 			request.setAttribute("menu", menu);
 		}
 
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("del_flag", 0);
-		List<WxMenu> menuList = wxMenuService.selectByMap(condition);
+		List<WxMenu> menuList = wxMenuServiceNew.selectByMap(condition);
 		if (menuList != null) {
 			request.setAttribute("userList", menuList);
 		}
@@ -73,7 +73,7 @@ public class WxMenuManageController extends BaseController {
 		condition.put("del_flag", status);
 		condition.put("limit", limit);
 		condition.put("offset", offset);
-		List<WxMenu> menuList = wxMenuService.selectByMap(condition);
+		List<WxMenu> menuList = wxMenuServiceNew.selectByMap(condition);
 
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
@@ -89,7 +89,7 @@ public class WxMenuManageController extends BaseController {
 	public Object addWxMenu(WxMenu menu) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
-		wxMenuService.insert(menu);
+		wxMenuServiceNew.insertSelective(menu);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
@@ -100,7 +100,7 @@ public class WxMenuManageController extends BaseController {
 	public Object updateWxMenu(WxMenu menu) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
-		wxMenuService.updateByPrimaryKeySelective(menu);
+		wxMenuServiceNew.updateByPrimaryKeySelective(menu);
 
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
@@ -116,7 +116,7 @@ public class WxMenuManageController extends BaseController {
 		WxMenu menu = new WxMenu();
 		menu.setId(id);
 		menu.setDelFlag(status);
-		wxMenuService.updateByPrimaryKeySelective(menu);
+		wxMenuServiceNew.updateByPrimaryKeySelective(menu);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}

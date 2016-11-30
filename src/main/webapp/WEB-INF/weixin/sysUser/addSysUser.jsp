@@ -48,34 +48,24 @@ body {
   		 $(function () {
   			 
   			$('#backid').click(function(){
-  					window.location.href=basePath+'/pc/toGetWxMenuList.do';
+  					window.location.href=basePath+'/pc/toGetSysUserList.do';
   			});
   			
   			$('#subBtn').click(submitData);
   			
-  			showRootMenu();
   	    });
-  		 function showRootMenu(){
-  			 var show="";
-  			<c:forEach items="${menuList}" var="menu" begin="0">
-  				show+="<option value='${menu.id}'>${menu.menuName}</option>"
-			</c:forEach>
-  			$('#parentId').append(show);
-  		 }
   		 
   		 function submitData(){
   			$.ajax({
 	    			type : "POST",
-	    			url : basePath + "/pc/addSysMenu.do",
+	    			url : basePath + "/pc/addSysUser.do",
 	    			data : {
-	    				"parentId" : $('#parentId').val(),
-	    				"wxMenuName" : $('#wxMenuName').val(),
-	    				"wxMenuLevel":$('#wxMenuLevel').val(),
-	    				"menuType":$('input[type=radio][name=menuType]:checked').val(),
-	    				"wxMenuNo":$('#wxMenuNo').val(),
-	    				"wxMenuKey":$('#wxMenuKey').val(),
-	    				"wxMenuUrl":$('#wxMenuUrl').val(),
-	    				"wxMediaId":$('#wxMediaId').val(),
+	    				"loginName" : $('#loginName').val(),
+	    				"password" : $('#password').val(),
+	    				"nickname":$('#nickname').val(),
+	    				"sex":$('input[type=radio][name=sex]:checked').val(),
+	    				"telphone":$('#telphone').val(),
+	    				"remark":$('#remark').val(),
 	    				"delFlag":$('input[type=radio][name=status]:checked').val()
 	    			},
 	    			async : false,
@@ -87,7 +77,7 @@ body {
 	    					alert("添加失败");
 	    				}
 	    				
-	    				window.location.href=basePath+'/pc/toGetSysMenuList.do';
+	    				window.location.href=basePath+'/pc/toGetSysUserList.do';
 	    			}
 	    		});
   		 }
@@ -96,49 +86,37 @@ body {
 	<form action="" method="post" class="definewidth m20">
 		<table class="table table-bordered table-hover m10">
 			<tr>
-				<td class="tableleft">类别</td>
+				<td width="10%" class="tableleft">用户名</td>
 				<td>
-					<input type="radio" name="wxMenuType" value="0" checked="checked">系统
-					<input type="radio" name="wxMenuType" value="1">微信
+					<input type="text" name="loginName" id="loginName"/>
 				</td>
 			</tr>
 			<tr>
-				<td width="10%" class="tableleft">上级</td>
+ 				<td width="10%" class="tableleft">昵称</td>
+ 				<td>
+ 				  <input type="text" name="nickname" id="nickname" value="${user.loginName }"/>
+ 				</td>
+ 			</tr>
+			<tr>
+				<td class="tableleft">密码</td>
+				<td><input type="password" name="password" id="password"/></td>
+			</tr>
+			<tr>
+				<td class="tableleft">手机号</td>
+				<td><input type="text" name="telphone" id="telphone"/></td>
+			</tr>
+		    <tr>
+				<td class="tableleft">性别</td>
 				<td>
-					<select name="parentId" id="parentId">
-						<option value="0">--根--</option>
-					</select>
+					<input type="radio" name="sex" value="1" checked="checked">男
+					<input type="radio" name="sex" value="2">女
 				</td>
 			</tr>
 			<tr>
-				<td class="tableleft">菜单名称</td>
-				<td><input type="text" name="wxMenuName" id="wxMenuName"/></td>
-			</tr>
-			<!-- <tr>
-				<td class="tableleft">级别</td>
+				<td class="tableleft">备注</td>
 				<td>
-					<select name="menuLevel" id="menuLevel">
-						<option value="0">一级</option>
-						<option value='1' />二级</option>
-					</select>
+					<textarea id="remark" name="remark" rows="6" cols="40"></textarea>
 				</td>
-			</tr> -->
-			<tr>
-				<td class="tableleft">序号</td>
-				<td><input type="text" name="wxMenuNo"  id="wxMenuNo"/></td>
-			</tr>
-			
-			<tr>
-				<td class="tableleft">菜单key值</td>
-				<td><input type="text" name="wxMenuKey"  id="wxMenuKey"/></td>
-			</tr>
-			<tr>
-				<td class="tableleft">链接地址</td>
-				<td><input type="text" name="wxMenuUrl"  id="wxMenuUrl"/></td>
-			</tr>
-			<tr>
-				<td class="tableleft">素材</td>
-				<td><input type="text" name="wxMediaId"  id="wxMediaId"/></td>
 			</tr>
 			
 			<tr>
