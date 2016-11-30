@@ -7,6 +7,7 @@ public class WxMenu extends BaseBean implements Serializable {
 	private static final long serialVersionUID = -6606049246553750761L;
 
 	private String parentId;
+	private Integer isExtend;
 	private String wxMenuName;
 	private Integer wxMenuLevel;
 	private Integer wxMenuType;
@@ -21,6 +22,14 @@ public class WxMenu extends BaseBean implements Serializable {
 
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
+	}
+
+	public Integer getIsExtend() {
+		return isExtend;
+	}
+
+	public void setIsExtend(Integer isExtend) {
+		this.isExtend = isExtend;
 	}
 
 	public String getWxMenuName() {

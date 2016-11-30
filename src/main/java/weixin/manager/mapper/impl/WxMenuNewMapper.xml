@@ -4,6 +4,7 @@
 	 <resultMap id="baseResultMap" type="weixin.manager.bean.WxMenu">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 	    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+	    <result column="is_extend" property="isExtend" jdbcType="INTEGER" />
 		<result column="wx_menu_name" property="wxMenuName" jdbcType="VARCHAR" />
 		<result column="wx_menu_level" property="wxMenuLevel" jdbcType="INTEGER" />
 		<result column="wx_menu_type" property="wxMenuType" jdbcType="INTEGER" />
@@ -15,7 +16,7 @@
 	</resultMap>
 	
 	<sql id="base_column_list">
-		id,parent_id, wx_menu_name,wx_menu_level,wx_menu_type,wx_menu_no,wx_menu_key,wx_menu_url,wx_media_id,del_flag
+		id,parent_id,is_extend, wx_menu_name,wx_menu_level,wx_menu_type,wx_menu_no,wx_menu_key,wx_menu_url,wx_media_id,del_flag
 	</sql>
 	
  	 <select id="selectByPrimaryKey" resultMap="baseResultMap"
@@ -37,11 +38,12 @@
 		select replace(uuid(),'-','') from dual
 	</selectKey>
 		insert into wx_menu
-		 (id,parent_id, wx_menu_name,wx_menu_level,wx_menu_type,wx_menu_no,wx_menu_key,wx_menu_url,wx_media_id,create_time,update_time,del_flag)
+		 (id,parent_id,is_extend, wx_menu_name,wx_menu_level,wx_menu_type,wx_menu_no,wx_menu_key,wx_menu_url,wx_media_id,create_time,update_time,del_flag)
 		values
 		(
 			 #{id,jdbcType=VARCHAR},
 			 #{parentId,jdbcType=VARCHAR},
+			 #{isExtend,jdbcType=INTEGER},
 			 #{wxMenuName,jdbcType=VARCHAR},
 			 #{wxMenuLevel,jdbcType=INTEGER},
 			 #{wxMenuType,jdbcType=INTEGER},
@@ -71,6 +73,9 @@
 			</if>
 			<if test="parentId != null">
 				parent_id,
+			</if>
+			<if test="isExtend != null">
+				is_extend,
 			</if>
 			<if test="wxMenuName != null">
 				wx_menu_name,
@@ -108,6 +113,9 @@
 			<if test="parentId != null">
 				#{parentId,jdbcType=VARCHAR},
 			</if>
+			<if test="isExtend != null">
+				#{isExtend,jdbcType=INTEGER},
+			</if>
 			<if test="wxMenuName != null">
 				#{wxMenuName,jdbcType=VARCHAR},
 			</if>
@@ -143,6 +151,9 @@
 		<set>
 			<if test="parentId != null">
 				parent_id = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="isExtend != null">
+				is_extend = #{isExtend,jdbcType=VARCHAR},
 			</if>
 			<if test="wxMenuName != null">
 				wx_menu_name = #{wxMenuName,jdbcType=VARCHAR},

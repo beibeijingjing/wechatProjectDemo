@@ -53,12 +53,51 @@ body {
   			
   			$('#subBtn').click(submitData);
   			
-  			//showRootMenu();
+  			//隐藏div
+  			extendChange();
+  			$('input[type=radio][name=isExtend]').change(function(){
+  				extendChange();
+  	  		});
+  			
+  			$('#wxMenuType').change(function(){
+  				menuTypeChange();
+  			});
+  			
+  			showMenu();
   	    });
-  		 function showRootMenu(){
+  		 function extendChange(){
+  				var isExtend=$('input[type=radio][name=isExtend]:checked').val();
+				if(isExtend==0){
+					$('#extendTr').hide();
+				}
+				if(isExtend==1){
+					$('#extendTr').show();
+				}
+				menuTypeChange();
+  		 }
+  		 
+  		 //事件类型触发事件
+  		 function menuTypeChange(){
+  			 var menuType=$('#wxMenuType').val();
+  			 if(menuType==8||menuType==9){
+  				$('#keyTr').hide();
+  				$('#urlTr').hide();
+  	  			$('#mediaTr').show();
+  			 }else if(menuType==1){
+  				$('#keyTr').hide();
+  				$('#urlTr').show();
+  	  			$('#mediaTr').hide();
+  			 }else{
+  				$('#keyTr').show();
+  				$('#urlTr').hide();
+  	  			$('#mediaTr').hide();
+  			 }
+  		 }
+  		 
+  		 function showMenu(){
   			 var show="";
-  			<c:forEach items="${menuList}" var="menu" begin="0">
-  				show+="<option value='${menu.id}'>${menu.menuName}</option>"
+  			<c:forEach items="${wxMenuList}" var="menu" begin="0">
+  				show+="<option value='${menu.id}'>${menu.wxMenuName}</option>"
 			</c:forEach>
   			$('#parentId').append(show);
   		 }
@@ -68,10 +107,10 @@ body {
 	    			type : "POST",
 	    			url : basePath + "/pc/addWxMenu.do",
 	    			data : {
+	    				"isExtend":$('input[type=radio][name=isExtend]:checked').val(),
 	    				"parentId" : $('#parentId').val(),
 	    				"wxMenuName" : $('#wxMenuName').val(),
-	    				"wxMenuLevel":$('#wxMenuLevel').val(),
-	    				"menuType":$('input[type=radio][name=menuType]:checked').val(),
+	    				"wxMenuType":$('#wxMenuType').val(),
 	    				"wxMenuNo":$('#wxMenuNo').val(),
 	    				"wxMenuKey":$('#wxMenuKey').val(),
 	    				"wxMenuUrl":$('#wxMenuUrl').val(),
@@ -95,13 +134,19 @@ body {
  
 	<form action="" method="post" class="definewidth m20">
 		<table class="table table-bordered table-hover m10">
-			<tr>
-				<td class="tableleft">类别</td>
+			<tr width="10%">
+				<td class="tableleft">是否扩展</td>
 				<td>
-					<input type="radio" name="wxMenuType" value="0" checked="checked">系统
-					<input type="radio" name="wxMenuType" value="1">微信
+					<input type="radio" name="isExtend" value="0" checked="checked">是
+					<input type="radio" name="isExtend" value="1">否
 				</td>
 			</tr>
+			<tr>
+				<td class="tableleft">菜单名称</td>
+				<td><input type="text" name="wxMenuName" id="wxMenuName"/></td>
+			</tr>
+			
+			<tbody id="extendTr">
 			<tr>
 				<td width="10%" class="tableleft">上级</td>
 				<td>
@@ -111,36 +156,41 @@ body {
 				</td>
 			</tr>
 			<tr>
-				<td class="tableleft">菜单名称</td>
-				<td><input type="text" name="wxMenuName" id="wxMenuName"/></td>
-			</tr>
-			<!-- <tr>
-				<td class="tableleft">级别</td>
+				<td width="10%" class="tableleft">事件类型</td>
 				<td>
-					<select name="menuLevel" id="menuLevel">
-						<option value="0">一级</option>
-						<option value='1' />二级</option>
+					<select name="wxMenuType" id="wxMenuType">
+						<option value="0">点击</option>
+						<option value="1">跳转url</option>
+						<option value="2">扫码</option>
+						<option value="3">扫码等待</option>
+						<option value="4">拍照</option>
+						<option value="5">拍照和相册</option>
+						<option value="6">相册</option>
+						<option value="7">位置</option>
+						<option value="8">下发消息</option>
+						<option value="9">跳转图文</option>
 					</select>
 				</td>
-			</tr> -->
+			</tr>
+			
+			<tr id="keyTr">
+				<td class="tableleft">菜单key值</td>
+				<td><input type="text" name="wxMenuKey"  id="wxMenuKey"/></td>
+			</tr>
+			<tr id="urlTr">
+				<td class="tableleft">链接地址</td>
+				<td><input type="text" name="wxMenuUrl"  id="wxMenuUrl"/></td>
+			</tr>
+			<tr id="mediaTr">
+				<td class="tableleft">素材</td>
+				<td><input type="text" name="wxMediaId"  id="wxMediaId"/></td>
+			</tr>
+			</tbody>
+			
 			<tr>
 				<td class="tableleft">序号</td>
 				<td><input type="text" name="wxMenuNo"  id="wxMenuNo"/></td>
 			</tr>
-			
-			<tr>
-				<td class="tableleft">菜单key值</td>
-				<td><input type="text" name="wxMenuKey"  id="wxMenuKey"/></td>
-			</tr>
-			<tr>
-				<td class="tableleft">链接地址</td>
-				<td><input type="text" name="wxMenuUrl"  id="wxMenuUrl"/></td>
-			</tr>
-			<tr>
-				<td class="tableleft">素材</td>
-				<td><input type="text" name="wxMediaId"  id="wxMediaId"/></td>
-			</tr>
-			
 			<tr>
 				<td class="tableleft">状态</td>
 				<td><input type="radio" name="status" value="0" checked /> 启用 <input

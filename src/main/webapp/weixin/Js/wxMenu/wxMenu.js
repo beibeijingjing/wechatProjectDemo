@@ -151,8 +151,8 @@
     		} else if (row.delFlag == 1) {
     			msg = "启用";
     		}
-    	var url = "<a href=\"javascript:void(0);\" onclick=\"toUpdate('" + row.id + "')\">修改</a>&nbsp;"
-    	+"<a href=\"#myModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;";
+    	var url = /*"<a href=\"javascript:void(0);\" onclick=\"toUpdate('" + row.id + "')\">修改</a>&nbsp;"*/
+    	"<a href=\"#myModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;";
     	
     	return url;
     }

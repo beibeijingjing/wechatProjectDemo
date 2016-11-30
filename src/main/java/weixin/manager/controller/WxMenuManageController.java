@@ -38,6 +38,7 @@ public class WxMenuManageController extends BaseController {
 		request.setAttribute("sessionId", sessionId);
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("del_flag", "0");
+		condition.put("parent_id", "0");
 		List<WxMenu> wxMenuList = wxMenuServiceNew.selectByMap(condition);
 		if (wxMenuList != null) {
 			request.setAttribute("wxMenuList", wxMenuList);
@@ -56,9 +57,10 @@ public class WxMenuManageController extends BaseController {
 
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("del_flag", 0);
+		condition.put("parent_id", "0");
 		List<WxMenu> menuList = wxMenuServiceNew.selectByMap(condition);
 		if (menuList != null) {
-			request.setAttribute("userList", menuList);
+			request.setAttribute("menuList", menuList);
 		}
 		return "weixin/wxMenu/updateWxMenu";
 	}
