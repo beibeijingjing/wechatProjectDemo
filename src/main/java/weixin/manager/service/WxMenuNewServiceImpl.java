@@ -2,9 +2,11 @@ package weixin.manager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import weixin.manager.bean.WxMenu;
 import weixin.manager.mapper.WxMenuNewMapper;
+import weixin.server.utils.StringUtils;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
 
@@ -17,6 +19,20 @@ public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
 	@Override
 	public IBaseMapper<WxMenu> getBaseMapper() {
 		return wxMenuNewMapper;
+	}
+
+	@Override
+	@Transactional
+	public void batchDeleteWxMenuById(String ids) {
+		if (StringUtils.isNotEmpty(ids)) {
+			String[] idArr = ids.split("@");
+			if (idArr != null) {
+				for (String id : idArr) {
+					wxMenuNewMapper.deleteByPrimaryKey(id);
+				}
+			}
+		}
+
 	}
 
 }

@@ -198,7 +198,12 @@
 		<if test="del_flag != null and del_flag!='-1' ">
 				and del_flag = #{del_flag}
 		</if>
-		
+		<if test="parent_id != null and parent_id!='-1' ">
+				and parent_id = #{parent_id}
+		</if>
+		<if test="is_extend != null and is_extend!='-1' ">
+				and is_extend = #{is_extend}
+		</if>
 	 	 <if test="limit != null and offset != null" >
 				limit #{offset}, #{limit}
 		</if>

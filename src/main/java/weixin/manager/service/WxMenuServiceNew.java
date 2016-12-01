@@ -5,4 +5,6 @@ import core.service.IBaseService;
 
 public interface WxMenuServiceNew extends IBaseService<WxMenu> {
 
+	public void batchDeleteWxMenuById(String ids);
+
 }

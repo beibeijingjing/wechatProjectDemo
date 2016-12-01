@@ -62,19 +62,7 @@
                 }, {
                     field: 'wxMenuType',
                     title: '类别',
-                    formatter: function (value, row, index) {
-                    	var msg="";
-                        if(value==0){
-                        	msg=""
-                        }
-                        if(value==1){
-                        	msg=""
-                        }
-                        return msg;
-                    }
-                }, {
-                    field: 'wxMenuNo',
-                    title: '序号'
+                    formatter:formatType
                 },
                 {
                     field: 'wxMenuKey',
@@ -87,6 +75,9 @@
                 {
                     field: 'wxMediaId',
                     title: '素材id'
+                }, {
+                    field: 'wxMenuNo',
+                    title: '序号'
                 },{
         			field : 'opt',
         			title : '操作',
@@ -140,8 +131,95 @@
     			}
     		});
     }
-
     
+    function toBatchDelete() {
+    	var $data=$('#cusTable').bootstrapTable('getSelections');
+    	//alert(JSON.stringify($data));
+    	var ids="";
+    	if($data.length>0){
+    		$($data).each(function (index, obj) {
+    			ids+=obj.id+"@";
+            });
+    	}else{
+    		alert("请选择删除对象");
+    		return false;
+    	}
+    	//alert(ids);
+    		$.ajax({
+    			type : "POST",
+    			url : basePath + "/pc/batchDeleteWxMenu.do",
+    			data : {
+    				"ids" : ids,
+    			},
+    			async : false,
+    			dataType : "json",
+    			success : function(result) {
+    				$('#myModal').modal('hide');
+    				doSearch();
+    				if(result.rtnCode == 1){
+    					alert("修改成功");
+    				}else{
+    					alert("修改失败");
+    				}
+    			}
+    		});
+    }
+    
+    function toSynchronization() {
+    		$.ajax({
+    			type : "POST",
+    			url : basePath + "/pc/synchronizeWxMenu.do",
+    			data : {
+    			},
+    			async : false,
+    			dataType : "json",
+    			success : function(result) {
+    				$('#synModal').modal('hide');
+    				doSearch();
+    				if(result.rtnCode == 1){
+    					alert("修改成功");
+    				}else{
+    					alert("修改失败");
+    				}
+    			}
+    		});
+    }
+    
+
+    function formatType(value, row, index){
+         	var msg="";
+             if(value==0){
+             	msg="点击"
+             }
+             if(value==1){
+             	msg="跳转url"
+             }
+             if(value==2){
+             	msg="扫码"
+             }
+             if(value==3){
+             	msg="扫码等待"
+             }
+             if(value==4){
+             	msg="拍照"
+             }
+             if(value==5){
+             	msg="拍照和相册"
+             }
+             if(value==6){
+             	msg="相册"
+             }
+             if(value==7){
+             	msg="位置"
+             }
+             if(value==8){
+             	msg="下发消息"
+             }
+             if(value==9){
+             	msg="跳转图文"
+             }
+             return msg;
+    }
     
     
     function formatOper(value, row, index) {

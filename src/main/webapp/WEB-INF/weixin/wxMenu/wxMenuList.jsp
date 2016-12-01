@@ -57,6 +57,12 @@ body {
   			 $('#addBtn').click(function(){
   				 toAdd(); 
   			 });
+  			$('#delBtn').click(function(){
+ 				 toBatchDelete(); 
+ 			 });
+  			/* $('#synBtn').click(function(){
+ 				 toSynchronizeMode(); 
+ 			 }); */
   			 
   	    }); 
  </script>
@@ -74,7 +80,10 @@ body {
 				</span>
 				<span style="padding:15px;">
 						<button id="searchBtn" class="btn btn-primary" >搜索</button>
-						 <button id="addBtn" class="btn btn-primary" >添加</button>
+						<button id="addBtn" class="btn btn-primary" >添加</button>
+						<button id="delBtn" class="btn btn-primary" >批量删除</button>
+						<button id="synBtn" class="btn btn-primary"  data-toggle="modal" data-target="#synModal">同步</button>
+						<!-- <a href="#synModal" role="button" data-toggle="modal">同步</a> -->
 		        </span>
 			</div>
 	  </div>
@@ -105,6 +114,32 @@ body {
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消
 				</button>
 				<button type="button" class="btn btn-primary" onclick="toUpdateStatus();">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="synModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					同步
+				</h4>
+			</div>
+			<div class="modal-body">
+				确定要同步菜单吗？
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-primary" onclick="toSynchronization();">
 					确定
 				</button>
 			</div>

@@ -62,15 +62,6 @@
       <param-name>appsecret</param-name>
       <param-value>bac44696d51b728b42c424e3ed032ff6</param-value>
     </init-param>
-    
-   <!--  <init-param>
-      <param-name>appid</param-name>
-      <param-value>wx679bf77bfdd77e71</param-value>
-    </init-param>
-    <init-param>
-      <param-name>appsecret</param-name>
-      <param-value>405f33af268284c8445221b410d5f9da</param-value>
-    </init-param> -->
     <load-on-startup>0</load-on-startup>
  </servlet>
  

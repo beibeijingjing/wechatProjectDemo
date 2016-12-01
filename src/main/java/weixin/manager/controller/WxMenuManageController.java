@@ -39,6 +39,7 @@ public class WxMenuManageController extends BaseController {
 		Map<String, Object> condition = new HashMap<String, Object>();
 		condition.put("del_flag", "0");
 		condition.put("parent_id", "0");
+		condition.put("is_extend", "0");
 		List<WxMenu> wxMenuList = wxMenuServiceNew.selectByMap(condition);
 		if (wxMenuList != null) {
 			request.setAttribute("wxMenuList", wxMenuList);
@@ -119,6 +120,26 @@ public class WxMenuManageController extends BaseController {
 		menu.setId(id);
 		menu.setDelFlag(status);
 		wxMenuServiceNew.updateByPrimaryKeySelective(menu);
+		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/batchDeleteWxMenu.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object batchDeleteWxMenu(String ids) {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+
+		wxMenuServiceNew.batchDeleteWxMenuById(ids);
+
+		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/synchronizeWxMenu.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object synchronizeWxMenu() {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		System.out.println("===========执行同步操作=========");
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
