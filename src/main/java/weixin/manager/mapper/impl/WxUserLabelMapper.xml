@@ -64,24 +64,24 @@
 		
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
-				#{id,jdbcType=VARCHAR}
+				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="labelId != null">
-				#{labelId,jdbcType=VARCHAR}
+				#{labelId,jdbcType=VARCHAR},
 			</if>
 			<if test="labelName != null">
-				#{labelName,jdbcType=VARCHAR}
+				#{labelName,jdbcType=VARCHAR},
 			</if>
 			<if test="userCount != null">
-				#{userCount,jdbcType=INTEGER}
+				#{userCount,jdbcType=INTEGER},
 			</if>
 			<if test="isSyn != null">
-				#{isSyn,jdbcType=INTEGER}
+				#{isSyn,jdbcType=INTEGER},
 			</if>
 				now(),
 				now(),
 			<if test="delFlag != null">
-				#{delFlag,jdbcType=INTEGER}
+				#{delFlag,jdbcType=INTEGER},
 			</if>
 		</trim>
 	</insert>

@@ -73,7 +73,8 @@
 	            ,{id:'7',homePage : '9',menu:
 	            	[{text:'公众号管理',items:
 	            		[
-	            		 {id:'9',text:'微信菜单管理',href:'<%=path%>/pc/toGetWxMenuList.do'}
+	            		 {id:'9',text:'微信菜单管理',href:'<%=path%>/pc/toGetWxMenuList.do'},
+	            		 {id:'10',text:'标签管理',href:'<%=path%>/pc/toGetWxUserLabelList.do'}
 	            		]
 	                }]
 	            }
