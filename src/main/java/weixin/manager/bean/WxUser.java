@@ -20,7 +20,7 @@ public class WxUser extends BaseBean implements Serializable {
 	private String province;
 	private String language;
 	private String headimgurl;
-	private Integer subscribeTime;
+	private Long subscribeTime;
 	private String unionid;
 	private String remark;
 	private String groupid;
@@ -98,11 +98,11 @@ public class WxUser extends BaseBean implements Serializable {
 		this.headimgurl = headimgurl;
 	}
 
-	public Integer getSubscribeTime() {
+	public Long getSubscribeTime() {
 		return subscribeTime;
 	}
 
-	public void setSubscribeTime(Integer subscribeTime) {
+	public void setSubscribeTime(Long subscribeTime) {
 		this.subscribeTime = subscribeTime;
 	}
 
