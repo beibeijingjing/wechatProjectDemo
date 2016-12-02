@@ -57,7 +57,7 @@ body {
   			// window.open(basePath+'/pc/toGetSysMenuList.do','_self')
   			 $.ajax({
 	    			type : "POST",
-	    			url : basePath + "/pc/updateUserLabel.do",
+	    			url : basePath + "/pc/updateWxUserLabel.do",
 	    			data : {
 	    				"id":$('#id').val(),
 	    				"labelName" : $('#labelName').val(),

@@ -157,9 +157,9 @@
     				$('#myModal').modal('hide');
     				doSearch();
     				if(result.rtnCode == 1){
-    					alert("修改成功");
+    					alert("删除成功");
     				}else{
-    					alert("修改失败");
+    					alert("删除失败");
     				}
     			}
     		});

@@ -54,7 +54,7 @@
                     hidden:true,
                     visible:false
                 }, {
-                    field: 'wxLabelName',
+                    field: 'labelName',
                     title: '标签名称'
                 }, {
                     field: 'userCount',
@@ -126,7 +126,6 @@
     		alert("请选择删除对象");
     		return false;
     	}
-    	//alert(ids);
     		$.ajax({
     			type : "POST",
     			url : basePath + "/pc/batchDeleteWxUserLabel.do",
@@ -136,12 +135,12 @@
     			async : false,
     			dataType : "json",
     			success : function(result) {
-    				$('#myModal').modal('hide');
+    				$('#delModal').modal('hide');
     				doSearch();
     				if(result.rtnCode == 1){
-    					alert("修改成功");
+    					alert("删除成功");
     				}else{
-    					alert("修改失败");
+    					alert("删除失败");
     				}
     			}
     		});
@@ -150,7 +149,7 @@
     function toSynchronization() {
     		$.ajax({
     			type : "POST",
-    			url : basePath + "/pc/synchronizeWxMenu.do",
+    			url : basePath + "/pc/synchronizeWxUserLabel.do",
     			data : {
     			},
     			async : false,
