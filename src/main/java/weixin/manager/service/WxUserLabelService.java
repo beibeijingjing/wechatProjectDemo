@@ -5,4 +5,6 @@ import core.service.IBaseService;
 
 public interface WxUserLabelService extends IBaseService<WxUserLabel> {
 
+	public void batchDeleteUserLabel(String ids);
+
 }

@@ -57,9 +57,9 @@ body {
   			 $('#addBtn').click(function(){
   				 toAdd(); 
   			 });
-  			$('#delBtn').click(function(){
+  			/* $('#delBtn').click(function(){
  				 toBatchDelete(); 
- 			 });
+ 			 }); */
   			/* $('#synBtn').click(function(){
  				 toSynchronizeMode(); 
  			 }); */
@@ -81,7 +81,8 @@ body {
 				<span style="padding:15px;">
 						<button id="searchBtn" class="btn btn-primary" >搜索</button>
 						<button id="addBtn" class="btn btn-primary" >添加</button>
-						<button id="delBtn" class="btn btn-primary" >批量删除</button>
+						<!-- <button id="delBtn" class="btn btn-primary" >批量删除</button> -->
+						<button id="delBtn" class="btn btn-primary"  data-toggle="modal" data-target="#delModal">批量删除</button>
 						<button id="synBtn" class="btn btn-primary"  data-toggle="modal" data-target="#synModal">同步</button>
 						<!-- <a href="#synModal" role="button" data-toggle="modal">同步</a> -->
 		        </span>
@@ -96,7 +97,7 @@ body {
 	
 	
 	<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -104,16 +105,16 @@ body {
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					禁用/启用
+					批量删除
 				</h4>
 			</div>
 			<div class="modal-body">
-				确定要修改状态吗？
+				确定要删除选中数据吗？
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消
 				</button>
-				<button type="button" class="btn btn-primary" onclick="toUpdateStatus();">
+				<button type="button" class="btn btn-primary" onclick="toBatchDelete();">
 					确定
 				</button>
 			</div>
