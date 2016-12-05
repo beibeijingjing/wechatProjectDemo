@@ -7,4 +7,8 @@ public interface WxUserLabelService extends IBaseService<WxUserLabel> {
 
 	public void batchDeleteUserLabel(String ids);
 
+	public void addSynUserLabel(WxUserLabel label);
+
+	public void updateSynUserLabel(WxUserLabel label);
+
 }

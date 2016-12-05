@@ -35,4 +35,15 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 
 	}
 
+	@Override
+	public void addSynUserLabel(WxUserLabel label) {
+
+		wxUserLabelMapper.insertSelective(label);
+	}
+
+	@Override
+	public void updateSynUserLabel(WxUserLabel label) {
+		wxUserLabelMapper.updateByPrimaryKeySelective(label);
+	}
+
 }
