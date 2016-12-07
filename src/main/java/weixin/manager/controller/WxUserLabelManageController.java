@@ -77,7 +77,7 @@ public class WxUserLabelManageController extends BaseController {
 	public Object addWxUserLabel(WxUserLabel label) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
-		wxUserLabelService.insertSelective(label);
+		wxUserLabelService.addSynUserLabel(label);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
@@ -88,7 +88,7 @@ public class WxUserLabelManageController extends BaseController {
 	public Object updateWxUserLabel(WxUserLabel label) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
-		wxUserLabelService.updateByPrimaryKeySelective(label);
+		wxUserLabelService.updateSynUserLabel(label);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
