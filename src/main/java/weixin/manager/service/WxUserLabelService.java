@@ -11,4 +11,6 @@ public interface WxUserLabelService extends IBaseService<WxUserLabel> {
 
 	public void updateSynUserLabel(WxUserLabel label);
 
+	public void batchSynUserLabel();
+
 }

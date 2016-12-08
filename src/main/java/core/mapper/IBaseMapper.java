@@ -19,6 +19,8 @@ public interface IBaseMapper<T> {
 
 	int insertSelective(T record);
 
+	int insertSelectiveBatch(List<T> list);
+
 	T selectByPrimaryKey(String id);
 
 	int updateByPrimaryKeySelective(T record);

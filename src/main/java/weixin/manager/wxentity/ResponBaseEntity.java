@@ -16,41 +16,32 @@ import java.io.Serializable;
  * @author: 曹亚伟
  * @date: 2016年12月7日 上午11:56:49
  */
-public class WxTag implements Serializable {
+public class ResponBaseEntity implements Serializable {
 
 	/**
 	 * @fieldName: serialVersionUID
 	 * @fieldType: long
 	 * @Description: TODO
 	 */
-	private static final long serialVersionUID = 4935779938773516705L;
 
-	private String id;
-	private String name;
-	private Integer count;
+	private static final long serialVersionUID = 7390637883977204455L;
+	private Integer errcode;
+	private String errmsg;
 
-	public String getId() {
-		return id;
+	public Integer getErrcode() {
+		return errcode;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setErrcode(Integer errcode) {
+		this.errcode = errcode;
 	}
 
-	public String getName() {
-		return name;
+	public String getErrmsg() {
+		return errmsg;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getCount() {
-		return count;
-	}
-
-	public void setCount(Integer count) {
-		this.count = count;
+	public void setErrmsg(String errmsg) {
+		this.errmsg = errmsg;
 	}
 
 }

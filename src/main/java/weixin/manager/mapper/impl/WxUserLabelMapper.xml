@@ -24,7 +24,7 @@
 	
  	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from wx_user_label
-		where id = #{id,jdbcType=VARCHAR}
+		where label_id = #{id,jdbcType=VARCHAR}
 	</delete>
 	
 	
@@ -85,6 +85,66 @@
 			</if>
 		</trim>
 	</insert>
+	
+	
+	<insert id="insertSelectiveBatch" parameterType="java.util.List">
+		
+		
+		  <foreach collection="list" item="item" index="index" separator=";" >
+		  insert into wx_user_label 
+		  
+		  <trim prefix="(" suffix=")" suffixOverrides=",">
+			  	<if test="item.id != null">
+					id,
+				</if>
+				<if test="item.labelId != null">
+					label_id,
+				</if>
+				<if test="item.labelName != null">
+					label_name,
+				</if>
+				<if test="item.userCount != null">
+					user_count,
+				</if>
+				<if test="item.isSyn != null">
+					is_syn,
+				</if>
+					create_time,
+					update_time,
+				<if test="item.delFlag != null">
+					del_flag,
+				</if>
+			</trim>
+		  
+		  <trim prefix="values (" suffix=")" suffixOverrides=",">
+			  	<if test="item.id!= null">
+					#{item.id,jdbcType=VARCHAR},
+			  	</if>
+				<if test="item.labelId!= null">
+					#{item.labelId,jdbcType=VARCHAR},
+				</if>
+				<if test="item.labelName!= null">
+					#{item.labelName,jdbcType=VARCHAR},
+				</if>
+				<if test="item.userCount != null">
+					#{item.userCount,jdbcType=INTEGER},
+				</if>
+				<if test="item.isSyn != null">
+					#{item.isSyn,jdbcType=INTEGER},
+				</if>
+				now(),
+				now(),
+			  	<if test="item.delFlag!= null">
+					#{item.delFlag},
+				</if>
+		  </trim>
+		  
+          </foreach>  
+		
+		
+	</insert>
+	
+	
 	
 	
 	<update id="updateByPrimaryKeySelective" parameterType="weixin.manager.bean.WxUserLabel">

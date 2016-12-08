@@ -110,6 +110,7 @@ public class WxUserLabelManageController extends BaseController {
 	public Object synchronizeWxUserLabel() {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		System.out.println("===========执行同步操作=========");
+		wxUserLabelService.batchSynUserLabel();
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
