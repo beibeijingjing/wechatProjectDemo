@@ -11,17 +11,15 @@ import core.controller.BaseController;
 @RequestMapping(value = "/pc")
 public class LoginManageController extends BaseController {
 
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public Object toLogin() {
 		return "weixin/login";
 	}
 
-	
-	@RequestMapping(value="/toLogin.do", method=RequestMethod.POST)
-	public Object toLogin(@RequestParam String userName,@RequestParam String password){
-		
-		
+	@RequestMapping(value = "/toLogin.do", method = RequestMethod.POST)
+	public Object toLogin(@RequestParam String userName,
+			@RequestParam String password) {
+
 		return "weixin/index";
 	}
 }

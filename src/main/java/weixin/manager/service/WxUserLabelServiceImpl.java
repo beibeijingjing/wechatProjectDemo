@@ -21,9 +21,11 @@ import weixin.server.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import core.exception.WxBaseException;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
 import core.utils.UUIDUtils;
+import core.utils.WxResultHandleUtil;
 
 @Repository
 public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
@@ -37,8 +39,7 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 	}
 
 	@Override
-	@Transactional
-	public void batchDeleteUserLabel(String ids) {
+	public void batchDeleteUserLabel(String ids) throws WxBaseException {
 		if (StringUtils.isNotEmpty(ids)) {
 			String[] idArr = ids.split("@");
 			Map<String, Object> data = null;
@@ -46,6 +47,7 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 			String jsonStr = "";
 			if (idArr != null) {
 				for (String id : idArr) {
+					// 执行删除功能
 					data = new HashMap<String, Object>();
 					map = new HashMap<String, String>();
 					map.put("id", id);
@@ -54,13 +56,11 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 					String result = HttpRequest.postJson(
 							ResourceUtils.getResource("wx_user_delete_tag"),
 							jsonStr);
-					// 解析结果
-					ResponBaseEntity responResult = GsonUtil.GsonToBean(result,
+					// 结果异常处理 有异常抛异常 没异常走下面流程
+					WxResultHandleUtil.getWxResponResult(result,
 							ResponBaseEntity.class);
-					if (responResult != null && responResult.getErrcode() == 0) {
-						wxUserLabelMapper.deleteByPrimaryKey(id);
-					}
 
+					wxUserLabelMapper.deleteByPrimaryKey(id);
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 	}
 
 	@Override
-	public void addSynUserLabel(WxUserLabel label) {
+	public void addSynUserLabel(WxUserLabel label) throws WxBaseException {
 		if (label != null) {
 			Map<String, Object> data = new HashMap<String, Object>();
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -80,11 +80,14 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 			String result = HttpRequest.postJson(
 					ResourceUtils.getResource("wx_user_create_tag"), jsonStr);
 
+			// 结果异常处理 有异常抛异常 没异常走下面流程
+			WxResultHandleUtil
+					.getWxResponResult(result, ResponBaseEntity.class);
+
 			// 将结果入库
 			Map<String, WxTag> model = new HashMap<String, WxTag>();
-			model = gson.fromJson(result,
-					new TypeToken<Map<String, Map<String, WxTag>>>() {
-					}.getType());
+			model = gson.fromJson(result, new TypeToken<Map<String, WxTag>>() {
+			}.getType());
 
 			if (model != null) {
 				WxTag tag = model.get("tag");
@@ -103,7 +106,7 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 	}
 
 	@Override
-	public void updateSynUserLabel(WxUserLabel label) {
+	public void updateSynUserLabel(WxUserLabel label) throws WxBaseException {
 
 		if (label != null) {
 			Map<String, Object> data = new HashMap<String, Object>();
@@ -116,6 +119,9 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 				String result = HttpRequest.postJson(
 						ResourceUtils.getResource("wx_user_update_tag"),
 						jsonStr);
+				// 结果异常处理 有异常抛异常 没异常走下面流程
+				WxResultHandleUtil.getWxResponResult(result,
+						ResponBaseEntity.class);
 				// 解析结果
 				ResponBaseEntity responResult = GsonUtil.GsonToBean(result,
 						ResponBaseEntity.class);
@@ -123,25 +129,44 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 					wxUserLabelMapper.updateByPrimaryKeySelective(label);
 				}
 			}
-
 		}
 
 	}
 
 	@Override
-	public void batchSynUserLabel() {
+	@Transactional
+	public void batchSynUserLabel() throws WxBaseException {
 		List<WxUserLabel> labelList = new ArrayList<WxUserLabel>();
-		WxUserLabel label = new WxUserLabel();
-		label.setId("id_4");
-		label.setLabelId("4444");
-		label.setLabelName("name4444");
-		labelList.add(label);
+		WxUserLabel userLabel = null;
+		String result = HttpRequest.postJson(
+				ResourceUtils.getResource("wx_user_get_tag"), "");
 
-		WxUserLabel label1 = new WxUserLabel();
-		label1.setId("id_5");
-		label1.setLabelId("5555");
-		label1.setLabelName("name555");
-		labelList.add(label1);
+		// 结果异常处理 有异常抛异常 没异常走下面流程
+		WxResultHandleUtil.getWxResponResult(result, ResponBaseEntity.class);
+
+		if (StringUtils.isNotEmpty(result)) {
+			Map<String, List<WxTag>> model = new HashMap<String, List<WxTag>>();
+			model = new Gson().fromJson(result,
+					new TypeToken<Map<String, Map<String, List<WxTag>>>>() {
+					}.getType());
+			// 获取到数据后 插入未更新的数据
+			if (model != null) {
+				List<WxTag> tagList = model.get("tag");
+				if (tagList != null && tagList.size() > 0) {
+					// 先删除 后批量插入
+					for (WxTag tag : tagList) {
+						userLabel = new WxUserLabel();
+						userLabel.setId(UUIDUtils.generate());
+						userLabel.setLabelId(tag.getId() + "");
+						userLabel.setLabelName(tag.getName());
+						userLabel.setUserCount(tag.getCount());
+						userLabel.setDelFlag(0);
+						labelList.add(userLabel);
+					}
+				}
+			}
+
+		}
 
 		wxUserLabelMapper.insertSelectiveBatch(labelList);
 

@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author: 曹亚伟
  * @date: 2016年12月7日 上午11:56:49
  */
-public class WxTag implements Serializable {
+public class WxTag extends ResponBaseEntity implements Serializable {
 
 	/**
 	 * @fieldName: serialVersionUID

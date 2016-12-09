@@ -5,13 +5,6 @@ package weixin.server.exception;
 
 import weixin.server.model.WxRespCode;
 
-
-
-/**
- * @author honey.zhao@aliyun.com
- * @version Jul 28, 2013
- *
- */
 public class WxException extends Exception {
 
 	private static final long serialVersionUID = -5181800588832010641L;
@@ -45,7 +38,6 @@ public class WxException extends Exception {
 		super(message, cause);
 	}
 
-	
 	/**
 	 * 
 	 */
@@ -61,6 +53,5 @@ public class WxException extends Exception {
 	public void setError(WxRespCode error) {
 		this.error = error;
 	}
-	
-	
+
 }

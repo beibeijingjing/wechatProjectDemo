@@ -53,6 +53,12 @@
                     title: '序号',
                     hidden:true,
                     visible:false
+                },
+                 {
+                    field: 'labelId',
+                    title: '序号',
+                    hidden:true,
+                    visible:false
                 }, {
                     field: 'labelName',
                     title: '标签名称'
@@ -120,7 +126,7 @@
     	var ids="";
     	if($data.length>0){
     		$($data).each(function (index, obj) {
-    			ids+=obj.id+"@";
+    			ids+=obj.labelId+"@";
             });
     	}else{
     		alert("请选择删除对象");

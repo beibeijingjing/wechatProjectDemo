@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import weixin.manager.bean.WxUserLabel;
 import weixin.manager.service.WxUserLabelService;
 import core.controller.BaseController;
+import core.exception.WxBaseException;
 
 @Controller
 @RequestMapping(value = "/pc")
@@ -74,44 +75,48 @@ public class WxUserLabelManageController extends BaseController {
 
 	@RequestMapping(value = "/addWxUserLabel.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object addWxUserLabel(WxUserLabel label) {
+	public Object addWxUserLabel(WxUserLabel label) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
 		wxUserLabelService.addSynUserLabel(label);
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/updateWxUserLabel.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object updateWxUserLabel(WxUserLabel label) {
+	public Object updateWxUserLabel(WxUserLabel label) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
 		wxUserLabelService.updateSynUserLabel(label);
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/batchDeleteWxUserLabel.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object batchDeleteWxUserLabel(String ids) {
+	public Object batchDeleteWxUserLabel(String ids) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
 		wxUserLabelService.batchDeleteUserLabel(ids);
 
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
+		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/synchronizeWxUserLabel.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object synchronizeWxUserLabel() {
+	public Object synchronizeWxUserLabel() throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		System.out.println("===========执行同步操作=========");
 		wxUserLabelService.batchSynUserLabel();
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+
+		rsMap.put("rtnCode", 0); // 0：成功 1：失败
+		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
 
