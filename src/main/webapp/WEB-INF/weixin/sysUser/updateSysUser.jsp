@@ -80,10 +80,10 @@ body {
  	    			async : false,
  	    			dataType : "json",
  	    			success : function(result) {
- 	    				if(result.rtnCode == 1){
- 	    					alert("修改成功");
+ 	    				if(result.rtnCode == 0){
+ 	    					alert(result.rtnMsg);
  	    				}else{
- 	    					alert("修改失败");
+ 	    					alert(result.rtnMsg);
  	    				}
  	    				
  	    				window.location.href=basePath+'/pc/toGetSysUserList.do';

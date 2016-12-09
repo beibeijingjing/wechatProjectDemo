@@ -120,10 +120,10 @@ body {
 	    			async : false,
 	    			dataType : "json",
 	    			success : function(result) {
-	    				if(result.rtnCode == 1){
-	    					alert("添加成功");
+	    				if(result.rtnCode == 0){
+	    					alert(result.rtnMsg);
 	    				}else{
-	    					alert("添加失败");
+	    					alert(result.rtnMsg);
 	    				}
 	    				
 	    				window.location.href=basePath+'/pc/toGetSysMenuList.do';

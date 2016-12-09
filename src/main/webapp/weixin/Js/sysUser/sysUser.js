@@ -121,10 +121,10 @@
     			success : function(result) {
     				$('#myModal').modal('hide');
     				doSearch();
-    				if(result.rtnCode == 1){
-    					alert("修改成功");
+    				if(result.rtnCode == 0){
+    					alert(result.rtnMsg);
     				}else{
-    					alert("修改失败");
+    					alert(result.rtnMsg);
     				}
     			}
     		});
