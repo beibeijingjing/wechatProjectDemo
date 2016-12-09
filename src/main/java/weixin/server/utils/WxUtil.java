@@ -22,11 +22,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpMethod;
 
+import weixin.manager.wxentity.ResponBaseEntity;
 import weixin.server.entity.base.WxBaseEntity;
-import weixin.server.exception.WxException;
-import weixin.server.model.WxRespCode;
 
 import com.google.gson.Gson;
+
+import core.exception.WxBaseException;
 
 /**
  * @author honey.zhao@aliyun.com
@@ -45,7 +46,7 @@ public class WxUtil {
 	@SuppressWarnings("unchecked")
 	public static final <T> T sendRequest(String url, HttpMethod method,
 			Map<String, String> params, HttpEntity requestEntity,
-			Class<T> resultClass) throws WxException {
+			Class<T> resultClass) throws WxBaseException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpRequestBase request = null;
 
@@ -81,14 +82,14 @@ public class WxUtil {
 
 				if (respBody.indexOf("{\"errcode\"") == 0
 						|| respBody.indexOf("{\"errmsg\"") == 0) {
-					WxRespCode exJson = gson.fromJson(respBody,
-							WxRespCode.class);
-					if (WxRespCode.class.getName().equals(
+					ResponBaseEntity exJson = gson.fromJson(respBody,
+							ResponBaseEntity.class);
+					if (ResponBaseEntity.class.getName().equals(
 							resultClass.getName())
 							&& exJson.getErrcode() == 0) {
 						return (T) exJson;
 					} else {
-						throw new WxException(exJson);
+						throw new WxBaseException(exJson);
 					}
 				}
 				T result = gson.fromJson(respBody, resultClass);
@@ -99,9 +100,9 @@ public class WxUtil {
 			}
 
 		} catch (IOException e) {
-			throw new WxException(e);
+			throw new WxBaseException(e);
 		} catch (URISyntaxException e) {
-			throw new WxException(e);
+			throw new WxBaseException(e);
 		}
 	}
 

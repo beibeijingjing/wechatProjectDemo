@@ -15,9 +15,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import core.exception.WxBaseException;
 import weixin.server.config.WxConfig;
 import weixin.server.entity.auth.WxAuth;
-import weixin.server.exception.WxException;
 import weixin.server.service.WxAuthService;
 
 /**
@@ -69,7 +69,7 @@ public class HttpRequest {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (WxException e) {
+		} catch (WxBaseException e) {
 			e.printStackTrace();
 		}
 

@@ -5,7 +5,6 @@ package weixin.server.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,32 +21,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weixin.server.entity.base.WxBaseMsgEntity;
 import weixin.server.entity.base.WxBaseRespEntity;
-import weixin.server.exception.WxException;
 import weixin.server.service.WxAuthService;
 import weixin.server.service.WxMessageService;
+import core.exception.WxBaseException;
 
-
-/**
- * @author honey.zhao@aliyun.com
- * @version Jul 28, 2013
- * 
- */
 @Controller
 @RequestMapping("/wx")
 public class WxController {
 	private static final Logger log = Logger.getLogger(WxController.class);
-	//http://www.202.106.199.34/wxdemo/rest/weixinmp/authGet.do?signature=1&timestamp=1&nonce=1&echostr=1
+	// http://www.202.106.199.34/wxdemo/rest/weixinmp/authGet.do?signature=1&timestamp=1&nonce=1&echostr=1
 	@Resource
 	private WxAuthService authService;
 	@Resource
 	private WxMessageService messageService;
-	
+
 	@RequestMapping(value = "/authGet.do", method = RequestMethod.GET)
-	public @ResponseBody
-	String authGet(@RequestParam("signature") String signature,
+	public @ResponseBody String authGet(
+			@RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp,
 			@RequestParam("nonce") String nonce,
-			@RequestParam("echostr") String echostr) throws WxException {
+			@RequestParam("echostr") String echostr) throws WxBaseException {
 		if (authService.validateAuth(signature, timestamp, nonce, echostr)) {
 			log.info("received authentication message from Weixin Server.");
 			return echostr;
@@ -56,28 +49,30 @@ public class WxController {
 	}
 
 	@RequestMapping(value = "/authGet.do", method = RequestMethod.POST)
-	public void authPost(HttpServletRequest request, HttpServletResponse response) throws WxException, IOException {
-		// 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
-        request.setCharacterEncoding("UTF-8");  
-        response.setCharacterEncoding("UTF-8");  
-  
-        // 调用核心业务类接收消息、处理消息  
-        String respMessage = WxAuthService.processRequest(request);  
-          
-        // 响应消息  
-        PrintWriter out = response.getWriter();  
-        out.print(respMessage);  
-        out.close();  
+	public void authPost(HttpServletRequest request,
+			HttpServletResponse response) throws WxBaseException, IOException {
+		// 将请求、响应的编码均设置为UTF-8（防止中文乱码）
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+
+		// 调用核心业务类接收消息、处理消息
+		String respMessage = WxAuthService.processRequest(request);
+
+		// 响应消息
+		PrintWriter out = response.getWriter();
+		out.print(respMessage);
+		out.close();
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-    public String post(@RequestBody String requestBody) throws DocumentException, WxException {
+	public String post(@RequestBody String requestBody)
+			throws DocumentException, WxBaseException {
 		WxBaseMsgEntity msg = messageService.parseXML(requestBody);
 		log.info("received " + msg.getMsgType() + " message.");
-		
+
 		WxBaseRespEntity resp = messageService.handleMessage(msg);
-		
+
 		return messageService.parseRespXML(resp).asXML();
 	}
 

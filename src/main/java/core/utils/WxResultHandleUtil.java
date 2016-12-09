@@ -9,8 +9,6 @@
 package core.utils;
 
 import weixin.manager.wxentity.ResponBaseEntity;
-import weixin.server.exception.WxException;
-import weixin.server.model.WxRespCode;
 
 import com.google.gson.Gson;
 

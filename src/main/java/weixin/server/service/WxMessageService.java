@@ -27,9 +27,9 @@ import weixin.server.entity.resp.WxRespPicDescEntity;
 import weixin.server.entity.resp.WxRespTextEntity;
 import weixin.server.entity.resp.WxRespVideoEntity;
 import weixin.server.entity.resp.WxRespVoiceEntity;
-import weixin.server.exception.WxException;
 import weixin.server.service.handler.WxMessageHandlerIfc;
 import weixin.server.utils.WxXmlUtil;
+import core.exception.WxBaseException;
 
 /**
  * @author honey.zhao@aliyun.com
@@ -38,16 +38,16 @@ import weixin.server.utils.WxXmlUtil;
  */
 @Service
 public class WxMessageService {
-	
-	//@Autowired(required=false)
+
+	// @Autowired(required=false)
 	List<WxMessageHandlerIfc> handlers;
-	
+
 	public WxBaseMsgEntity parseXML(String xml) throws DocumentException,
-			WxException {
+			WxBaseException {
 		Element ele = DocumentHelper.parseText(xml).getRootElement();
 		String msgType = null;
 		if ((msgType = ele.elementText("MsgType")) == null) {
-			throw new WxException("cannot find MsgType Node!\n" + xml);
+			throw new WxBaseException("cannot find MsgType Node!\n" + xml);
 		}
 		WxMsgTypeEnum msgTypeEnum = WxMsgTypeEnum.inst(msgType);
 		switch (msgTypeEnum) {
@@ -71,33 +71,34 @@ public class WxMessageService {
 		}
 		return null;
 	}
-	
+
 	public WxBaseRespEntity handleMessage(WxBaseMsgEntity msg) {
 		List<WxMessageHandlerIfc> handlerList = new ArrayList<WxMessageHandlerIfc>();
-		if(handlers!=null){
+		if (handlers != null) {
 			handlerList.addAll(handlers);
 		}
 		Collections.sort(handlerList, new WxMessageHandlerComparator());
-		
+
 		Map<String, Object> context = new HashMap<String, Object>();
 		WxBaseRespEntity result = null;
 		for (WxMessageHandlerIfc handler : handlerList) {
 			result = handler.handle(msg, context);
 		}
-		
+
 		if (result == null) {
 			result = defaultResult(msg.getToUserName(), msg.getFromUserName());
 		}
 		return result;
 	}
-	
+
 	public Element parseRespXML(WxBaseRespEntity resp) throws DocumentException {
 		WxMsgRespTypeEnum type = WxMsgRespTypeEnum.inst(resp.getMsgType());
 		switch (type) {
 		case IMAGE:
 			return WxXmlUtil.getRespImage((WxRespImageEntity) resp);
 		case MUSIC:
-			return WxXmlUtil.getRespMusic((WxRespMusicEntity) resp, ((WxRespMusicEntity) resp).getThumb());
+			return WxXmlUtil.getRespMusic((WxRespMusicEntity) resp,
+					((WxRespMusicEntity) resp).getThumb());
 		case NEWS:
 			return WxXmlUtil.getRespPicDesc((WxRespPicDescEntity) resp);
 		case TEXT:
@@ -111,10 +112,11 @@ public class WxMessageService {
 		}
 		return null;
 	}
-	
-	protected WxRespTextEntity defaultResult(String fromUserName, String toUserName) {
+
+	protected WxRespTextEntity defaultResult(String fromUserName,
+			String toUserName) {
 		WxRespTextEntity result = new WxRespTextEntity();
-		result.setContent("您好,您的消息已收�?");
+		result.setContent("您好,您的消息已收�?");
 		result.setCreatedDate(new Date());
 		result.setCreateTime(new Date().getTime() / 1000);
 		result.setFromUserName(fromUserName);
@@ -122,15 +124,17 @@ public class WxMessageService {
 		result.setToUserName(toUserName);
 		return result;
 	}
-	
 
 }
 
 class WxMessageHandlerComparator implements Comparator<WxMessageHandlerIfc> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(WxMessageHandlerIfc o1, WxMessageHandlerIfc o2) {
 		if (o1.priority() > o2.priority()) {
 			return -1;
@@ -140,5 +144,5 @@ class WxMessageHandlerComparator implements Comparator<WxMessageHandlerIfc> {
 			return 0;
 		}
 	}
-	
+
 }
