@@ -2,7 +2,7 @@ package weixin.manager.bean;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import weixin.manager.util.JsonDateSerializer;
+import core.utils.JsonDateSerializer;
 
 public class BaseBean {
 	private String id;

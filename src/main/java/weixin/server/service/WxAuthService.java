@@ -24,16 +24,12 @@ import weixin.server.constant.WxMsgType;
 import weixin.server.entity.auth.WxAuth;
 import weixin.server.entity.auth.WxAuthReq;
 import weixin.server.entity.msg.WxMsgTextEntity;
-import weixin.server.utils.MessageUtil;
-import weixin.server.utils.ResourceUtils;
-import weixin.server.utils.WxUtil;
 import core.exception.WxBaseException;
+import core.utils.MessageUtil;
+import core.utils.ResourceUtils;
+import core.utils.WxUtil;
 
-/**
- * @author honey.zhao@aliyun.com
- * @version Jan 1, 2014
- * 
- */
+
 @Repository
 public class WxAuthService {
 

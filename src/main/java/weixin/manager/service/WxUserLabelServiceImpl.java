@@ -11,12 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import weixin.manager.bean.WxUserLabel;
 import weixin.manager.mapper.WxUserLabelMapper;
-import weixin.manager.util.GsonUtil;
 import weixin.manager.wxentity.ResponBaseEntity;
 import weixin.manager.wxentity.WxTag;
-import weixin.server.utils.HttpRequest;
-import weixin.server.utils.ResourceUtils;
-import weixin.server.utils.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +20,10 @@ import com.google.gson.reflect.TypeToken;
 import core.exception.WxBaseException;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
+import core.utils.GsonUtil;
+import core.utils.HttpRequest;
+import core.utils.ResourceUtils;
+import core.utils.StringUtils;
 import core.utils.UUIDUtils;
 import core.utils.WxResultHandleUtil;
 

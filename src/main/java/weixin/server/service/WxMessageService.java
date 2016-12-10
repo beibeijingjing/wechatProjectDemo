@@ -28,14 +28,10 @@ import weixin.server.entity.resp.WxRespTextEntity;
 import weixin.server.entity.resp.WxRespVideoEntity;
 import weixin.server.entity.resp.WxRespVoiceEntity;
 import weixin.server.service.handler.WxMessageHandlerIfc;
-import weixin.server.utils.WxXmlUtil;
 import core.exception.WxBaseException;
+import core.utils.WxXmlUtil;
 
-/**
- * @author honey.zhao@aliyun.com
- * @version Dec 30, 2013
- * 
- */
+
 @Service
 public class WxMessageService {
 

@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import weixin.manager.bean.WxMenu;
 import weixin.manager.mapper.WxMenuNewMapper;
-import weixin.server.utils.StringUtils;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
+import core.utils.StringUtils;
 
 @Repository(value = "wxMenuServiceNew")
 public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
