@@ -1,15 +1,6 @@
-/** 
- * @Prject: ssm-master
- * @Package: weixin.server.utils 
- * @Title: HttpRequest.java 
- * Copyright © 2016Quanmingexing.All rights reserved.
- * @author: 曹亚伟   
- * @date: 2016年12月6日 下午3:29:51   
- */
 package core.utils;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,14 +13,9 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
-
-import core.exception.WxBaseException;
-import weixin.server.config.WxConfig;
 import weixin.server.entity.auth.WxAuth;
 import weixin.server.service.WxAuthService;
+import core.exception.WxBaseException;
 
 /**
  * @ClassName: HttpRequest
@@ -198,26 +184,6 @@ public class HttpRequest {
 			}
 		}
 		return result;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static String doPost(String url, String param) {
-		HttpClient hc = new HttpClient();
-		PostMethod pm = new PostMethod(url);
-		pm.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,
-				"UTF-8");
-
-		InputStream in = new ByteArrayInputStream(param.toString().getBytes());
-		pm.setRequestBody(in);
-		String html = "";
-		try {
-			hc.executeMethod(pm);
-			html = pm.getResponseBodyAsString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		pm.releaseConnection();
-		return html;
 	}
 
 }
