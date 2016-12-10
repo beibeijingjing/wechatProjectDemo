@@ -147,19 +147,22 @@ public class WxUserLabelServiceImpl extends BaseService<WxUserLabel> implements
 		if (StringUtils.isNotEmpty(result)) {
 			Map<String, List<WxTag>> model = new HashMap<String, List<WxTag>>();
 			model = new Gson().fromJson(result,
-					new TypeToken<Map<String, Map<String, List<WxTag>>>>() {
+					new TypeToken<Map<String, List<WxTag>>>() {
 					}.getType());
 			// 获取到数据后 插入未更新的数据
 			if (model != null) {
-				List<WxTag> tagList = model.get("tag");
+				List<WxTag> tagList = model.get("tags");
 				if (tagList != null && tagList.size() > 0) {
 					// 先删除 后批量插入
+					Map<String, String> condition = new HashMap<String, String>();
+					wxUserLabelMapper.batchDeleteUserLabel(condition);
 					for (WxTag tag : tagList) {
 						userLabel = new WxUserLabel();
 						userLabel.setId(UUIDUtils.generate());
 						userLabel.setLabelId(tag.getId() + "");
 						userLabel.setLabelName(tag.getName());
 						userLabel.setUserCount(tag.getCount());
+						userLabel.setIsSyn(1);
 						userLabel.setDelFlag(0);
 						labelList.add(userLabel);
 					}

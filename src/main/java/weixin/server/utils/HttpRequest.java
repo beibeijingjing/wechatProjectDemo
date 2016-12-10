@@ -33,8 +33,9 @@ public class HttpRequest {
 
 		try {
 			WxAuthService authService = new WxAuthService();
-			WxAuth wxAuth = authService.getAccessToken(WxConfig.APP_ID,
-					WxConfig.APP_SECRET);
+			WxAuth wxAuth = authService.getAccessToken(
+					ResourceUtils.getResource("wx_appid"),
+					ResourceUtils.getResource("wx_appsecret"));
 			if (wxAuth == null) {
 				return null;
 			}

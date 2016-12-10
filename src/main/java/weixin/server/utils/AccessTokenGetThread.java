@@ -8,7 +8,10 @@
  */
 package weixin.server.utils;
 
+import weixin.server.config.WxConfig;
 import weixin.server.entity.auth.WxAuth;
+import weixin.server.service.WxAuthService;
+import core.exception.WxBaseException;
 
 /**
  * @ClassName: AccessTokenGetThread
@@ -28,37 +31,33 @@ public class AccessTokenGetThread implements Runnable {
 
 	@Override
 	public void run() {
-		/*
-		 * while (true) { try { WxAuthService authService = new WxAuthService();
-		 * wxAuth = authService.getAccessToken(appId, appSecret); if (wxAuth !=
-		 * null && wxAuth.getAccessToken() != null &&
-		 * !"".equals(wxAuth.getAccessToken())) { accessToken =
-		 * wxAuth.getAccessToken(); WxConfig.accessToken = accessToken;
-		 * System.out.println("=========================accessToken：" +
-		 * AccessTokenGetThread.accessToken +
-		 * "===============================");
-		 * System.out.println("=========================accessToken：" +
-		 * AccessTokenGetThread.accessToken +
-		 * "===============================");
-		 * System.out.println("=========================accessToken：" +
-		 * AccessTokenGetThread.accessToken +
-		 * "===============================");
-		 * System.out.println("=========================accessToken：" +
-		 * AccessTokenGetThread.accessToken +
-		 * "===============================");
-		 * 
-		 * try{ System.out.println(
-		 * "=========================Thread.sleep==============================="
-		 * ); Thread.sleep(1000*60); System.out.println(
-		 * "=========================Thread.up==============================="
-		 * ); }catch (Exception e){ e.printStackTrace(); }
-		 * 
-		 * } else { try { // 发生异常休眠1秒 Thread.sleep(1000 * 3); } catch (Exception
-		 * e) { e.printStackTrace(); } }
-		 * 
-		 * } catch (WxException e) { e.printStackTrace(); try { // 发生异常休眠1秒
-		 * Thread.sleep(1000 * 10); } catch (Exception e1) {
-		 * e1.printStackTrace(); } } }
-		 */
+
+		while (true) {
+			try {
+				WxAuthService authService = new WxAuthService();
+				wxAuth = authService.getAccessToken(appId, appSecret);
+				if (wxAuth != null && wxAuth.getAccessToken() != null
+						&& !"".equals(wxAuth.getAccessToken())) {
+					accessToken = wxAuth.getAccessToken();
+					WxConfig.accessToken = accessToken;
+					System.out.println("=========================accessToken："
+							+ AccessTokenGetThread.accessToken
+							+ "===============================");
+					Thread.sleep(1000 * 60 * 30);
+				} else {
+					Thread.sleep(1000 * 60);
+				}
+			} catch (WxBaseException e) {
+				e.printStackTrace();
+				try { // 发生异常休眠1秒
+					Thread.sleep(1000 * 10);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

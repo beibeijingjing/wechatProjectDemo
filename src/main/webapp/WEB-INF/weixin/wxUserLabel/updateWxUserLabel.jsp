@@ -60,6 +60,7 @@ body {
 	    			url : basePath + "/pc/updateWxUserLabel.do",
 	    			data : {
 	    				"id":$('#id').val(),
+	    				"labelId":$('#labelId').val(),
 	    				"labelName" : $('#labelName').val(),
 	    				"delFlag":$('input[type=radio][name=status]:checked').val()
 	    			},
@@ -78,6 +79,7 @@ body {
  
 	<form action="" method="post" class="definewidth m20">
 		<input type="hidden" name="id" id="id" value="${label.id }"/>
+		<input type="hidden" name="labelId" id="labelId" value="${label.labelId }"/>
 		<table class="table table-bordered table-hover m10">
 			<tr>
 				<td class="tableleft">标签名称</td>
