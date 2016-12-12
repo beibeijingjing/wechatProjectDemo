@@ -207,8 +207,25 @@
 	 	 <if test="limit != null and offset != null" >
 				limit #{offset}, #{limit}
 		</if>
-		
-		
 	</select>
+	
+	<!--  自定义-->
+	<delete id="batchDeleteMenuById" parameterType="java.util.List">
+		delete from wx_menu
+		where 1=1
+		and id in
+		<foreach collection="list" item = "model" open="(" separator="," close=")">
+			#{model}  
+    	</foreach>  
+	</delete>
+	
+	<delete id="batchDeleteMenuByParentId" parameterType="java.util.List">
+		delete from wx_menu
+		where 1=1
+		and id in
+		<foreach collection="list" item = "model" open="(" separator="," close=")">
+			#{model}  
+    	</foreach>  
+	</delete>
 	
 </mapper>

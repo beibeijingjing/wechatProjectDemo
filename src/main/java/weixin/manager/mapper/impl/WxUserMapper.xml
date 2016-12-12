@@ -259,4 +259,14 @@
 		
 	</select>
 	
+	
+	<!--  自定义-->
+	<delete id="batchDeleteUser" parameterType="java.util.Map">
+		delete from wx_user
+		where 1=1
+		<if test="id != null and id!='-1' ">
+				and id = #{id}
+		</if>
+	</delete>
+	
 </mapper>

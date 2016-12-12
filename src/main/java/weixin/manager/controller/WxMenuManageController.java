@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import weixin.manager.bean.WxMenu;
 import weixin.manager.service.WxMenuServiceNew;
 import core.controller.BaseController;
+import core.exception.WxBaseException;
 
 @Controller
 @RequestMapping(value = "/pc")
@@ -93,8 +94,9 @@ public class WxMenuManageController extends BaseController {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
 		wxMenuServiceNew.insertSelective(menu);
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
-		rsMap.put("rtnMsg", "操作成功.");
+
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功");
 		return rsMap;
 	}
 
@@ -105,8 +107,8 @@ public class WxMenuManageController extends BaseController {
 
 		wxMenuServiceNew.updateByPrimaryKeySelective(menu);
 
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
-		rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功");
 		return rsMap;
 	}
 
@@ -120,27 +122,31 @@ public class WxMenuManageController extends BaseController {
 		menu.setId(id);
 		menu.setDelFlag(status);
 		wxMenuServiceNew.updateByPrimaryKeySelective(menu);
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/batchDeleteWxMenu.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object batchDeleteWxMenu(String ids) {
+	public Object batchDeleteWxMenu(String ids) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
 		wxMenuServiceNew.batchDeleteWxMenuById(ids);
 
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/synchronizeWxMenu.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object synchronizeWxMenu() {
+	public Object synchronizeWxMenu() throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
-		System.out.println("===========执行同步操作=========");
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		wxMenuServiceNew.batchSynCreateWxMenuB();
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功");
 		return rsMap;
 	}
 

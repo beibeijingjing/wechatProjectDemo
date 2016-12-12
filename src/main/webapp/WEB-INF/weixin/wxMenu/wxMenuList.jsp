@@ -105,11 +105,11 @@ body {
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					禁用/启用
+					批量删除
 				</h4>
 			</div>
 			<div class="modal-body">
-				确定要修改状态吗？
+				该操作会删除选中菜单和子菜单，确定删除吗？
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消

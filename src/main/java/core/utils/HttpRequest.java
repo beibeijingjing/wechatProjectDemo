@@ -13,6 +13,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
+import weixin.server.config.WxConfig;
 import weixin.server.entity.auth.WxAuth;
 import weixin.server.service.WxAuthService;
 import core.exception.WxBaseException;
@@ -29,14 +30,14 @@ public class HttpRequest {
 		String result = "";
 
 		try {
-			WxAuthService authService = new WxAuthService();
-			WxAuth wxAuth = authService.getAccessToken(
-					ResourceUtils.getResource("wx_appid"),
-					ResourceUtils.getResource("wx_appsecret"));
-			if (wxAuth == null) {
-				return null;
-			}
-			String accessToken = wxAuth.getAccessToken();
+			/*
+			 * WxAuthService authService = new WxAuthService(); WxAuth wxAuth =
+			 * authService.getAccessToken(
+			 * ResourceUtils.getResource("wx_appid"),
+			 * ResourceUtils.getResource("wx_appsecret")); if (wxAuth == null) {
+			 * return null; }
+			 */
+			String accessToken = WxConfig.accessToken;
 			String action = uri + "?access_token=" + accessToken;
 
 			URL url = new URL(action);
@@ -67,9 +68,9 @@ public class HttpRequest {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (WxBaseException e) {
-			e.printStackTrace();
-		}
+		} /*
+		 * catch (WxBaseException e) { e.printStackTrace(); }
+		 */
 
 		return result;
 	}
