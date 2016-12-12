@@ -1,10 +1,12 @@
 package weixin.manager.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +45,7 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 	@Transactional
 	public void synchronizeWxServerUser() throws WxBaseException {
 		List<WxUserEntity> userList = new ArrayList<WxUserEntity>();
-		List<Long> openIdList = new ArrayList<Long>();
+		List<String> openIdList = new ArrayList<String>();
 		// 1.获取用户openidList
 		getOpenIdList(openIdList, null);
 		// 1.获取微信服务器userList
@@ -62,8 +64,9 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 	/*
 	 * 获取所有openIdList
 	 */
-	private List<Long> getOpenIdList(List<Long> openIdList, Long nextOpenid)
-			throws WxBaseException {
+	@SuppressWarnings("unchecked")
+	private List<String> getOpenIdList(List<String> openIdList,
+			String nextOpenid) throws WxBaseException {
 		String param = "access_token=" + WxConfig.accessToken;
 		if (nextOpenid != null) {
 			param = "access_token=" + WxConfig.accessToken + "&next_openid="
@@ -75,6 +78,9 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 		// 结果异常处理 有异常抛异常 没异常走下面流程
 		WxResultHandleUtil.getWxResponResult(result, ResponBaseEntity.class);
 
+		if (StringUtils.isEmpty("")) {
+
+		}
 		// 将结果入库
 		WxUserOpenIdList openIdListEntity = GsonUtil.GsonToBean(result,
 				WxUserOpenIdList.class);
@@ -90,7 +96,7 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 	}
 
 	private List<WxUserEntity> getWxServerUserInfoList(
-			List<WxUserEntity> userList, List<Long> openIdList)
+			List<WxUserEntity> userList, List<String> openIdList)
 			throws WxBaseException {
 		Gson gson = new Gson();
 		Map<String, List<Map<String, String>>> model = null;

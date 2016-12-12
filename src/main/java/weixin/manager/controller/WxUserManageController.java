@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import weixin.manager.bean.WxUser;
 import weixin.manager.service.WxUserService;
 import core.controller.BaseController;
+import core.exception.WxBaseException;
 
 @Controller
 @RequestMapping(value = "/pc")
@@ -58,7 +59,7 @@ public class WxUserManageController extends BaseController {
 	public Object batchAddUserLabel(String labelIds, String opendIds) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		System.out.println("===========执行批量修改标签操作=========");
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
@@ -68,17 +69,19 @@ public class WxUserManageController extends BaseController {
 	public Object batchPullBlackUser(String opendIds) {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		System.out.println("===========执行批量拉黑操作=========");
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
 
 	@RequestMapping(value = "/synchronizeWxServerUser.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Object synchronizeWxServerUser() {
+	public Object synchronizeWxServerUser() throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		System.out.println("===========执行同步服务器用户操作=========");
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		wxUserService.synchronizeWxServerUser();
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rthMsg", "操作成功");
 		return rsMap;
 	}
 

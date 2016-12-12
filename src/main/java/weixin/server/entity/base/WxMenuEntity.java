@@ -3,11 +3,9 @@
  */
 package weixin.server.entity.base;
 
-import javax.persistence.Column;
+import weixin.manager.bean.BaseBean;
 
 import com.google.gson.annotations.SerializedName;
-
-import weixin.manager.bean.BaseBean;
 
 /**
  * @author honey.zhao@aliyun.com

@@ -189,7 +189,7 @@
     function toSynchronization() {
     		$.ajax({
     			type : "POST",
-    			url : basePath + "/pc/synchronizeWxUserLabel.do",
+    			url : basePath + "/pc/synchronizeWxServerUser.do",
     			data : {
     			},
     			async : false,

@@ -21,8 +21,8 @@ public class WxUserOpenIdList {
 
 	private Integer total;
 	private Integer count;
-	private Long next_openid;
-	private Map<String, List<Long>> data;
+	private Map<String, List<String>> data;
+	private String next_openid;
 
 	public Integer getTotal() {
 		return total;
@@ -40,20 +40,20 @@ public class WxUserOpenIdList {
 		this.count = count;
 	}
 
-	public Long getNext_openid() {
-		return next_openid;
-	}
-
-	public void setNext_openid(Long next_openid) {
-		this.next_openid = next_openid;
-	}
-
-	public Map<String, List<Long>> getData() {
+	public Map<String, List<String>> getData() {
 		return data;
 	}
 
-	public void setData(Map<String, List<Long>> data) {
+	public void setData(Map<String, List<String>> data) {
 		this.data = data;
+	}
+
+	public String getNext_openid() {
+		return next_openid;
+	}
+
+	public void setNext_openid(String next_openid) {
+		this.next_openid = next_openid;
 	}
 
 }
