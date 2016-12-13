@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import weixin.manager.bean.WxMenu;
+import weixin.manager.enums.WxMenuTypeEnum;
 import weixin.manager.mapper.WxMenuNewMapper;
 import weixin.manager.wxentity.ResponBaseEntity;
 import weixin.server.config.WxConfig;
@@ -37,7 +38,7 @@ public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
 	@Transactional
 	public void batchDeleteWxMenuById(String ids) throws WxBaseException {
 		// 1.先删除线上
-		String param = "access_token" + WxConfig.accessToken;
+		String param = "access_token=" + WxConfig.accessToken;
 		String result = HttpRequest.sendGet(
 				ResourceUtils.getResource("wx_menu_delete_url"), param);
 
@@ -74,17 +75,17 @@ public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
 		if (menuList != null && menuList.size() > 0) {
 			for (WxMenu menu : menuList) {
 				if ("0".equals(menu.getParentId())) {
-					button = new ArrayList<Map<String, Object>>();
-					if (menu.getIsExtend() == 0) {
+					map = new HashMap<String, Object>();
+					if (menu.getIsExtend() == 1) {
 						// 只有一级的菜单
-						map = new HashMap<String, Object>();
 						map.put("key", menu.getWxMenuKey());
 						map.put("name", menu.getWxMenuName());
-						map.put("type", menu.getWxMenuKey());
+						map.put("type", WxMenuTypeEnum.getMenuTypeValByNum(menu
+								.getWxMenuType()));
 						map.put("url", menu.getWxMenuUrl());
 						map.put("media_id", menu.getWxMediaId());
 					}
-					if (menu.getIsExtend() == 1) {
+					if (menu.getIsExtend() == 0) {
 						// 有二级的菜单
 						subButton = new ArrayList<Map<String, String>>();
 						map.put("name", menu.getWxMenuName());
@@ -93,7 +94,9 @@ public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
 								subMap = new HashMap<String, String>();
 								subMap.put("key", menu.getWxMenuKey());
 								subMap.put("name", menu.getWxMenuName());
-								subMap.put("type", menu.getWxMenuKey());
+								map.put("type", WxMenuTypeEnum
+										.getMenuTypeValByNum(menu
+												.getWxMenuType()));
 								subMap.put("url", menu.getWxMenuUrl());
 								subMap.put("media_id", menu.getWxMediaId());
 								subButton.add(subMap);
@@ -101,17 +104,18 @@ public class WxMenuNewServiceImpl extends BaseService<WxMenu> implements
 						}
 						map.put("sub_button", subButton);
 					}
+
 					button.add(map);
 				}
 			}
+			data.put("button", button);
+			String jsonStr = GsonUtil.GsonString(data);
+			String result = HttpRequest.postJson(
+					ResourceUtils.getResource("wx_menu_create_url"), jsonStr);
+			// 结果异常处理 有异常抛异常 没异常走下面流程
+			WxResultHandleUtil
+					.getWxResponResult(result, ResponBaseEntity.class);
 		}
-		data.put("button", button);
-		String jsonStr = GsonUtil.GsonString(data);
-		String result = HttpRequest.postJson(
-				ResourceUtils.getResource("wx_menu_create_url"), jsonStr);
-		// 结果异常处理 有异常抛异常 没异常走下面流程
-		WxResultHandleUtil.getWxResponResult(result, ResponBaseEntity.class);
-
 	}
 
 	@Override

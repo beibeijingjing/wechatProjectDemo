@@ -1,5 +1,7 @@
 package weixin.manager.wxentity;
 
+import java.util.List;
+
 public class WxUserEntity {
 
 	private Integer subscribe;
@@ -15,7 +17,7 @@ public class WxUserEntity {
 	private String unionid;
 	private String remark;
 	private String groupid;
-	private String tagid_list;
+	private List tagid_list;
 
 	public Integer getSubscribe() {
 		return subscribe;
@@ -121,11 +123,11 @@ public class WxUserEntity {
 		this.subscribe_time = subscribe_time;
 	}
 
-	public String getTagid_list() {
+	public List getTagid_list() {
 		return tagid_list;
 	}
 
-	public void setTagid_list(String tagid_list) {
+	public void setTagid_list(List tagid_list) {
 		this.tagid_list = tagid_list;
 	}
 

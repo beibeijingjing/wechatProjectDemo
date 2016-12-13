@@ -64,7 +64,6 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 	/*
 	 * 获取所有openIdList
 	 */
-	@SuppressWarnings("unchecked")
 	private List<String> getOpenIdList(List<String> openIdList,
 			String nextOpenid) throws WxBaseException {
 		String param = "access_token=" + WxConfig.accessToken;
@@ -78,13 +77,10 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 		// 结果异常处理 有异常抛异常 没异常走下面流程
 		WxResultHandleUtil.getWxResponResult(result, ResponBaseEntity.class);
 
-		if (StringUtils.isEmpty("")) {
-
-		}
 		// 将结果入库
 		WxUserOpenIdList openIdListEntity = GsonUtil.GsonToBean(result,
 				WxUserOpenIdList.class);
-		if (openIdListEntity != null
+		if (openIdListEntity != null && openIdListEntity.getData() != null
 				&& openIdListEntity.getData().get("openid") != null
 				&& openIdListEntity.getData().get("openid").size() > 0) {
 			openIdList.addAll(openIdListEntity.getData().get("openid"));
@@ -172,7 +168,7 @@ public class WxUserServiceImpl extends BaseService<WxUser> implements
 			wxUser.setUnionid(userEntity.getUnionid());
 			wxUser.setRemark(userEntity.getRemark());
 			wxUser.setGroupid(userEntity.getGroupid());
-			wxUser.setTagidList(userEntity.getTagid_list());
+			wxUser.setTagidList(userEntity.getTagid_list().toString());
 			wxUserList.add(wxUser);
 		}
 

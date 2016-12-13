@@ -165,21 +165,21 @@
 			values
 		  <foreach collection="list" item="item" index="index" separator="," >
 			  	(
-					#{item.id,jdbcType=VARCHAR}
-					#{item.subscribe,jdbcType=INTEGER}
-					#{item.openid,jdbcType=VARCHAR}
-					#{item.nickname,jdbcType=VARCHAR}
-					#{item.sex,jdbcType=INTEGER}
-					#{item.city,jdbcType=VARCHAR}
-					#{item.country,jdbcType=VARCHAR}
-					#{item.province,jdbcType=VARCHAR}
-					#{item.language,jdbcType=VARCHAR}
-					#{item.headimgurl,jdbcType=VARCHAR}
-					#{item.subscribeTime,jdbcType=BIGINT}
-					#{item.unionid,jdbcType=VARCHAR}
-					#{item.remark,jdbcType=VARCHAR}
-					#{item.groupid,jdbcType=VARCHAR}
-					#{item.tagidList,jdbcType=VARCHAR}
+					#{item.id,jdbcType=VARCHAR},
+					#{item.subscribe,jdbcType=INTEGER},
+					#{item.openid,jdbcType=VARCHAR},
+					#{item.nickname,jdbcType=VARCHAR},
+					#{item.sex,jdbcType=INTEGER},
+					#{item.city,jdbcType=VARCHAR},
+					#{item.country,jdbcType=VARCHAR},
+					#{item.province,jdbcType=VARCHAR},
+					#{item.language,jdbcType=VARCHAR},
+					#{item.headimgurl,jdbcType=VARCHAR},
+					#{item.subscribeTime,jdbcType=BIGINT},
+					#{item.unionid,jdbcType=VARCHAR},
+					#{item.remark,jdbcType=VARCHAR},
+					#{item.groupid,jdbcType=VARCHAR},
+					#{item.tagidList,jdbcType=VARCHAR},
 					now(),
 					now(),
 					0
