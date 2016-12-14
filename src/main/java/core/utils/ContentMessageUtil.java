@@ -8,7 +8,10 @@
  */
 package core.utils;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
+
+import weixin.server.controller.WxController;
 
 /**
  * @ClassName: ContentMessageUtil
@@ -17,22 +20,29 @@ import org.json.JSONException;
  * @date: 2016年12月14日 下午2:22:36
  */
 public class ContentMessageUtil {
+	private static final Logger log = Logger
+			.getLogger(ContentMessageUtil.class);
 
-	public static String getServerResponText(String content)
-			throws JSONException {
+	public static String getServerResponText(String content) {
 		String result = "";
 		if (StringUtils.isNotEmpty(content)) {
 			if (content.indexOf("@") > 0) {
 				String contentArr[] = content.split("@");
 				if (contentArr != null && contentArr.length == 2) {
-					if ("星座".equals(contentArr[0])) {
-						result = getHoroscopeInfo(contentArr[1]);
-					}
-					if ("天气".equals(contentArr[0])) {
-						result = getWetherInfo(contentArr[1]);
-					}
-					if ("解梦".equals(contentArr[0])) {
-						result = getDreamInfo(contentArr[1]);
+					try {
+						if ("星座".equals(contentArr[0])) {
+							result = getHoroscopeInfo(contentArr[1]);
+						}
+						if ("天气".equals(contentArr[0])) {
+							result = getWetherInfo(contentArr[1]);
+						}
+						if ("解梦".equals(contentArr[0])) {
+							result = getDreamInfo(contentArr[1]);
+						}
+					} catch (JSONException e) {
+						result = "sorry未找到相关数据，请更换关键字";
+						log.error("第三方接口报错 ：" + e.getMessage());
+
 					}
 				}
 			} else {
@@ -67,6 +77,6 @@ public class ContentMessageUtil {
 	}
 
 	public static void main(String args[]) throws JSONException {
-		System.out.println(getServerResponText("天气@长治"));
+		System.out.println(getServerResponText("天气@太原"));
 	}
 }
