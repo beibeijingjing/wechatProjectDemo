@@ -36,8 +36,8 @@ public class WxController {
 	private WxMessageService messageService;
 
 	@RequestMapping(value = "/authGet.do", method = RequestMethod.GET)
-	public @ResponseBody String authGet(
-			@RequestParam("signature") String signature,
+	public @ResponseBody
+	String authGet(@RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp,
 			@RequestParam("nonce") String nonce,
 			@RequestParam("echostr") String echostr) throws WxBaseException {
@@ -56,7 +56,7 @@ public class WxController {
 		response.setCharacterEncoding("UTF-8");
 
 		// 调用核心业务类接收消息、处理消息
-		String respMessage = WxAuthService.processRequest(request);
+		String respMessage = authService.processRequest(request);
 
 		// 响应消息
 		PrintWriter out = response.getWriter();

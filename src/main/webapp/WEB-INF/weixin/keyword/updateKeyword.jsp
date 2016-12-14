@@ -64,7 +64,7 @@ body {
 	    			data : {
 	    				"id":$('#id').val(),
 	    				"wxKey" : $('#wxKey').val(),
-	    				"wxMessagge" : $('#wxMessagge').val(),
+	    				"wxMessage" : $('#wxMessage').val(),
 	    				"delFlag":$('input[type=radio][name=status]:checked').val()
 	    			},
 	    			async : false,

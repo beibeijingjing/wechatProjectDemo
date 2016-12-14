@@ -152,6 +152,9 @@
 		<if test="del_flag != null and del_flag!='-1' ">
 				and del_flag = #{del_flag}
 		</if>
+		<if test="wx_key != null">
+				and wx_key = #{wx_key}
+		</if>
 		
 	 	 <if test="limit != null and offset != null" >
 				limit #{offset}, #{limit}

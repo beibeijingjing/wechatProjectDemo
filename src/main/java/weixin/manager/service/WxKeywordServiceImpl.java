@@ -1,5 +1,9 @@
 package weixin.manager.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +35,18 @@ public class WxKeywordServiceImpl extends BaseService<WxKeyword> implements
 			}
 		}
 
+	}
+
+	@Override
+	public String getWxKeywordByKey(String key) {
+		String wxMessage = "";
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("wx_key", key);
+		List<WxKeyword> keywordList = wxKeywordMapper.selectByMap(condition);
+		if (keywordList != null && keywordList.size() > 0) {
+			wxMessage = keywordList.get(0).getWxMessage();
+		}
+		return wxMessage;
 	}
 
 }

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 
+import weixin.manager.service.WxKeywordService;
 import weixin.server.constant.WxMsgEventType;
 import weixin.server.constant.WxMsgType;
 import weixin.server.entity.auth.WxAuth;
@@ -28,10 +30,13 @@ import core.exception.WxBaseException;
 import core.utils.ContentMessageUtil;
 import core.utils.MessageUtil;
 import core.utils.ResourceUtils;
+import core.utils.StringUtils;
 import core.utils.WxUtil;
 
 @Repository
 public class WxAuthService {
+	@Resource
+	private WxKeywordService wxKeywordService;
 
 	private static final Logger log = LoggerFactory
 			.getLogger(WxAuthService.class);
@@ -111,7 +116,7 @@ public class WxAuthService {
 	 * @param request
 	 * @return
 	 */
-	public static String processRequest(HttpServletRequest request) {
+	public String processRequest(HttpServletRequest request) {
 		String respMessage = null;
 		try {
 			// 默认返回的文本消息内容
@@ -145,8 +150,12 @@ public class WxAuthService {
 			// 文本消息
 			if (msgType.equals(WxMsgType.TEXT)) {
 				// respContent = "您发送的是文本消息！";
-				respContent = ContentMessageUtil.getServerResponText(requestMap
+				respContent = wxKeywordService.getWxKeywordByKey(requestMap
 						.get("Content"));
+				if (StringUtils.isEmpty(respContent)) {
+					respContent = ContentMessageUtil
+							.getServerResponText(requestMap.get("Content"));
+				}
 			}
 			// 图片消息
 			else if (msgType.equals(WxMsgType.IMAGE)) {
@@ -170,7 +179,8 @@ public class WxAuthService {
 				String eventType = requestMap.get("Event");
 				// 订阅
 				if (eventType.equals(WxMsgEventType.SUBSCRIBE)) {
-					respContent = "谢谢您的关注！";
+					// respContent = "谢谢您的关注！";
+					respContent = wxKeywordService.getWxKeywordByKey("关注");
 				}
 				// 取消订阅
 				else if (eventType.equals(WxMsgEventType.UNSUBSCRIBE)) {
@@ -179,6 +189,8 @@ public class WxAuthService {
 				// 自定义菜单点击事件
 				else if (eventType.equals(WxMsgEventType.CLICK)) {
 					// TODO 自定义菜单权没有开放，暂不处理该类消息
+					respContent = wxKeywordService.getWxKeywordByKey(requestMap
+							.get("EventKey"));
 				}
 			}
 
@@ -192,5 +204,4 @@ public class WxAuthService {
 
 		return respMessage;
 	}
-
 }

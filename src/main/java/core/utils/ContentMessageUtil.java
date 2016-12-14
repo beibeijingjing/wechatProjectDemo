@@ -54,7 +54,9 @@ public class ContentMessageUtil {
 		String httpArg = "city=" + key;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_wether_url"), httpArg);
-
+		log.info("-------------查询天气：" + key + "  结果："
+				+ OpenApiJsonUtil.getWetherBasicInfo(jsonResult)
+				+ "--------------------");
 		return OpenApiJsonUtil.getWetherBasicInfo(jsonResult);
 	}
 
@@ -62,7 +64,9 @@ public class ContentMessageUtil {
 		String httpArg = "word=" + key;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_dream_ur"), httpArg);
-
+		log.info("-------------查询解梦：" + key + "  结果："
+				+ OpenApiJsonUtil.getDreamInfo(jsonResult)
+				+ "--------------------");
 		return OpenApiJsonUtil.getDreamInfo(jsonResult);
 	}
 
@@ -70,11 +74,13 @@ public class ContentMessageUtil {
 		String httpArg = "consName=" + key + "&type=today";
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_horoscope_url"), httpArg);
-
+		log.info("-------------查询星座：" + key + "  结果："
+				+ OpenApiJsonUtil.getHoroscopeInfo(jsonResult)
+				+ "--------------------");
 		return OpenApiJsonUtil.getHoroscopeInfo(jsonResult);
 	}
 
 	public static void main(String args[]) throws JSONException {
-		System.out.println(getServerResponText("天气@太原"));
+		System.out.println(getServerResponText("解梦@树"));
 	}
 }
