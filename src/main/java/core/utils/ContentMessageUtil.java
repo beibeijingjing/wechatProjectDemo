@@ -11,8 +11,6 @@ package core.utils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
-import weixin.server.controller.WxController;
-
 /**
  * @ClassName: ContentMessageUtil
  * @Description: TODO

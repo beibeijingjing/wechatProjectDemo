@@ -25,10 +25,10 @@ import weixin.server.entity.auth.WxAuth;
 import weixin.server.entity.auth.WxAuthReq;
 import weixin.server.entity.msg.WxMsgTextEntity;
 import core.exception.WxBaseException;
+import core.utils.ContentMessageUtil;
 import core.utils.MessageUtil;
 import core.utils.ResourceUtils;
 import core.utils.WxUtil;
-
 
 @Repository
 public class WxAuthService {
@@ -144,7 +144,9 @@ public class WxAuthService {
 
 			// 文本消息
 			if (msgType.equals(WxMsgType.TEXT)) {
-				respContent = "您发送的是文本消息！";
+				// respContent = "您发送的是文本消息！";
+				respContent = ContentMessageUtil.getServerResponText(requestMap
+						.get("Content"));
 			}
 			// 图片消息
 			else if (msgType.equals(WxMsgType.IMAGE)) {

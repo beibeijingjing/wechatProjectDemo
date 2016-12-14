@@ -75,7 +75,8 @@
 	            		[
 	            		 {id:'9',text:'微信菜单管理',href:'<%=path%>/pc/toGetWxMenuList.do'},
 	            		 {id:'10',text:'用户管理',href:'<%=path%>/pc/toGetWxUserList.do'},
-	            		 {id:'10',text:'标签管理',href:'<%=path%>/pc/toGetWxUserLabelList.do'}
+	            		 {id:'10',text:'标签管理',href:'<%=path%>/pc/toGetWxUserLabelList.do'},
+	            		 {id:'10',text:'关键字管理',href:'<%=path%>/pc/toGetWxKeywordList.do'}
 	            		]
 	                }]
 	            }
