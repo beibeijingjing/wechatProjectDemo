@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * @author: 曹亚伟
  * @date: 2016年12月14日 上午11:59:17
  */
-public class WetherJsonUtil {
+public class OpenApiJsonUtil {
 
 	public static String getWetherBasicInfo(String jsonStr)
 			throws JSONException {
@@ -51,7 +51,37 @@ public class WetherJsonUtil {
 		String suggestInfo = "穿衣指数：" + drsgData.get("txt") + "感冒指数："
 				+ fluData.get("txt");
 		result = city + nowInfo + suggestInfo;
-		System.out.println(result);
+
+		return result;
+	}
+
+	public static String getDreamInfo(String jsonStr) throws JSONException {
+		String result = "";
+
+		JSONObject jsonObj = new JSONObject(jsonStr);
+		JSONArray dataArray = (JSONArray) jsonObj.get("newslist");
+		JSONObject dataInfo = (JSONObject) dataArray.get(0);
+		// 获取基础信息
+		result += dataInfo.get("result");
+
+		return result;
+	}
+
+	public static String getHoroscopeInfo(String jsonStr) throws JSONException {
+		String result = "";
+
+		JSONObject jsonObj = new JSONObject(jsonStr);
+
+		result += "星座名称：" + jsonObj.getString("name") + " 速配星座："
+				+ jsonObj.getString("QFriend") + " 综合指数："
+				+ jsonObj.getString("all") + " 幸运色："
+				+ jsonObj.getString("color") + " 健康指数："
+				+ jsonObj.getString("health") + "爱情指数："
+				+ jsonObj.getString("love") + " 财富指数："
+				+ jsonObj.getString("money") + " 幸运数："
+				+ jsonObj.getString("number") + " 工作指数："
+				+ jsonObj.getString("number") + " 运势："
+				+ jsonObj.getString("summary");
 
 		return result;
 	}

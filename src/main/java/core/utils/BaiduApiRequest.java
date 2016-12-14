@@ -13,11 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * @ClassName: BaiduApiRequest
@@ -66,12 +63,24 @@ public class BaiduApiRequest {
 
 	public static void main(String args[]) throws JSONException {
 
-		String httpUrl = "http://apis.baidu.com/heweather/weather/free";
-		String httpArg = "city=beijing";
+		/*
+		 * String httpUrl = "http://apis.baidu.com/heweather/weather/free";
+		 * String httpArg = "city=北京"; String jsonResult = request(httpUrl,
+		 * httpArg); System.out.println(jsonResult);
+		 */
+
+		/*
+		 * String httpUrl = "http://apis.baidu.com/txapi/dream/dream"; String
+		 * httpArg = "word=下雪"; String jsonResult = request(httpUrl, httpArg);
+		 * System.out.println(jsonResult);
+		 */
+
+		// WetherJsonUtil.getWetherBasicInfo(jsonResult);
+
+		String httpUrl = "http://apis.baidu.com/bbtapi/constellation/constellation_query";
+		String httpArg = "consName=%E5%8F%8C%E5%AD%90%E5%BA%A7&type=today";
 		String jsonResult = request(httpUrl, httpArg);
 		System.out.println(jsonResult);
-
-		WetherJsonUtil.getWetherBasicInfo(jsonResult);
 
 	}
 }
