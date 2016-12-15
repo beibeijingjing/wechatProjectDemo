@@ -11,8 +11,10 @@ package core.utils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.json.JSONException;
 
@@ -76,9 +78,16 @@ public class BaiduApiRequest {
 		 */
 
 		// WetherJsonUtil.getWetherBasicInfo(jsonResult);
+		/*
+		 * String httpUrl =
+		 * "http://apis.baidu.com/bbtapi/constellation/constellation_query";
+		 * String httpArg = "consName=%E5%8F%8C%E5%AD%90%E5%BA%A7&type=today";
+		 * String jsonResult = request(httpUrl, httpArg);
+		 * System.out.println(jsonResult);
+		 */
 
-		String httpUrl = "http://apis.baidu.com/bbtapi/constellation/constellation_query";
-		String httpArg = "consName=%E5%8F%8C%E5%AD%90%E5%BA%A7&type=today";
+		String httpUrl = "http://apis.baidu.com/avatardata/historytoday/lookup";
+		String httpArg = "yue=12&ri=15&type=1&page=1&rows=20&dtype=JOSN&format=false";
 		String jsonResult = request(httpUrl, httpArg);
 		System.out.println(jsonResult);
 

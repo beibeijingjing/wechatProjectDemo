@@ -22,7 +22,6 @@ public class OpenApiJsonUtil {
 
 	public static String getWetherBasicInfo(String jsonStr)
 			throws JSONException {
-		String result = "";
 
 		JSONObject jsonObj = new JSONObject(jsonStr);
 		JSONArray dataArray = (JSONArray) jsonObj
@@ -44,15 +43,17 @@ public class OpenApiJsonUtil {
 		// 感冒指数
 		JSONObject fluData = (JSONObject) suggestionData.get("flu");
 
-		String city = "城市：" + basecData.get("city");
-		String nowInfo = "天气：  " + condData.get("txt") + " 温度：  "
-				+ nowData.get("tmp") + " 降水量： " + nowData.get("pcpn") + " 风向： "
-				+ windData.get("dir") + " 风力：  " + windData.get("sc");
-		String suggestInfo = "穿衣指数：" + drsgData.get("txt") + "感冒指数："
-				+ fluData.get("txt");
-		result = city + nowInfo + suggestInfo;
+		StringBuffer result = new StringBuffer();
+		result.append("城市：" + basecData.get("city")).append("\n");
+		result.append("天气：  " + condData.get("txt")).append("\n");
+		result.append("温度：  " + nowData.get("tmp") + " ℃").append("\n");
+		result.append("降水量： " + nowData.get("pcpn")).append("\n");
+		result.append("风向： " + windData.get("dir")).append("\n");
+		result.append("风力：" + windData.get("sc")).append("\n");
+		result.append("穿衣指数：" + drsgData.get("txt")).append("\n");
+		result.append("感冒指数：" + fluData.get("txt")).append("\n");
 
-		return result;
+		return result.toString();
 	}
 
 	public static String getDreamInfo(String jsonStr) throws JSONException {
@@ -68,22 +69,41 @@ public class OpenApiJsonUtil {
 	}
 
 	public static String getHoroscopeInfo(String jsonStr) throws JSONException {
-		String result = "";
 
 		JSONObject jsonObj = new JSONObject(jsonStr);
+		StringBuffer result = new StringBuffer();
+		result.append("星座名称：" + jsonObj.getString("name")).append("\n");
+		result.append("速配星座：" + jsonObj.getString("QFriend")).append("\n");
+		result.append("综合指数：" + jsonObj.getString("all")).append("\n");
+		result.append("幸运色：" + jsonObj.getString("color")).append("\n");
+		result.append("健康指数：" + jsonObj.getString("health")).append("\n");
+		result.append("爱情指数：" + jsonObj.getString("love")).append("\n");
+		result.append("财富指数：" + jsonObj.getString("money")).append("\n");
+		result.append("幸运数：" + jsonObj.getString("number")).append("\n");
+		result.append("工作指数：" + jsonObj.getString("work")).append("\n");
+		result.append("运势总结：" + jsonObj.getString("summary")).append("\n");
+		return result.toString();
+	}
 
-		result += "星座名称：" + jsonObj.getString("name") + " 速配星座："
-				+ jsonObj.getString("QFriend") + " 综合指数："
-				+ jsonObj.getString("all") + " 幸运色："
-				+ jsonObj.getString("color") + " 健康指数："
-				+ jsonObj.getString("health") + "爱情指数："
-				+ jsonObj.getString("love") + " 财富指数："
-				+ jsonObj.getString("money") + " 幸运数："
-				+ jsonObj.getString("number") + " 工作指数："
-				+ jsonObj.getString("number") + " 运势："
-				+ jsonObj.getString("summary");
+	public static String getHistoryOfToday(String jsonStr) throws JSONException {
+		StringBuffer result = new StringBuffer();
+		JSONObject jsonObj = new JSONObject(jsonStr);
+		JSONArray historyArry = jsonObj.getJSONArray("result");
+		if (historyArry != null) {
+			JSONObject history = null;
+			for (int i = 0; i < historyArry.length(); i++) {
+				history = historyArry.getJSONObject(i);
+				if (history != null) {
+					result.append(history.getString("year") + "-"
+							+ history.getString("month") + "-"
+							+ history.getString("day"));
+					result.append(":" + history.getString("title"))
+							.append("\n");
+				}
+			}
+		}
 
-		return result;
+		return result.toString();
 	}
 
 }
