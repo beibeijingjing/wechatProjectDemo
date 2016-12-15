@@ -65,40 +65,5 @@ public class BaiduApiRequest {
 
 	public static void main(String args[]) throws JSONException {
 
-		/*
-		 * String httpUrl = "http://apis.baidu.com/heweather/weather/free";
-		 * String httpArg = "city=北京"; String jsonResult = request(httpUrl,
-		 * httpArg); System.out.println(jsonResult);
-		 */
-
-		/*
-		 * String httpUrl = "http://apis.baidu.com/txapi/dream/dream"; String
-		 * httpArg = "word=下雪"; String jsonResult = request(httpUrl, httpArg);
-		 * System.out.println(jsonResult);
-		 */
-
-		/*
-		 * String httpUrl =
-		 * "http://apis.baidu.com/bbtapi/constellation/constellation_query";
-		 * String httpArg = "consName=%E5%8F%8C%E5%AD%90%E5%BA%A7&type=today";
-		 * String jsonResult = request(httpUrl, httpArg);
-		 * System.out.println(jsonResult);
-		 */
-
-		/*
-		 * String httpUrl =
-		 * "http://apis.baidu.com/avatardata/historytoday/lookup"; String
-		 * httpArg =
-		 * "yue=12&ri=15&type=1&page=1&rows=20&dtype=JOSN&format=false"; String
-		 * jsonResult = request(httpUrl, httpArg);
-		 * System.out.println(jsonResult);
-		 */
-		// http://api.huceo.com/wxnew/?key=您的key$num=10&rand=1
-
-		String httpUrl = "http://apis.baidu.com/txapi/weixin/wxhot";
-		String httpArg = "num=10&rand=1&word=詹姆斯";
-		String jsonResult = request(httpUrl, httpArg);
-		System.out.println(jsonResult);
-
 	}
 }
