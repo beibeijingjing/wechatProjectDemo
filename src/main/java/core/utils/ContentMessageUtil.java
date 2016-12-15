@@ -8,6 +8,9 @@
  */
 package core.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 
@@ -37,21 +40,32 @@ public class ContentMessageUtil {
 						if ("解梦".equals(contentArr[0])) {
 							result = getDreamInfo(contentArr[1]);
 						}
+						if ("history".equals(contentArr[0])) {
+							result = getHistoryOfToday(contentArr[1]);
+						}
 					} catch (JSONException e) {
-						result = "sorry未找到相关数据，请更换关键字";
+						result = "小主请更换关键字试试";
 						log.error("第三方接口报错 ：" + e.getMessage());
 
 					}
 				}
 			} else {
 				// 调用机器人
+
+				// 调历史上的今天
 			}
 		}
 		return result;
 	}
 
 	private static String getWetherInfo(String key) throws JSONException {
-		String httpArg = "city=" + key;
+		String keyEncode = "";
+		try {
+			keyEncode = URLEncoder.encode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String httpArg = "city=" + keyEncode;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_wether_url"), httpArg);
 		log.info("-------------查询天气：" + key + "  结果："
@@ -61,7 +75,13 @@ public class ContentMessageUtil {
 	}
 
 	private static String getDreamInfo(String key) throws JSONException {
-		String httpArg = "word=" + key;
+		String keyEncode = "";
+		try {
+			keyEncode = URLEncoder.encode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String httpArg = "word=" + keyEncode;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_dream_ur"), httpArg);
 		log.info("-------------查询解梦：" + key + "  结果："
@@ -71,7 +91,13 @@ public class ContentMessageUtil {
 	}
 
 	private static String getHoroscopeInfo(String key) throws JSONException {
-		String httpArg = "consName=" + key + "&type=today";
+		String keyEncode = "";
+		try {
+			keyEncode = URLEncoder.encode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String httpArg = "consName=" + keyEncode + "&type=today";
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_horoscope_url"), httpArg);
 		log.info("-------------查询星座：" + key + "  结果："
@@ -80,7 +106,30 @@ public class ContentMessageUtil {
 		return OpenApiJsonUtil.getHoroscopeInfo(jsonResult);
 	}
 
+	private static String getHistoryOfToday(String key) throws JSONException {
+		String dateNow = DateUtils.getCurrentDate();
+		String yue = "01";
+		String ri = "01";
+		if (StringUtils.isNotEmpty(dateNow)) {
+			yue = dateNow.substring(5, 7);
+			ri = dateNow.substring(8, 10);
+		}
+		String type = "2";
+		if ("international".equals(key)) {
+			type = "1";
+		}
+		String httpArg = "yue=" + yue + "&ri=" + ri + "&type=" + type
+				+ "&page=1&rows=20&dtype=JOSN&format=false";
+		String jsonResult = BaiduApiRequest.request(
+				ResourceUtils.getResource("api_history_today_url"), httpArg);
+
+		log.info("-------------查询历史上的今天：" + "  结果："
+				+ OpenApiJsonUtil.getHistoryOfToday(jsonResult)
+				+ "--------------------");
+		return OpenApiJsonUtil.getHistoryOfToday(jsonResult);
+	}
+
 	public static void main(String args[]) throws JSONException {
-		System.out.println(getServerResponText("解梦@树"));
+		System.out.println(getServerResponText("解梦@神仙"));
 	}
 }
