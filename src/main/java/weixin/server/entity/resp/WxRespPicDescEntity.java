@@ -8,20 +8,19 @@ import java.util.List;
 import weixin.server.entity.base.WxBaseRespEntity;
 import weixin.server.entity.item.WxItemPicDescEntity;
 
-
 /**
  * @author honey.zhao@aliyun.com
  * @version Jul 28, 2013
  * 
  */
 public class WxRespPicDescEntity extends WxBaseRespEntity {
-	// 图文消息个数，限制为10条以内  
-    private int ArticleCount;  
+	// 图文消息个数，限制为10条以内
+	private int ArticleCount;
 
-	private List<WxItemPicDescEntity> articles;
+	private List<WxItemPicDescEntity> Articles;
 
 	public List<WxItemPicDescEntity> getArticles() {
-		return articles;
+		return Articles;
 	}
 
 	public int getArticleCount() {
@@ -33,7 +32,7 @@ public class WxRespPicDescEntity extends WxBaseRespEntity {
 	}
 
 	public void setArticles(List<WxItemPicDescEntity> articles) {
-		this.articles = articles;
+		this.Articles = articles;
 	}
 
 	public WxRespPicDescEntity() {
@@ -43,12 +42,12 @@ public class WxRespPicDescEntity extends WxBaseRespEntity {
 
 	public WxRespPicDescEntity(List<WxItemPicDescEntity> articles) {
 		super();
-		this.articles = articles;
+		this.Articles = articles;
 	}
 
 	@Override
 	public String toString() {
-		return "WxRespPicDescEntity [articles=" + articles + "]";
+		return "WxRespPicDescEntity [articles=" + Articles + "]";
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public class WxRespPicDescEntity extends WxBaseRespEntity {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result
-				+ ((articles == null) ? 0 : articles.hashCode());
+				+ ((Articles == null) ? 0 : Articles.hashCode());
 		return result;
 	}
 
@@ -69,13 +68,12 @@ public class WxRespPicDescEntity extends WxBaseRespEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		WxRespPicDescEntity other = (WxRespPicDescEntity) obj;
-		if (articles == null) {
-			if (other.articles != null)
+		if (Articles == null) {
+			if (other.Articles != null)
 				return false;
-		} else if (!articles.equals(other.articles))
+		} else if (!Articles.equals(other.Articles))
 			return false;
 		return true;
 	}
-	
-	
+
 }
