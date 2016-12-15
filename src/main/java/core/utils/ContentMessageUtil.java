@@ -23,6 +23,7 @@ import org.json.JSONException;
 public class ContentMessageUtil {
 	private static final Logger log = Logger
 			.getLogger(ContentMessageUtil.class);
+	private static final String RESPON_EXCEPTION_MESSAGE = "小主请更换关键字试试";
 
 	public static String getServerResponText(String content) {
 		String result = "";
@@ -44,7 +45,7 @@ public class ContentMessageUtil {
 							result = getHistoryOfToday(contentArr[1]);
 						}
 					} catch (JSONException e) {
-						result = "小主请更换关键字试试";
+						result = RESPON_EXCEPTION_MESSAGE;
 						log.error("第三方接口报错 ：" + e.getMessage());
 
 					}

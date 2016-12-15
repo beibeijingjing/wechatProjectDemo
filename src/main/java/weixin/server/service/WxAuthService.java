@@ -28,6 +28,7 @@ import weixin.server.entity.auth.WxAuthReq;
 import weixin.server.entity.msg.WxMsgTextEntity;
 import core.exception.WxBaseException;
 import core.utils.ContentMessageUtil;
+import core.utils.ImageContentMessageUtil;
 import core.utils.MessageUtil;
 import core.utils.ResourceUtils;
 import core.utils.StringUtils;
@@ -131,6 +132,7 @@ public class WxAuthService {
 			String toUserName = requestMap.get("ToUserName");
 			// 消息类型
 			String msgType = requestMap.get("MsgType");
+
 			log.info("----------------------接收微信服务器fromUserName，toUserName，msgType：   "
 					+ fromUserName
 					+ ", "
@@ -139,23 +141,27 @@ public class WxAuthService {
 					+ msgType
 					+ "------------");
 
-			// 回复文本消息
-			WxMsgTextEntity textMessage = new WxMsgTextEntity();
-			textMessage.setToUserName(fromUserName);
-			textMessage.setFromUserName(toUserName);
-			textMessage.setCreateTime(new Date().getTime());
-			textMessage.setMsgType(WxMsgType.TEXT);
-			// textMessage.setFuncFlag(0);
-
 			// 文本消息
 			if (msgType.equals(WxMsgType.TEXT)) {
 				// respContent = "您发送的是文本消息！";
-				respContent = wxKeywordService.getWxKeywordByKey(requestMap
-						.get("Content"));
-				if (StringUtils.isEmpty(respContent)) {
-					respContent = ContentMessageUtil
-							.getServerResponText(requestMap.get("Content"));
+				String content = requestMap.get("Content");
+				if (content.indexOf("新闻@") > 0) {
+					// 图文信息
+					respMessage = ImageContentMessageUtil
+							.getServerResponImageText(fromUserName, toUserName,
+									content);
+				} else {
+					respContent = wxKeywordService.getWxKeywordByKey(requestMap
+							.get("Content"));
+					if (StringUtils.isEmpty(respContent)) {
+						respContent = ContentMessageUtil
+								.getServerResponText(content);
+					}
+					// 返回文字消息
+					respMessage = doTextMessage(fromUserName, toUserName,
+							respContent);
 				}
+
 			}
 			// 图片消息
 			else if (msgType.equals(WxMsgType.IMAGE)) {
@@ -181,6 +187,8 @@ public class WxAuthService {
 				if (eventType.equals(WxMsgEventType.SUBSCRIBE)) {
 					// respContent = "谢谢您的关注！";
 					respContent = wxKeywordService.getWxKeywordByKey("关注");
+					respMessage = doTextMessage(fromUserName, toUserName,
+							respContent);
 				}
 				// 取消订阅
 				else if (eventType.equals(WxMsgEventType.UNSUBSCRIBE)) {
@@ -188,20 +196,42 @@ public class WxAuthService {
 				}
 				// 自定义菜单点击事件
 				else if (eventType.equals(WxMsgEventType.CLICK)) {
-					// TODO 自定义菜单权没有开放，暂不处理该类消息
-					respContent = wxKeywordService.getWxKeywordByKey(requestMap
-							.get("EventKey"));
+					String eventKey = requestMap.get("EventKey");
+					if (eventKey.indexOf("news") > 0) {
+						respMessage = ImageContentMessageUtil
+								.getServerResponImageText(fromUserName,
+										toUserName, "新闻@menu");
+					} else {
+						respContent = wxKeywordService
+								.getWxKeywordByKey(eventKey);
+						respMessage = doTextMessage(fromUserName, toUserName,
+								respContent);
+					}
+
 				}
 			}
 
-			textMessage.setContent(respContent);
-			respMessage = MessageUtil.textMessageToXml(textMessage);
 			log.info("----------------------反馈微信服务器respMessage：" + respMessage
 					+ "------------------------");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return respMessage;
+	}
+
+	private String doTextMessage(String fromUserName, String toUserName,
+			String content) {
+		// 回复文本消息
+		WxMsgTextEntity textMessage = new WxMsgTextEntity();
+		textMessage.setToUserName(fromUserName);
+		textMessage.setFromUserName(toUserName);
+		textMessage.setCreateTime(new Date().getTime());
+		textMessage.setMsgType(WxMsgType.TEXT);
+		// textMessage.setFuncFlag(0);
+		textMessage.setContent(content);
+
+		return MessageUtil.textMessageToXml(textMessage);
+
 	}
 }

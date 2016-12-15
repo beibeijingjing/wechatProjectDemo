@@ -77,7 +77,6 @@ public class BaiduApiRequest {
 		 * System.out.println(jsonResult);
 		 */
 
-		// WetherJsonUtil.getWetherBasicInfo(jsonResult);
 		/*
 		 * String httpUrl =
 		 * "http://apis.baidu.com/bbtapi/constellation/constellation_query";
@@ -86,8 +85,18 @@ public class BaiduApiRequest {
 		 * System.out.println(jsonResult);
 		 */
 
-		String httpUrl = "http://apis.baidu.com/avatardata/historytoday/lookup";
-		String httpArg = "yue=12&ri=15&type=1&page=1&rows=20&dtype=JOSN&format=false";
+		/*
+		 * String httpUrl =
+		 * "http://apis.baidu.com/avatardata/historytoday/lookup"; String
+		 * httpArg =
+		 * "yue=12&ri=15&type=1&page=1&rows=20&dtype=JOSN&format=false"; String
+		 * jsonResult = request(httpUrl, httpArg);
+		 * System.out.println(jsonResult);
+		 */
+		// http://api.huceo.com/wxnew/?key=您的key$num=10&rand=1
+
+		String httpUrl = "http://apis.baidu.com/txapi/weixin/wxhot";
+		String httpArg = "num=10&rand=1&word=詹姆斯";
 		String jsonResult = request(httpUrl, httpArg);
 		System.out.println(jsonResult);
 

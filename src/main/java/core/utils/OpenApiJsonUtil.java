@@ -8,9 +8,17 @@
  */
 package core.utils;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import weixin.server.constant.WxMsgType;
+import weixin.server.entity.item.WxItemPicDescEntity;
+import weixin.server.entity.resp.WxRespPicDescEntity;
 
 /**
  * @ClassName: WetherJsonUtil
@@ -46,7 +54,7 @@ public class OpenApiJsonUtil {
 		StringBuffer result = new StringBuffer();
 		result.append("城市：" + basecData.get("city")).append("\n");
 		result.append("天气：  " + condData.get("txt")).append("\n");
-		result.append("温度：  " + nowData.get("tmp")+" ℃").append("\n");
+		result.append("温度：  " + nowData.get("tmp") + " ℃").append("\n");
 		result.append("降水量： " + nowData.get("pcpn")).append("\n");
 		result.append("风向： " + windData.get("dir")).append("\n");
 		result.append("风力：" + windData.get("sc")).append("\n");
@@ -104,6 +112,42 @@ public class OpenApiJsonUtil {
 		}
 
 		return result.toString();
+	}
+
+	public static String getWxNewsHot(String fromUserName, String toUserName,
+			String jsonStr) throws JSONException {
+		JSONObject jsonObj = new JSONObject(jsonStr);
+		JSONArray newsArry = jsonObj.getJSONArray("newslist");
+		// 回复新闻xml实体
+		WxRespPicDescEntity newsEntity = new WxRespPicDescEntity();
+		newsEntity.setToUserName(fromUserName);
+		newsEntity.setFromUserName(toUserName);
+		newsEntity.setCreateTime(new Date().getTime());
+		newsEntity.setMsgType(WxMsgType.NEWS);
+		List<WxItemPicDescEntity> articleList = new ArrayList<WxItemPicDescEntity>();
+		if (newsArry != null) {
+			// 设置图文总数
+			newsEntity.setArticleCount(newsArry.length());
+			JSONObject news = null;
+			WxItemPicDescEntity article = null;
+			// 遍历新闻列表
+			for (int i = 0; i < newsArry.length(); i++) {
+				news = newsArry.getJSONObject(i);
+				if (news != null) {
+					article = new WxItemPicDescEntity();
+					article.setTitle(news.getString("title"));
+					article.setDescription(news.getString("description"));
+					article.setPicUrl(news.getString("picUrl"));
+					article.setUrl(news.getString("url"));
+					articleList.add(article);
+				}
+			}
+			newsEntity.setArticles(articleList);
+		}
+
+		// 返回xml
+		String result = MessageUtil.newsMessageToXml(newsEntity);
+		return result;
 	}
 
 }
