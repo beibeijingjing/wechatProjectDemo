@@ -91,11 +91,10 @@ public class MessageUtil {
 	 */
 	public static String newsMessageToXml(WxRespPicDescEntity newsMessage) {
 
-		XStream xtream = new XStream();
-		xtream.alias("xml", newsMessage.getClass());
-		xtream.alias("item", new WxItemPicDescEntity().getClass());
+		xstream.alias("xml", newsMessage.getClass());
+		xstream.alias("item", new WxItemPicDescEntity().getClass());
 
-		return "";
+		return xstream.toXML(newsMessage);
 	}
 
 	/**

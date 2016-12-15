@@ -59,18 +59,19 @@ public class ImageContentMessageUtil {
 		if ("menu".equals(keyEncode)) {
 			keyEncode = "";
 		}
-		String httpArg = "num=10&rand=1&word=" + keyEncode;
+		String httpArg = "num=5&rand=1&word=" + keyEncode;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_weixin_news_url"), httpArg);
 
 		log.info("-------------查询新闻：" + key + "结果--------------");
-		log.info(jsonResult);
+		log.info(OpenApiJsonUtil.getWxNewsHot(fromUserName, toUserName,
+				jsonResult));
 
 		return OpenApiJsonUtil.getWxNewsHot(fromUserName, toUserName,
 				jsonResult);
 	}
 
 	public static void main(String args[]) throws JSONException {
-		getServerResponImageText("from123", "to456", "新闻@MVP");
+		getServerResponImageText("from123", "to456", "新闻@林丹");
 	}
 }
