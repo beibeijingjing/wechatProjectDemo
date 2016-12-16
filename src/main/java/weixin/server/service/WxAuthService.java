@@ -145,8 +145,9 @@ public class WxAuthService {
 			if (msgType.equals(WxMsgType.TEXT)) {
 				// respContent = "您发送的是文本消息！";
 				String content = requestMap.get("Content");
-				if (content.indexOf("新闻@") > 0) {
+				if (content.indexOf("新闻@") >= 0) {
 					// 图文信息
+
 					respMessage = ImageContentMessageUtil
 							.getServerResponImageText(fromUserName, toUserName,
 									content);
@@ -204,6 +205,10 @@ public class WxAuthService {
 					} else {
 						respContent = wxKeywordService
 								.getWxKeywordByKey(eventKey);
+						if (StringUtils.isEmpty(respContent)) {
+							respContent = ContentMessageUtil
+									.getServerResponText(eventKey);
+						}
 						respMessage = doTextMessage(fromUserName, toUserName,
 								respContent);
 					}
