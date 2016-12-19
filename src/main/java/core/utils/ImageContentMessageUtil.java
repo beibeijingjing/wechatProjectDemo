@@ -24,6 +24,8 @@ public class ImageContentMessageUtil {
 	private static final Logger log = Logger
 			.getLogger(ImageContentMessageUtil.class);
 	private static final String RESPON_EXCEPTION_MESSAGE = "小主请更换关键字试试";
+	private static final Integer WX_NEWS_NUM = 5;
+	private static final Integer WX_INTEREST_NEWS_NUM = 5;
 
 	public static String getServerResponImageText(String fromUserName,
 			String toUserName, String content) {
@@ -36,6 +38,9 @@ public class ImageContentMessageUtil {
 						if ("新闻".equals(contentArr[0])) {
 							result = getWxNewsHot(fromUserName, toUserName,
 									contentArr[1]);
+						}
+						if ("interest_news".equals(contentArr[0])) {
+							result = getInterestNews(fromUserName, toUserName);
 						}
 
 					} catch (JSONException e) {
@@ -59,11 +64,25 @@ public class ImageContentMessageUtil {
 		if ("menu".equals(keyEncode)) {
 			keyEncode = "";
 		}
-		String httpArg = "num=5&rand=1&word=" + keyEncode;
+		String httpArg = "num=" + WX_NEWS_NUM + "&rand=1&word=" + keyEncode;
 		String jsonResult = BaiduApiRequest.request(
 				ResourceUtils.getResource("api_weixin_news_url"), httpArg);
 
 		log.info("-------------查询新闻：" + key + "结果--------------");
+		log.info(OpenApiJsonUtil.getWxNewsHot(fromUserName, toUserName,
+				jsonResult));
+
+		return OpenApiJsonUtil.getWxNewsHot(fromUserName, toUserName,
+				jsonResult);
+	}
+
+	private static String getInterestNews(String fromUserName, String toUserName)
+			throws JSONException {
+
+		String httpArg = "num=" + WX_INTEREST_NEWS_NUM;
+		String jsonResult = BaiduApiRequest.request(
+				ResourceUtils.getResource("api_interest_news_url"), httpArg);
+		log.info("------------查询趣闻消息------------");
 		log.info(OpenApiJsonUtil.getWxNewsHot(fromUserName, toUserName,
 				jsonResult));
 

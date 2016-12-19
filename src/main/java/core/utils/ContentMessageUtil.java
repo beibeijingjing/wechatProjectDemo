@@ -52,8 +52,13 @@ public class ContentMessageUtil {
 				}
 			} else {
 				// 调用机器人
+				try {
+					getTulingRobotInfo(content);
+				} catch (JSONException e) {
+					result = RESPON_EXCEPTION_MESSAGE;
+					log.error("第三方接口报错 ：" + e.getMessage());
+				}
 
-				// 调历史上的今天
 			}
 		}
 		return result;
@@ -130,7 +135,27 @@ public class ContentMessageUtil {
 		return OpenApiJsonUtil.getHistoryOfToday(jsonResult);
 	}
 
+	private static String getTulingRobotInfo(String key) throws JSONException {
+		String keyEncode = "";
+		try {
+			keyEncode = URLEncoder.encode(key, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
+		String httpArg = "key="
+				+ ResourceUtils.getResource("tuling_robot_apikey") + "&info="
+				+ keyEncode;
+		String jsonResult = BaiduApiRequest.request(
+				ResourceUtils.getResource("api_tuling_robot_url"), httpArg);
+
+		log.info("-------------查询机器人：" + key + "  结果："
+				+ OpenApiJsonUtil.getTulingRobotInfo(jsonResult)
+				+ "--------------------");
+		return OpenApiJsonUtil.getTulingRobotInfo(jsonResult);
+	}
+
 	public static void main(String args[]) throws JSONException {
-		System.out.println(getServerResponText("解梦@神仙"));
+		System.out.println(getServerResponText(""));
 	}
 }
