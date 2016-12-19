@@ -42,7 +42,7 @@
 				<li class="nav-item dl-selected"><div
 						class="nav-item-inner nav-home">系统管理</div></li>
 				<li class="nav-item dl-selected"><div
-						class="nav-item-inner nav-order">业务管理</div></li>
+						class="nav-item-inner nav-order">公众号管理</div></li>
 
 			</ul>
 		</div>
@@ -71,12 +71,18 @@
 		        	}]
 	            }
 	            ,{id:'7',homePage : '9',menu:
-	            	[{text:'公众号管理',items:
+	            	[{text:'基础管理',items:
 	            		[
 	            		 {id:'9',text:'微信菜单管理',href:'<%=path%>/pc/toGetWxMenuList.do'},
 	            		 {id:'10',text:'用户管理',href:'<%=path%>/pc/toGetWxUserList.do'},
 	            		 {id:'10',text:'标签管理',href:'<%=path%>/pc/toGetWxUserLabelList.do'},
 	            		 {id:'10',text:'关键字管理',href:'<%=path%>/pc/toGetWxKeywordList.do'}
+	            		]
+	                },
+	                {text:'图文管理',items:
+	            		[
+	            		 {id:'1',text:'单图文管理',href:'<%=path%>/pc/toGetImgTextOneList.do'},
+	            		 {id:'1',text:'多图文管理',href:'<%=path%>/pc/toGetImgTextMoreList.do'}
 	            		]
 	                }]
 	            }

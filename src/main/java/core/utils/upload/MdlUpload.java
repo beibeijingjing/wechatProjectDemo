@@ -18,6 +18,7 @@ public class MdlUpload {
 	private String type;
 	private String media_id;
 	private String created_at;
+	private String url;
 
 	public String getType() {
 		return type;
@@ -41,6 +42,14 @@ public class MdlUpload {
 
 	public void setCreated_at(String createdAt) {
 		created_at = createdAt;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public MdlUpload() {

@@ -13,6 +13,8 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import core.utils.ResourceUtils;
+
 /**
  * @ClassName: UploadFile
  * @Description: TODO
@@ -20,8 +22,6 @@ import org.json.JSONObject;
  * @date: 2016年12月16日 下午5:23:36
  */
 public class UploadFile {
-	private static final String upload_url = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
-
 	/**
 	 * 上传文件
 	 * 
@@ -33,8 +33,15 @@ public class UploadFile {
 	public static Result<MdlUpload> Upload(String accessToken, String type,
 			File file) {
 		Result<MdlUpload> result = new Result<MdlUpload>();
-		String url = upload_url.replace("ACCESS_TOKEN", accessToken).replace(
-				"TYPE", type);
+		String url = "";
+		if ("content_image".equals(type)) {
+			// 图文内容图片上传地址
+			url = ResourceUtils.getResource("wx_media_upload_content_img_url")
+					+ "?access_token=" + accessToken;
+		} else {
+			url = ResourceUtils.getResource("wx_media_upload_other_url")
+					+ "?access_token=" + accessToken + "&type=" + type;
+		}
 		JSONObject jsonObject;
 		try {
 			HttpPostUtil post = new HttpPostUtil(url);
