@@ -36,10 +36,10 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 	
 	config.image_previewText=' ';
-    config.filebrowserImageUploadUrl="127.0.0.1:8080/ssm/pc/common/ckeditorUploadImage.do";
+    config.filebrowserImageUploadUrl="http://127.0.0.1:8080/ssm/pc/common/ckeditorUploadImage.do";
     
     config.extraPlugins = 'video';
 	
 	config.width = "800"; //文本域宽度
-    config.height = "360";//文本域高度
+    config.height = "220";//文本域高度
 };

@@ -34,10 +34,12 @@ public class UploadFile {
 			File file) {
 		Result<MdlUpload> result = new Result<MdlUpload>();
 		String url = "";
+		Integer flag = 0;
 		if ("content_image".equals(type)) {
 			// 图文内容图片上传地址
 			url = ResourceUtils.getResource("wx_media_upload_content_img_url")
 					+ "?access_token=" + accessToken;
+			flag = 1;
 		} else {
 			url = ResourceUtils.getResource("wx_media_upload_other_url")
 					+ "?access_token=" + accessToken + "&type=" + type;
@@ -48,11 +50,12 @@ public class UploadFile {
 			post.addParameter("media", file);
 			String jsonStr = post.send();
 			jsonObject = new JSONObject(jsonStr);
-			if (StringUtils.isNotEmpty(jsonObject.getString("media_id"))) {
+			if (StringUtils.isNotEmpty(jsonObject.getString("url"))) {
 				MdlUpload upload = new MdlUpload();
-				upload.setMedia_id(jsonObject.getString("media_id"));
-				upload.setType(jsonObject.getString("type"));
-				upload.setCreated_at(jsonObject.getString("created_at"));
+				upload.setUrl(jsonObject.getString("url"));
+				if (flag == 0) {
+					upload.setMedia_id(jsonObject.getString("media_id"));
+				}
 				result.setObj(upload);
 				result.setErrmsg("success");
 				result.setErrcode("0");
