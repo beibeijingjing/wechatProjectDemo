@@ -29,7 +29,7 @@ jQuery.extend({
 
             return io			
     },
-    createUploadForm: function(id, fileElementId)
+    createUploadForm: function(id, fileElementId,data)
 	{
 		//create form	
 		var formId = 'jUploadForm' + id;
@@ -41,6 +41,14 @@ jQuery.extend({
 		$(oldElement).attr('id', fileId);
 		$(oldElement).before(newElement);
 		$(oldElement).appendTo(form);
+		
+		//新增参数
+	  if (data) {
+	        for (var i in data) {
+	            $('<input type="hidden" name="' + i + '" value="' + data[i] + '" />').appendTo(form);
+	        }
+	    }
+		  
 		//set attributes
 		$(form).css('position', 'absolute');
 		$(form).css('top', '-1200px');
@@ -49,12 +57,28 @@ jQuery.extend({
 		return form;
     },
 
+    // handleError 方法在jquery1.4.2之后移除了，此处重写改方法
+    handleError: function( s, xhr, status, e ) {
+        // If a local callback was specified, fire it
+        if ( s.error ) {
+            s.error.call( s.context || s, xhr, status, e );
+        }
+     
+        // Fire the global callback
+        if ( s.global ) {
+            (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
+        }
+    },
+    
     ajaxFileUpload: function(s) {
         // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout		
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
         var id = new Date().getTime()   ;
-		    
-		var form = jQuery.createUploadForm(id, s.fileElementId);
+        
+        // 修改为调用添加参数的方法
+        // var form = jQuery.createUploadForm(id, s.fileElementId);
+        var form = jQuery.createUploadForm(id, s.fileElementId, s.data);   
+		//var form = jQuery.createUploadForm(id, s.fileElementId);
 		// alert(form);
 		var io = jQuery.createUploadIframe(id, s.secureuri);
 		var frameId = 'jUploadFrame' + id;
@@ -100,7 +124,7 @@ jQuery.extend({
                     if ( status != "error" )
 					{
                         // process the data (runs the xml through httpData regardless of callback)
-						xml.responseText = xml.responseText.replace("<pre>","").replace("</pre>","");
+						//xml.responseText = xml.responseText.replace("<pre>","").replace("</pre>","");
                         var data = jQuery.uploadHttpData( xml, s.dataType );    
                         // If a local callback was specified, fire it and pass it the data
                         if ( s.success )
@@ -191,16 +215,27 @@ jQuery.extend({
     uploadHttpData: function( r, type ) {
         var data = !type;
         data = type == "xml" || data ? r.responseXML : r.responseText;
-        // If the type is "script", eval it in global context
         if ( type == "script" )
             jQuery.globalEval( data );
-        // Get the JavaScript object, if JSON is used.
-        if ( type == "json" )
-            eval( "data = " + data );
-        // evaluate scripts within html
+       if ( type == "json" ){
+    	   ////////////以下为新增代码///////////////  
+           data = r.responseText;  
+           var start = data.indexOf(">");  
+           if(start != -1) {  
+             var end = data.indexOf("<", start + 1);  
+             if(end != -1) { 
+            	 //alert(start+"  "+end)
+               data = data.substring(start + 1, end);  
+              }  
+           }  
+            ///////////以上为新增代码///////////////  
+           eval("data = ' "+data+" ' ");
+           //eval( "data = " + data );
+       }
+       
         if ( type == "html" )
             jQuery("<div>").html(data).evalScripts();
-			//alert($('param', data).each(function(){alert($(this).attr('value'));}));
+       // alert("原生js:"+data)
         return data;
     }
 })

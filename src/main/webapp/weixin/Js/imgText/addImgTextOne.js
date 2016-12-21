@@ -8,21 +8,55 @@ function showTitle(){
 }
 
 function backToList(){
-       Base.goPage(baseUrl + "/weixinMgrPlatform/imageTextKeyword/imageTextKeywordList.html");
+	window.location.href=basePath + "/pc/toGetImgTextOneList.do";
 }
 
 
 function uploadImg(){	
 
 	uploadFiles("imgFile",function(data){
+		
 		$("input[name=imageUrl]").val("");
-		img_id=data.id;
+		img_id=data.mediaId;
 		$(".left_top_img_style").css('display','none');
-		img_path=baseUrl + '/showerAction.action?id=' +data.id+ '&skip=true';
+		//img_path=data.url;
+		img_path=basePath+"/weixin/Images/4.png"
 		$('#coverImg').attr('src',img_path );
 		$("#imageUrl").val(img_path);
 		showImg();	
-		});
+	});
+}
+function uploadFiles(uploadName, callback){
+	var inputFile = $("#" + uploadName).val();
+    if (inputFile == "") {
+    	alert("请选择上传图片");
+        return;
+    }
+	
+    $.ajaxFileUpload({
+        url: basePath + '/pc/common/uploadWxServer.do?fileType=0',
+        secureuri: false,
+        fileElementId: uploadName,
+        dataType: 'json',
+        success: function(data, status){
+            if (data.message == "File suffix is not allowed.") {
+                //$("#loadDiv").remove();
+                alert("文件格式不正确");
+                return;
+            }
+            if (data.message == "File size is too large.") {
+                alert("文件太大");
+                return;
+            }
+            var attInfo = jQuery.parseJSON(data);
+			if($.isFunction(callback)){
+				callback(attInfo);
+			}
+        },
+        error: function(data, status, e){
+        	alert(e)
+        }
+    })
 }
 
 function showImg(){
@@ -33,13 +67,13 @@ function showImg(){
 	else{
 		$("p").remove(".pclass");
 	}
-	
 	$("#haveImg").val("1");
 	var newImg ='<p class="pclass"><img class="imgClass" src="';
 	newImg+=$("#imageUrl").val();
 	newImg+='"/><a onclick="deleteImg()" class="deleteImg">删除</a></p>';
 	$("#imgBox").append(newImg);
 }
+
 
 function deleteImg(){
 	img_id=null;
@@ -54,7 +88,7 @@ function deleteImg(){
 
 var imgTextOne = {	
 	init:function(){
-			$("#materialUrl").attr("checked","checked");
+			//$("#materialUrl").attr("checked","checked");
 			$("#saveBtn").bind("mouseover ",function(){
 				$(this).removeClass("btn2Font_02").addClass("btn2Font_03");
 			}).bind("mouseout ",function(){
@@ -68,14 +102,14 @@ var imgTextOne = {
             imgTextOne.defaultShow();
 	},
 	defaultShow :function(){
-		var selectObj = "";
-		$("input[name = 'materialType']").each(function(){
+		var selectObj =$("input[name = 'materialType']:checked").val();
+		/*$("input[name = 'materialType']").each(function(){
 			  var _this = this;
 			  var sel = $(_this).attr("checked");
 			  if(sel == true){
 			  	selectObj = $(_this).val();
 			  }
-		});
+		});*/
 		if(selectObj !=""){
 			  if("0001" == selectObj){
 					$("#link_url_wx").css('display','block'); 
@@ -86,14 +120,15 @@ var imgTextOne = {
 			  }
 		}
 	},
+	
 	submit:function(){		
 		if ($("input:radio:checked").val() == "0002") {
 			$("input[name=materialUrl]").val("");
 		}
 		else {
-			ue.setContent("");
+			$("input[name=returnContent]").val("");
 		}
-		var obj={
+		/*var obj={
 			imgId:img_id,
 			imgUrl:img_path,
 			keywordId:KeywordId,
@@ -103,68 +138,70 @@ var imgTextOne = {
 			materialType:$("input:radio:checked").val(),
 			materialContent:ue.getContent(),
 			materialUrl:$("input[name=materialUrl]").val(),
-		}
-		if (op == 'new') {
-			doManager("imgTxtReplyManager", "addImgText", $.toJSON(obj), function(_data){
-				//Base.alert("新建成功!");
-				Base.goPage(baseUrl + "/weixinMgrPlatform/imageTextKeyword/imageTextKeywordList.html");
-			});
-		}
-		else 
-			if (op == 'edit') {
-				doManager("imgTxtReplyManager", "updateImgText", $.toJSON(obj), function(_data){
-					//Base.alert("编辑成功!");
-					Base.goPage(baseUrl + "/weixinMgrPlatform/imageTextKeyword/imageTextKeywordList.html");
-				});
-			}
+		}*/
+		//提交页面信息
+		submitInfo(0);
 	}
 }
 
-
-function uploadFiles(uploadName, callback){
-	var inputFile = $("#" + uploadName).val();
-    if (inputFile == "") {
-        $$.showMessage('${sup.supManager.submit.warning}', '${sup.supUpload.choiceFile}');
-        return;
-    }
-	
-    $.ajaxFileUpload({
-        url: baseUrl + '/uploaderAction.action?businessType=wcmImage',
-        secureuri: false,
-        fileElementId: uploadName,
-        dataType: 'json',
-        success: function(data, status){
-            if (data.message == "File suffix is not allowed.") {
-                $("#loadDiv").remove();
-				$$.showMessage('${query.ui.prompt}','${sup.supUpload.uploadInfoOne}');
-                return;
-            }
-            if (data.message == "File size is too large.") {
-                $("#loadDiv").remove();
-                $$.showMessage('${query.ui.prompt}', '${sup.supUpload.uploadInfoTwo}');
-                return;
-            }
-            var attInfo = $.fromJSON(data.data);
-			if($.isFunction(callback)){
-				callback(attInfo);
-			}
-        },
-        error: function(data, status, e){
-            $("#loadDiv").remove();
-            $$.showMessage('${query.ui.prompt}', e);
-        }
-    })
+function ajax_encode(str)
+{
+    str = str.replace(/%/g,"{@bai@}");
+    str = str.replace(/ /g,"{@kong@}");
+    str = str.replace(/</g,"{@zuojian@}");
+    str = str.replace(/>/g,"{@youjian@}");
+    str = str.replace(/&/g,"{@and@}");
+    str = str.replace(/\"/g,"{@shuang@}");
+    str = str.replace(/\'/g,"{@dan@}");
+    str = str.replace(/\t/g,"{@tab@}");
+    str = str.replace(/\+/g,"{@jia@}");
+    return str;
 }
+
+function submitInfo(operateType){
+	var funStr="";
+	if(operateType==0){
+		funStr=addImgTextOne;
+	}else{
+		funStr=updateImgTextOne;
+	}
+	$.ajax({
+		type : "POST",
+		url : basePath + "/pc/"+funStr+".do",
+		data : {
+			"id" : id,
+			"title" : $("input[name=materialTitle]").val(),
+			"thumb_media_id":img_id,
+			"thumb_media_url":img_path,
+			"author":"",
+			"digest":$("#abstractContent").val(),
+			"content":ajax_encode($("input[name=returnContent]").val()),
+			"content_source_url":$("input[name=materialUrl]").val()
+		},
+		async : false,
+		dataType : "json",
+		success : function(result) {
+			if(result.rtnCode == 0){
+				alert(result.rtnMsg);
+			}else{
+				alert(result.rtnMsg);
+			}
+			window.location.href=basePath + "/pc/toGetImgTextOneList.do";
+		}
+	});
+}
+
+
 
 
 $(function(){
 	img_id=null;
 	img_path=null;
 	$("#coverImg").css('display','none');	
-	op=getUrlParamByKey('operator');
-	KeywordId=getUrlParamByKey('id');
+	/*op=getUrlParamByKey('operator');
+	KeywordId=getUrlParamByKey('id');*/
 	
-	if(op=='edit'){
+	/*if(op=='edit'){
 		imgTextOne.init();
 		doManager("imgTxtReplyManager","getInfoById",KeywordId,function(_value){
 		var _result =  $.fromJSON(_value.data);
@@ -212,13 +249,13 @@ $(function(){
 		});
 	}
 	else if(op=='new')
-	{
+	{*/
 		$("#link_url_wx").css('display','block'); 
 		$("#imgText_one_wx").css('display','none');
 		$("input[type='radio']").eq(0).attr("checked", true);
 		$("input[name=haveImg]").val("");
 		imgTextOne.init();
-	}
+	//}
 })
 
 

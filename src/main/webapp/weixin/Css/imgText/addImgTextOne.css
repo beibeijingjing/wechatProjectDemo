@@ -40,20 +40,20 @@ body{
 	
 .left_top_bg{
 	height:15px;
-	background-image:url(../../../images/left_top.png);
+	background-image:url(../../Images/left_top.png);
 	background-repeat:no-repeat;
 }
 
 .left_middle_bg{
 	margin-top:0x;
-	background-image:url(../../../images/left_middle.png);
+	background-image:url(../../Images/left_middle.png);
 	background-repeat:repeat-y;
 }
 
 .left_bottom_bg{
 	margin-top:0x;
 	height:20px;
-	background-image:url(../../../images/left_bottom.png);
+	background-image:url(../../Images/left_bottom.png);
 	background-repeat:no-repeat;
 	margin-bottom:15px;
 }
@@ -65,7 +65,7 @@ body{
 .right_left_top{
 	width:85px;
 	height:15px;
-	background-image:url(../../../images/right_left_top.png);
+	background-image:url(../../Images/right_left_top.png);
 	background-repeat:no-repeat;
 	clear:both;
 	margin-bottom:0px;
@@ -74,7 +74,7 @@ body{
 .right_top_middle{
 	margin-bottom:0px;
 	height:15px;
-	background-image:url(../../../images/right_top_middle.png);
+	background-image:url(../../Images/right_top_middle.png);
 	background-repeat:repeat-x;
 	clear:both;
 }
@@ -83,27 +83,27 @@ body{
 	margin-bottom:0px;
 	width:180px;
 	height:15px;
-	background-image:url(../../../images/right_right_top.png);
+	background-image:url(../../Images/right_right_top.png);
 	background-repeat:no-repeat;
 	clear:both;
 }
 
 .right_middle_left{
 	width:20px;
-	background-image:url(../../../images/right_middle_left.png);
+	background-image:url(../../Images/right_middle_left.png);
 	background-repeat:repeat-y;
 }
 
 .right_middle_right{
 	width:20px;
-	background-image:url(../../../images/right_middle_right.png);
+	background-image:url(../../Images/right_middle_right.png);
 	background-repeat:repeat-y;
 }
 
 .right_bottom_left{
 	width:85px;
 	height:15px;
-	background-image:url(../../../images/right_bottom_left.png);
+	background-image:url(../../Images/right_bottom_left.png);
 	background-repeat:no-repeat;
 	clear:both;
 	margin-bottom:0px;
@@ -111,7 +111,7 @@ body{
 
 .right_bottom_middle{
 	height:15px;
-	background-image:url(../../../images/right_bottom_middle.png);
+	background-image:url(../../Images/right_bottom_middle.png);
 	background-repeat:repeat-x;
 	clear:both;
 }
@@ -119,7 +119,7 @@ body{
 .right_bottom_right{
 	width:180px;
 	height:15px;
-	background-image:url(../../../images/right_bottom_right.png);
+	background-image:url(../../Images/right_bottom_right.png);
 	background-repeat:no-repeat;
 	clear:both;
 }
@@ -145,7 +145,7 @@ body{
    	 margin-top:0px;
      padding-left:20px;
      padding-right:20px;
-     background-image:url(../../../images/right_middle.png);
+     background-image:url(../../Images/right_middle.png);
 	/* background:#F8F8F8;*/
 }
 
@@ -345,7 +345,7 @@ body{
 {
 position:relative;
 background-color: white;
-background-image: url(../../images/submit.jpg);
+background-image: url(../../Images/submit.jpg);
 background-repeat: no-repeat;
 background-position: 0 0;
 line-height: 37px;

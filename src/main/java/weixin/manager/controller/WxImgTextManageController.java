@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,8 +75,8 @@ public class WxImgTextManageController extends BaseController {
 	@ResponseBody
 	public Object addImgTextOne(WxImgText imgText) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
-
-		rsMap.put("rtnCode", 0); // 1：成功 0：失败
+		wxImgTextService.addSynImgTextOne(imgText);
+		rsMap.put("rtnCode", 0);
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}
@@ -84,8 +85,25 @@ public class WxImgTextManageController extends BaseController {
 	@ResponseBody
 	public Object updateImgTextOne(WxImgText imgText) throws WxBaseException {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
+		wxImgTextService.updateSynImgTextOne(imgText);
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
 
-		rsMap.put("rtnCode", 0); // 1：成功 0：失败
+	@RequestMapping(value = "/deleteImgText.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteImgText(String mediaId) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		if (StringUtils.isNotEmpty(mediaId)) {
+			String articleIdArr[] = mediaId.split("@");
+			if (articleIdArr != null && articleIdArr.length > 0) {
+				wxImgTextService.deleteSynImgText(articleIdArr[0]);
+			}
+
+		}
+
+		rsMap.put("rtnCode", 0);
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;
 	}

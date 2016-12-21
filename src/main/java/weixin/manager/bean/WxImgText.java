@@ -21,6 +21,7 @@ public class WxImgText extends BaseBean implements Serializable {
 	private Integer show_cover_pic;
 	private String content;
 	private String content_source_url;
+	private String article_id;
 
 	public String getParent_id() {
 		return parent_id;
@@ -100,6 +101,14 @@ public class WxImgText extends BaseBean implements Serializable {
 
 	public void setContent_source_url(String content_source_url) {
 		this.content_source_url = content_source_url;
+	}
+
+	public String getArticle_id() {
+		return article_id;
+	}
+
+	public void setArticle_id(String article_id) {
+		this.article_id = article_id;
 	}
 
 }

@@ -40,6 +40,6 @@ CKEDITOR.editorConfig = function( config ) {
     
     config.extraPlugins = 'video';
 	
-	config.width = "800"; //文本域宽度
+	config.width = "1130"; //文本域宽度
     config.height = "220";//文本域高度
 };

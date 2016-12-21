@@ -15,7 +15,7 @@
 	</resultMap>
 	
 	<sql id="base_column_list">
-		id,type,title,thumb_media_id,thumb_media_url,author,show_cover_pic,content,content_source_url,del_flag
+		id,type,title,article_id,thumb_media_id,thumb_media_url,author,digest,show_cover_pic,content,content_source_url,del_flag
 	</sql>
 	
 	 <select id="selectByPrimaryKey" resultMap="baseResultMap"
@@ -28,7 +28,7 @@
 	
  	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from wx_img_text
-		where id = #{id,jdbcType=VARCHAR}
+		where article_id = #{id,jdbcType=VARCHAR}
 	</delete>
 	
 	
@@ -45,6 +45,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="article_id != null">
+				article_id,
 			</if>
 			<if test="parent_id != null">
 				parent_id,
@@ -87,6 +90,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="article_id != null">
+				#{article_id,jdbcType=VARCHAR},
 			</if>
 			<if test="parent_id != null">
 				#{parent_id,jdbcType=VARCHAR},
@@ -162,6 +168,9 @@
 			
 			<if test="parent_id != null">
 				parent_id=#{parent_id,jdbcType=VARCHAR},
+			</if>
+			<if test="article_id != null">
+				article_id=#{article_id,jdbcType=VARCHAR},
 			</if>
 			<if test="type != null">
 				type=#{type,jdbcType=VARCHAR},

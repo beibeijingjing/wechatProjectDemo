@@ -53,9 +53,17 @@
                     title: '序号',
                     hidden:true,
                     visible:false
+                },{
+                    field: 'article_id',
+                    title: '',
+                    hidden:true,
+                    visible:false
                 }, {
                     field: 'title',
                     title: '标题'
+                }, {
+                    field: 'digest',
+                    title: '摘要'
                 },{
         			field : 'opt',
         			title : '操作',
@@ -69,11 +77,11 @@
     
     
     function toUpdate(id) {
-    	window.location.href=basePath + "/pc/toGetAddImgTextOne.do?id="+id;
+    	window.location.href=basePath + "/pc/toGetUpdateImgTextOne.do?id="+id;
     }
 
     function toAdd() {
-    	window.location.href=basePath + "/pc/toGetUpdateImgTextOne.do";
+    	window.location.href=basePath + "/pc/toGetAddImgTextOne.do";
     }
     
     
@@ -117,7 +125,7 @@
     	var ids="";
     	if($data.length>0){
     		$($data).each(function (index, obj) {
-    			ids+=obj.id+"@";
+    			ids+=obj.article_id+"@";
             });
     	}else if($data.length>1){
     		alert("只能删除一行选中数据");
@@ -130,7 +138,7 @@
     			type : "POST",
     			url : basePath + "/pc/deleteImgText.do",
     			data : {
-    				"ids" : ids,
+    				"mediaId" : ids,
     			},
     			async : false,
     			dataType : "json",
@@ -155,7 +163,7 @@
     function formatOper(value, row, index) {
     	var msg = '';
 		if (row.delFlag == 0) {
-			msg = "禁用";
+			msg = "删除";
 		} else if (row.delFlag == 1) {
 			msg = "启用";
 		}
