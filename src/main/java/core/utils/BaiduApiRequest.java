@@ -11,10 +11,8 @@ package core.utils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.json.JSONException;
 
@@ -64,6 +62,10 @@ public class BaiduApiRequest {
 	}
 
 	public static void main(String args[]) throws JSONException {
+		String httpArg = "key=9c722ee35501414f8804e336b2171142&info=讲个故事";
+		String jsonResult = BaiduApiRequest.request(
+				ResourceUtils.getResource("api_tuling_robot_url"), httpArg);
+		System.out.println(jsonResult);
 
 	}
 }

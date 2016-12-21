@@ -150,4 +150,15 @@ public class OpenApiJsonUtil {
 		return result;
 	}
 
+	public static String getTulingRobotInfo(String jsonStr)
+			throws JSONException {
+
+		JSONObject jsonObj = new JSONObject(jsonStr);
+		StringBuffer result = new StringBuffer();
+		if (jsonObj != null) {
+			result.append(jsonObj.getString("text"));
+		}
+		return result.toString();
+	}
+
 }

@@ -151,6 +151,12 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>3.2.4.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
 		<!-- springMVC end -->
 		<!-- spring4 end -->
 
@@ -215,6 +221,7 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${org.codehaus.jackson-version}</version>
 		</dependency>
+		
 	</dependencies>
 
 
