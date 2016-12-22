@@ -17,17 +17,20 @@ package core.utils;
 public class AjaxDecode {
 
 	public static String ajax_decode(String str, boolean bsql) {
-		str = str.replace("{@bai@}", "%");
-		str = str.replace("{@dan@}", "'");
-		str = str.replace("{@shuang@}", "\"");
-		str = str.replace("{@kong@}", " ");
-		str = str.replace("{@zuojian@}", "<");
-		str = str.replace("{@youjian@}", ">");
-		str = str.replace("{@and@}", "&");
-		str = str.replace("{@tab@}", "\t");
-		str = str.replace("{@jia@}", "+");
-		if (bsql)
-			str = str.replace("'", "''");
+		if (StringUtils.isNotEmpty(str)) {
+			str = str.replace("{@bai@}", "%");
+			str = str.replace("{@dan@}", "'");
+			str = str.replace("{@shuang@}", "\"");
+			str = str.replace("{@kong@}", " ");
+			str = str.replace("{@zuojian@}", "<");
+			str = str.replace("{@youjian@}", ">");
+			str = str.replace("{@and@}", "&");
+			str = str.replace("{@tab@}", "\t");
+			str = str.replace("{@jia@}", "+");
+			if (bsql)
+				str = str.replace("'", "''");
+		}
+
 		return str;
 	}
 

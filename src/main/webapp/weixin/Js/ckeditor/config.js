@@ -36,7 +36,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 	
 	config.image_previewText=' ';
-    config.filebrowserImageUploadUrl="http://127.0.0.1:8080/ssm/pc/common/ckeditorUploadImage.do";
+    config.filebrowserImageUploadUrl="http://localhost:8080/ssm/pc/common/ckeditorUploadImage.do";
     
     config.extraPlugins = 'video';
 	

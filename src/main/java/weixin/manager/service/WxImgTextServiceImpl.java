@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import weixin.manager.bean.WxImgText;
 import weixin.manager.mapper.WxImgTextMapper;
 import weixin.manager.wxentity.ResponBaseEntity;
-import weixin.manager.wxentity.WxTag;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,7 +22,6 @@ import core.service.BaseService;
 import core.utils.AjaxDecode;
 import core.utils.HttpRequest;
 import core.utils.ResourceUtils;
-import core.utils.StringUtil;
 import core.utils.WxResultHandleUtil;
 
 @Repository

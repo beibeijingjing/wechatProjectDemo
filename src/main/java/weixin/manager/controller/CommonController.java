@@ -36,6 +36,12 @@ public class CommonController extends BaseController {
 	private static final Log log = LogFactory.getLog(CommonController.class);
 	private static final String priUrl = "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=";
 
+	// String url =
+	// "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://mmbiz.qpic.cn/mmbiz_png/lTrSibc57n2axQw9I8KlW1qiccJgC0bunROFJia9mp0SS7pSS73mAkrDApqnTqetUpwveGzR4bSke7txhtW2GfaeQ/0";
+	// String titleImg =
+	// "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://mmbiz.qpic.cn/mmbiz_jpg/lTrSibc57n2axQw9I8KlW1qiccJgC0bunRKNEnzxkff19l0S5Niceb1SVk9Z1nERubQMTLsZST02wwsg7QjKo1aOw/0?wx_fmt=jpeg";
+	// String mediaId = "";
+
 	@RequestMapping(value = "/uploadWxServer.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Object upload(@RequestParam MultipartFile file,
@@ -86,13 +92,14 @@ public class CommonController extends BaseController {
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 		rsMap.put("rtnCode", 1);
 		rsMap.put("rtnMsg", "操作成功.");
+
 		rsMap.put("mediaId", uploadRst.getObj().getMedia_id());
 		rsMap.put("url", priUrl + uploadRst.getObj().getUrl());
+
 		/*
-		 * rsMap.put( "url",
-		 * "http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%8A%A8%E7%89%A9&step_word=&hs=0&pn=5&spn=0&di=177136290320&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=2&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=-1&cs=2497863998%2C1219147879&os=3947002739%2C3111971699&simid=3506484257%2C177768363&adpicid=0&ln=1974&fr=&fmq=1482301290493_R&fm=result&ic=0&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2012%2F012%2F97R9L602I98Y.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Frtv_z%26e3Byjfhy_z%26e3Bv54AzdH3FclAzdH3Fnalbaccl1_b_z%26e3Bfip4s&gsm=0&rpstart=0&rpnum=0"
-		 * ); rsMap.put("mediaId", new Date());
+		 * rsMap.put("url", titleImg); rsMap.put("mediaId", new Date());
 		 */
+
 		return rsMap;
 	}
 
@@ -127,6 +134,8 @@ public class CommonController extends BaseController {
 			Result<MdlUpload> uploadRst = UploadFile.Upload(
 					WxConfig.accessToken, "content_image", files);
 
+			String fullContentType = "text/html;charset=UTF-8";
+			response.setContentType(fullContentType);
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("window.parent.CKEDITOR.tools.callFunction("

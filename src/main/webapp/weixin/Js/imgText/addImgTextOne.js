@@ -11,6 +11,22 @@ function backToList(){
 	window.location.href=basePath + "/pc/toGetImgTextOneList.do";
 }
 
+//转义
+function HTMLEncode(html) {
+    var temp = document.createElement("div");
+    (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+    var output = temp.innerHTML;
+    temp = null;
+    return output;
+}
+//反转义
+function HTMLDecode(text) { 
+    var temp = document.createElement("div"); 
+    temp.innerHTML = text; 
+    var output = temp.innerText || temp.textContent; 
+    temp = null; 
+    return output; 
+} 
 
 function uploadImg(){	
 
@@ -19,9 +35,11 @@ function uploadImg(){
 		$("input[name=imageUrl]").val("");
 		img_id=data.mediaId;
 		$(".left_top_img_style").css('display','none');
-		//img_path=data.url;
-		img_path=basePath+"/weixin/Images/4.png"
-		$('#coverImg').attr('src',img_path );
+		img_path=data.url;
+		//img_path=basePath+"/weixin/Images/4.png"
+		alert(img_path)
+		alert(HTMLDecode(img_path))
+		$('#coverImg').attr('src',HTMLDecode(img_path));
 		$("#imageUrl").val(img_path);
 		showImg();	
 	});
@@ -145,37 +163,40 @@ var imgTextOne = {
 }
 
 function ajax_encode(str)
-{
-    str = str.replace(/%/g,"{@bai@}");
-    str = str.replace(/ /g,"{@kong@}");
-    str = str.replace(/</g,"{@zuojian@}");
-    str = str.replace(/>/g,"{@youjian@}");
-    str = str.replace(/&/g,"{@and@}");
-    str = str.replace(/\"/g,"{@shuang@}");
-    str = str.replace(/\'/g,"{@dan@}");
-    str = str.replace(/\t/g,"{@tab@}");
-    str = str.replace(/\+/g,"{@jia@}");
+{	
+	if(str!=null&&str!=''){
+		str = str.replace(/%/g,"{@bai@}");
+	    str = str.replace(/ /g,"{@kong@}");
+	    str = str.replace(/</g,"{@zuojian@}");
+	    str = str.replace(/>/g,"{@youjian@}");
+	    str = str.replace(/&/g,"{@and@}");
+	    str = str.replace(/\"/g,"{@shuang@}");
+	    str = str.replace(/\'/g,"{@dan@}");
+	    str = str.replace(/\t/g,"{@tab@}");
+	    str = str.replace(/\+/g,"{@jia@}");
+	}
+    
     return str;
 }
 
 function submitInfo(operateType){
 	var funStr="";
 	if(operateType==0){
-		funStr=addImgTextOne;
+		funStr="addImgTextOne";
 	}else{
-		funStr=updateImgTextOne;
+		funStr="updateImgTextOne";
 	}
+	var content=CKEDITOR.instances.returnContent.getData();
 	$.ajax({
 		type : "POST",
 		url : basePath + "/pc/"+funStr+".do",
 		data : {
-			"id" : id,
 			"title" : $("input[name=materialTitle]").val(),
 			"thumb_media_id":img_id,
 			"thumb_media_url":img_path,
 			"author":"",
 			"digest":$("#abstractContent").val(),
-			"content":ajax_encode($("input[name=returnContent]").val()),
+			"content":ajax_encode(content),
 			"content_source_url":$("input[name=materialUrl]").val()
 		},
 		async : false,
