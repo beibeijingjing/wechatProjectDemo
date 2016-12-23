@@ -23,7 +23,8 @@ import core.exception.WxBaseException;
 @Controller
 @RequestMapping(value = "/pc")
 public class WxImgTextManageController extends BaseController {
-	private static final String priUrl = "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=";
+	// private static final String priUrl =
+	// "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=";
 
 	@Resource
 	private WxImgTextService wxImgTextService;
@@ -47,14 +48,33 @@ public class WxImgTextManageController extends BaseController {
 			@RequestParam(required = false) String sessionId) {
 		request.setAttribute("sessionId", sessionId);
 		WxImgText imgText = wxImgTextService.selectByPrimaryKey(id);
-
-		/*
-		 * if (imgText != null) { imgText.setThumb_media_url(priUrl +
-		 * imgText.getThumb_media_url()); }
-		 */
-
+		// if (imgText != null) { imgText.setThumb_media_url(priUrl +
+		// imgText.getThumb_media_url()); }
 		request.setAttribute("imgText", imgText);
 		return "weixin/imgText/updateImgTextOne";
+	}
+
+	@RequestMapping(value = "/toGetImgTextMoreList.do")
+	public Object toGetImgTextMoreList(HttpServletRequest request,
+			@RequestParam(required = false) String sessionId) {
+		request.setAttribute("sessionId", sessionId);
+		return "weixin/imgText/imgTextMoreList";
+	}
+
+	@RequestMapping(value = "/toGetAddImgTextMore.do")
+	public Object toGetAddImgTextMore(HttpServletRequest request,
+			@RequestParam(required = false) String sessionId) {
+		request.setAttribute("sessionId", sessionId);
+		return "weixin/imgText/addImgTextMore";
+	}
+
+	@RequestMapping(value = "/toGetUpdateImgTextMore.do")
+	public Object toGetUpdateImgTextMore(HttpServletRequest request, String id,
+			@RequestParam(required = false) String sessionId) {
+		request.setAttribute("sessionId", sessionId);
+		WxImgText imgText = wxImgTextService.selectByPrimaryKey(id);
+		request.setAttribute("imgText", imgText);
+		return "weixin/imgText/updateImgTextMore";
 	}
 
 	@RequestMapping(value = "/getImgTextList.do", method = RequestMethod.GET)

@@ -20,7 +20,7 @@
                 	 return {
                 		 limit: params.limit,
                 		 offset: params.offset,
-                		 type:0,
+                		 type:1,
                 		 status:$('#status').val()
                 		 };
                 },
@@ -62,9 +62,6 @@
                 }, {
                     field: 'title',
                     title: '标题'
-                }, {
-                    field: 'digest',
-                    title: '摘要'
                 },{
         			field : 'opt',
         			title : '操作',
@@ -78,47 +75,13 @@
     
     
     function toUpdate(id) {
-    	window.location.href=basePath + "/pc/toGetUpdateImgTextOne.do?id="+id;
+    	window.location.href=basePath + "/pc/toGetUpdateImgTextMore.do?id="+id;
     }
 
     function toAdd() {
-    	window.location.href=basePath + "/pc/toGetAddImgTextOne.do";
+    	window.location.href=basePath + "/pc/toGetAddImgTextMore.do";
     }
     
-    
-    function toUpdateStatus() {
-    	var $data=$('#cusTable').bootstrapTable('getSelections');
-    	if($data.length!=1){
-    		alert("只能选择一行修改");
-    		return false;
-    	}
-    	//alert(JSON.stringify($data));
-    	var id=$data[0].id;
-    	var flag=$data[0].delFlag;
-    	var status=0;
-    	if(flag==0){
-    		status=1;
-    	}
-    		$.ajax({
-    			type : "POST",
-    			url : basePath + "/pc/updateUserLabel.do",
-    			data : {
-    				"id" : id,
-    				"status" : status
-    			},
-    			async : false,
-    			dataType : "json",
-    			success : function(result) {
-    				$('#myModal').modal('hide');
-    				doSearch();
-    				if(result.rtnCode == 0){
-    					alert(result.rtnMsg);
-    				}else{
-    					alert(result.rtnMsg);
-    				}
-    			}
-    		});
-    }
     
     function toBatchDelete() {
     	var $data=$('#cusTable').bootstrapTable('getSelections');
