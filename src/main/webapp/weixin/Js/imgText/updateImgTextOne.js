@@ -31,12 +31,10 @@ function HTMLDecode(text) {
 function uploadImg(){	
 
 	uploadFiles("imgFile",function(data){
-		
 		$("input[name=imageUrl]").val("");
 		img_id=data.mediaId;
 		$(".left_top_img_style").css('display','none');
 		img_path=data.url;
-		//img_path=basePath+"/weixin/Images/4.png"
 		/*alert(img_path)
 		alert(HTMLDecode(img_path))*/
 		$('#coverImg').attr('src',HTMLDecode(img_path));
@@ -50,7 +48,6 @@ function uploadFiles(uploadName, callback){
     	alert("请选择上传图片");
         return;
     }
-	
     $.ajaxFileUpload({
         url: basePath + '/pc/common/uploadWxServer.do?fileType=0',
         secureuri: false,
@@ -121,13 +118,6 @@ var imgTextOne = {
 	},
 	defaultShow :function(){
 		var selectObj =$("input[name = 'materialType']:checked").val();
-		/*$("input[name = 'materialType']").each(function(){
-			  var _this = this;
-			  var sel = $(_this).attr("checked");
-			  if(sel == true){
-			  	selectObj = $(_this).val();
-			  }
-		});*/
 		if(selectObj !=""){
 			  if("0001" == selectObj){
 					$("#link_url_wx").css('display','block'); 
@@ -146,19 +136,8 @@ var imgTextOne = {
 		else {
 			$("input[name=returnContent]").val("");
 		}
-		/*var obj={
-			imgId:img_id,
-			imgUrl:img_path,
-			keywordId:KeywordId,
-			articleIndex:1,
-			materialTitle:$("input[name=materialTitle]").val(),
-			abstractContent:$("#abstractContent").val(),
-			materialType:$("input:radio:checked").val(),
-			materialContent:ue.getContent(),
-			materialUrl:$("input[name=materialUrl]").val(),
-		}*/
 		//提交页面信息
-		submitInfo(0);
+		submitInfo();
 	}
 }
 
@@ -179,18 +158,14 @@ function ajax_encode(str)
     return str;
 }
 
-function submitInfo(operateType){
-	var funStr="";
-	if(operateType==0){
-		funStr="addImgTextOne";
-	}else{
-		funStr="updateImgTextOne";
-	}
+//提交信息
+function submitInfo(){
 	var content=CKEDITOR.instances.returnContent.getData();
 	$.ajax({
 		type : "POST",
-		url : basePath + "/pc/"+funStr+".do",
+		url : basePath + "/pc/updateImgTextOne.do",
 		data : {
+			"article_id":$('#articelId').val(),
 			"title" : $("input[name=materialTitle]").val(),
 			"thumb_media_id":img_id,
 			"thumb_media_url":img_path,
@@ -211,72 +186,5 @@ function submitInfo(operateType){
 		}
 	});
 }
-
-
-
-
-$(function(){
-	img_id=null;
-	img_path=null;
-	$("#coverImg").css('display','none');	
-	/*op=getUrlParamByKey('operator');
-	KeywordId=getUrlParamByKey('id');*/
-	
-	/*if(op=='edit'){
-		imgTextOne.init();
-		doManager("imgTxtReplyManager","getInfoById",KeywordId,function(_value){
-		var _result =  $.fromJSON(_value.data);
-		if (_result != "" && _result != null) {
-				    img_id = _result.imgId;
-				    var title=$.fromJSON(_value.data).materialTitle;
-				    if(title!=null&&title!=""){
-				    	$("#titleContent").html(" "+title);
-					}
-					$("input[name=materialTitle]").val($.fromJSON(_value.data).materialTitle);
-				    $("#abstractContent").val($.fromJSON(_value.data).abstractContent);
-					if ($.fromJSON(_value.data).materialType == '0001') {//url类型
-						$("input[type='radio']").eq(0).attr("checked", true);
-						$("#link_url_wx").css('display', 'block');
-						$("#imgText_one_wx").css('display', 'none');
-						$("input[name=materialUrl]").val($.fromJSON(_value.data).materialUrl);
-					}
-					else {//文本类型
-						$("#link_url_wx").css('display', 'none');
-						$("#imgText_one_wx").css('display', 'block');
-						$("input[type='radio']").eq(1).attr("checked", true);
-						ue.setContent($.fromJSON(_value.data).materialContent);
-					}
-				
-					if (img_id != null) {//图片id不为空则显示图片
-					 	$("input[name=haveImg]").val("1");
-						$("#coverImg").css('display', 'block');
-						$(".left_top_img_style").css('display', 'none');
-						$('#coverImg').attr('src', baseUrl + '/showerAction.action?id=' + img_id + '&skip=true');
-						img_path = $("#coverImg").attr("src");
-					
-						var newImg = "<p class='pclass'><img class='imgClass' src='";
-						newImg += img_path;
-						newImg += "'/><a onclick='deleteImg()' class='deleteImg'>删除</a></p>";
-						$("#imgBox").append(newImg);
-					 } 
-			}
-			else{
-				img_id=null;
-				$("input[type='radio']").eq(0).attr("checked", true);
-				$("#link_url_wx").css('display', 'block');
-				$("#imgText_one_wx").css('display', 'none');
-				op="new";
-			}
-		});
-	}
-	else if(op=='new')
-	{*/
-		$("#link_url_wx").css('display','block'); 
-		$("#imgText_one_wx").css('display','none');
-		$("input[type='radio']").eq(0).attr("checked", true);
-		$("input[name=haveImg]").val("");
-		imgTextOne.init();
-	//}
-})
 
 

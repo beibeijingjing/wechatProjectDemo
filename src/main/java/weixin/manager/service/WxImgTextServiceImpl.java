@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,8 @@ import core.utils.WxResultHandleUtil;
 @Repository
 public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 		WxImgTextService {
+	private static final String priUrl = "http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=";
+
 	@Autowired
 	private WxImgTextMapper wxImgTextMapper;
 
@@ -47,7 +51,9 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 			news.put("author", imgText.getAuthor());
 			news.put("digest", imgText.getDigest());
 			news.put("show_cover_pic", "1");
-			news.put("content", AjaxDecode.ajax_decode(imgText.getContent()));
+			String contentStr = AjaxDecode.ajax_decode(imgText.getContent())
+					.replace(priUrl, "");
+			news.put("content", contentStr);
 			news.put("content_source_url", imgText.getContent_source_url());
 			newsList.add(news);
 			data.put("articles", newsList);
@@ -82,17 +88,17 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 		if (imgText != null) {
 			// 同步微信服务器
 			Map<String, Object> data = new HashMap<String, Object>();
-			List<Map<String, String>> newsList = new ArrayList<Map<String, String>>();
 			Map<String, String> news = new HashMap<String, String>();
 			news.put("title", imgText.getTitle());
 			news.put("thumb_media_id", imgText.getThumb_media_id());
 			news.put("author", imgText.getAuthor());
 			news.put("digest", imgText.getDigest());
 			news.put("show_cover_pic", "1");
-			news.put("content", AjaxDecode.ajax_decode(imgText.getContent()));
+			String contentStr = AjaxDecode.ajax_decode(imgText.getContent())
+					.replace(priUrl, "");
+			news.put("content", contentStr);
 			news.put("content_source_url", imgText.getContent_source_url());
-			newsList.add(news);
-			data.put("articles", newsList);
+			data.put("articles", news);
 			data.put("media_id", imgText.getArticle_id());
 			data.put("index", "0");
 
@@ -134,4 +140,22 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 
 	}
 
+	public static void main(String[] args) {
+		String str = "<p>我的第一条单图文马上就要成功了（修改）</p>"
+				+ "<p>好开心哈哈</p>"
+				+ "<p><img alt=\"\" src=\"http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/lTrSibc57n2ZaGKNdKNYoPF0UOc92rlBiaVC2WRulNdviaUpbibqnTPOeEe0FJ8l5NicnoOVFUa3bGzIyVFd9O7hQ9g/0\" style=\"height:566px; width:513px\" /></p>"
+				+ "<p><img alt=\"\" src=\"http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=http://mmbiz.qpic.cn/mmbiz_png/lTrSibc57n2ZaGKNdKNYoPF0UOc92rlBiaVC2WRulNdviaUpbibqnTPOeEe0FJ8l5NicnoOVFUa3bGzIyVFd9O7hQ9g/0\" style=\"height:566px; width:513px\" /></p>";
+		String strOld = str
+				.replace(
+						"http://read.html5.qq.com/image?src=forum&amp;q=5&amp;r=0&amp;imgflag=7&amp;imageUrl=",
+						"");
+		String strNew = StringEscapeUtils
+				.unescapeHtml4(str)
+				.replace(
+						"http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=",
+						"");
+		System.out.println(strOld);
+		System.out.println(strNew);
+
+	}
 }

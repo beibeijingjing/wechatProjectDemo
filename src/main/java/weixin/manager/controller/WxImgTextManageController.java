@@ -23,6 +23,7 @@ import core.exception.WxBaseException;
 @Controller
 @RequestMapping(value = "/pc")
 public class WxImgTextManageController extends BaseController {
+	private static final String priUrl = "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=";
 
 	@Resource
 	private WxImgTextService wxImgTextService;
@@ -45,7 +46,14 @@ public class WxImgTextManageController extends BaseController {
 	public Object toGetUpdateImgTextOne(HttpServletRequest request, String id,
 			@RequestParam(required = false) String sessionId) {
 		request.setAttribute("sessionId", sessionId);
+		WxImgText imgText = wxImgTextService.selectByPrimaryKey(id);
 
+		/*
+		 * if (imgText != null) { imgText.setThumb_media_url(priUrl +
+		 * imgText.getThumb_media_url()); }
+		 */
+
+		request.setAttribute("imgText", imgText);
 		return "weixin/imgText/updateImgTextOne";
 	}
 
