@@ -32,9 +32,9 @@
 					 	   	    <div id="left_top" class="c_top">
 					 	   	    	<div class="left_top_bg"></div>
 					 	   	    	<div class="left_middle_bg">
-								 	    <div class="left_top_title" ><span id="titleContent" name="titleContent" class="titleCls"></span></div>
 										<div class="left_top_img_style" name="cover" id="cover">封面图片</div>
 										<img id="coverImg" class="imgCover" src=""/>
+										<div class="left_top_title" ><span id="titleContent" name="titleContent" class="titleCls"></span></div>
 					 	   	   		</div>
 					 	   	   		<div class="left_bottom_bg"></div>
 					 	   	    </div> 

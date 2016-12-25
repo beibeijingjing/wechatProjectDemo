@@ -36,7 +36,7 @@ function showTitle(){
  * 返回list页面
  */
 function backToList(){
-       Base.goPage(baseUrl + "/weixinMgrPlatform/imageTextKeyword/imageTextKeywordList.html");
+	window.location.href=basePath + "/pc/toGetImgTextMoreList.do";
 }
 
 var imgTextMore = {
@@ -75,7 +75,7 @@ var imgTextMore = {
 			var newEle = "<div id=\"\" sort=\""+(sort++)+"\" allowDel=true  class=\"sub_img_div\" onmouseenter=\"imgTextMore.addIcon(this);\" onmouseleave=\"imgTextMore.delIcon(this);\">"+
 						   	       	       "<div  class=\"sub_left\"><span id=\"childTitle\" class=\"sub_title\">标题</span></div>"+
 										   "<div  class=\"sub_right\">"+
-										   	   "<img id=\"smallImage\" style=\"width:80px;\" name=\"smallImage\" src=\"../../Images/suoluetu.jpg\">"+
+										   "<img id=\"smallImage\" style=\"width:80px;\" name=\"smallImage\" src='"+basePath+"/weixin/Images/suoluetu.jpg"+"'>"+
 										   "</div>"+
 						   	       "</div>"+	
 									"<div style=\"clear:both;\"></div>";
@@ -108,7 +108,7 @@ var imgTextMore = {
 								clearAll();
 								$(obj).attr("id", "childEle");
 								$(obj).find("#childTitle").html("标题");
-								$(obj).find("#smallImage").attr("src", "../../Images/suoluetu.jpg");
+								$(obj).find("#smallImage").attr("src", basePath+"/weixin/Images/suoluetu.jpg");
 							}
 						});
 					}
@@ -153,10 +153,10 @@ function editResponse(obj,flag){
 		//alert($(th).attr("id"))
 		if(_value.imgId!=null&&_value.imgId!=""){
 			if(_value.articleIndex==1){
-				$(th).find("#coverImage").attr("src",baseUrl + '/showerAction.action?id=' +_value.imgId+ '&skip=true');
+				$(th).find("#coverImage").attr("src","");
 			}
 			else{
-				$(th).find("#smallImage").attr("src",baseUrl + '/showerAction.action?id=' +_value.imgId+ '&skip=true');
+				$(th).find("#smallImage").attr("src","");
 			}
 		}
 		if (_value.materialContent != null) {
@@ -268,7 +268,7 @@ function uploadFiles(uploadName, callback){
         return;
     }
     $.ajaxFileUpload({
-        url: baseUrl + '/uploaderAction.action?businessType=wcmImage',
+        url: "",
         secureuri: false,
         fileElementId: uploadName,
         dataType: 'json',
@@ -303,7 +303,7 @@ function uploadImg(){
 		if(cover){//封面图片显示
 			if(data.id !=null && data.id !=""){
 				imgOrCover(true);
-				$("#coverImage").attr('src', baseUrl + '/showerAction.action?id=' + data.id + '&skip=true');
+				$("#coverImage").attr('src', "");
 				img_id = data.id;
 				img_url=$("#coverImage").attr("src");
 				$("#haveImg").val(img_id);
@@ -312,7 +312,7 @@ function uploadImg(){
 		}
 		else if(!cover){//其余图片显示
 				if (data.id != null && data.id != "") {
-					$(th).find("#smallImage").attr('src',baseUrl + '/showerAction.action?id=' + data.id + '&skip=true');
+					$(th).find("#smallImage").attr('src', "");
 					img_id=data.id;
 					img_url=$(th).find("#smallImage").attr("src");
 					$("#haveImg").val(img_id);
@@ -449,7 +449,7 @@ function showImg(){
 	}
 
 	var newImg ='<p class="pclass"><img class="imgClass" src="';
-	newImg+=baseUrl + '/showerAction.action?id=' + img_id + '&skip=true';
+	newImg+="";
 	newImg+='"/><a onclick="deleteImg()" class="deleteImg">删除</a></p>';
 	$("#imgBox").append(newImg);
 	

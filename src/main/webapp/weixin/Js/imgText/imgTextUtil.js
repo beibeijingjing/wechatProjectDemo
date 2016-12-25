@@ -40,9 +40,9 @@
                 });
 					
                     var msgDiv=$('<div style="position:absolute;line-height:30px;"></div>');
-                   var editImg = $('<img  src="'+ baseUrl +'/common/images/imgEdit .png" width="20" align="absmiddle" height="20">');
+                   var editImg = $('<img  src="'+ basePath +'/weixin/Images/imgEdit .png" width="20" align="absmiddle" height="20">');
 				   editImg.bind("click",editFn);
-				   var delImg = $('<img  src="'+ baseUrl +'/common/images/imgDel.png" width="20" align="absmiddle" height="20" style="margin-left:20px;">');
+				   var delImg = $('<img  src="'+ basePath +'/weixin/Images/imgDel.png" width="20" align="absmiddle" height="20" style="margin-left:20px;">');
 				   delImg.bind("click",delFn);
 				     if(flag =="true"){
                      msgDiv.append(editImg);
