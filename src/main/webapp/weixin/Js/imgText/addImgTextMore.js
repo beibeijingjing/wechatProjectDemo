@@ -54,20 +54,14 @@ var imgTextMore = {
 			imgTextMore.defaultShow();
 	  },
 		defaultShow :function(){
-			var selectObj = "";
-			$("input[name=materialType]").each(function(){
-				  var _this = this;
-				  var sel = $(_this).attr("checked");
-				  if(sel == true){
-				  	selectObj = $(_this).val();
-				  }
-			});
+			var selectObj =$("input[name = 'materialType']:checked").val();
 			if(selectObj !=""){
 				  if("0001" == selectObj){
-					urlOrTxt(true);
-						
+						$("#link_url_wx").css('display','block'); 
+						$("#imgText_one_wx").css('display','none');
 				  }else if("0002" == selectObj){
-					urlOrTxt(false);
+					  	$("#link_url_wx").css('display','none'); 
+						$("#imgText_one_wx").css('display','block');
 				  }
 			}
 		},
@@ -139,44 +133,47 @@ function editResponse(obj,flag){
 	clearAll();
 	cover=flag;
 	clearRightImg();
-	
 	th=obj;
 	underEdit();
 	$("input[name=hasId]").val($(th).attr("id"));
 	getInfoById($(th).attr("id"),function(_value){
 	if(_value.id!=null||_value.id!=""){
-		img_id=_value.imgId;
-		img_url=_value.imgUrl;
-		$("input[name=sort]").val(_value.articleIndex);
-		$("input[name=materialTitle]").val(_value.materialTitle);
-		$("#abstractContent").val(_value.abstractContent);
-		//alert($(th).attr("id"))
-		if(_value.imgId!=null&&_value.imgId!=""){
-			if(_value.articleIndex==1){
-				$(th).find("#coverImage").attr("src","");
-			}
-			else{
-				$(th).find("#smallImage").attr("src","");
-			}
-		}
+		img_id=_value.thumb_media_id;
+		img_url=_value.thumb_media_url;
+		$("input[name=sort]").val(_value.article_order);
+		$("input[name=materialTitle]").val(_value.title);
+		$("#abstractContent").val(_value.digest);
 		if (_value.materialContent != null) {
-			ue.setContent(_value.materialContent);
+			//ue.setContent(_value.materialContent);
 			urlOrTxt(false);
 			$("input[type='radio']").eq(1).attr("checked", true);
-			}
-		else {
-			$("input[name=materialUrl]").val(_value.materialUrl);
+		}else {
+			$("input[name=materialUrl]").val(_value.content_source_url);
 			urlOrTxt(true);
 			$("input[type='radio']").eq(0).attr("checked", true);
 			}
 		if(img_id!=null&&img_id!=""){
 			showImg();
-		    }
-		}
-	else{
-						
-		}
+		 }
+	}
+	
 	});
+}
+
+/**
+ * 不同编辑下初始化环境
+ */
+function clearAll(){
+	img_id="";
+	img_url="";
+	$("#haveImg").val("");
+	$("input[name=materialTitle]").val("");
+	$("input[name=imgFile]").val("");
+	$("input[name=hasId]").val("");
+	$("input[name=materialUrl]").val("");
+	$("input[name=sort]").val("");
+	$("#abstractContent").val("");
+	$("#returnContent").val("");
 }
 
 /**
@@ -186,11 +183,17 @@ function selectUrlOrTxt(){
 	if($("input[type='radio']").eq(0).attr("checked")==true){
 		
 		setRadioVal("materialType","0001");
-		ue.setContent("");
+		$("#materialContent").val("");
 	}else{
 		setRadioVal("materialType","0002");
 		$("#materialUrl").val("");
 	}
+}
+
+function setRadioVal(name,vl){
+	alert(vl)
+	$('input[type=radio][name='+name+'][value='+vl+']').attr("checked");
+	
 }
 	
 /**
@@ -208,9 +211,10 @@ function doSubmit(){
 	else{
 		hasId=true;
 	}
+	
 	if(cover){
 		number=1;
-		}
+	}
 	else{
 			if($(th).attr("id")=="childEle"){
 				number=2;
@@ -222,41 +226,81 @@ function doSubmit(){
 				number=$("input[name=sort]").val();
 			}
 	}
-	var returnObj = {
-		id:hasId?$("input[name=hasId]").val():null,
-		keywordId : getUrlParamByKey("keywordId"),
-		imgId:img_id,
-		imgUrl:img_url,
-		articleIndex:number,
-		materialTitle:$("#materialTitle").val(),
-		abstractContent: $("#abstractContent").val(),
-		materialContent: ue.getContent(),
-		materialUrl:$("#materialUrl").val(),
-		materialType:getRadioVal("materialType")
-	}
-	//alert($.toJSON(returnObj))
-		if (returnObj.id==null||returnObj.id=="") {//如果是新建第一次编辑调用add
-			doManager("imgTxtReplyManager", "addImgText", returnObj, function(_response){
-				if (_response.result) {
-					 var result =$.fromJSON(_response.data);
-				  	 $("input[name=hasId]").val($.toJSON(result.id));
-				  	 $(th).attr("id",$.toJSON(result.id));
-					 th="#"+$.toJSON(result.id);
-					 $("input[name=sort]").val(result.articleIndex);
-					 Base.alert("新建添加成功！")
-				}
-			});
-		}
-		else{//如果是新建第二次编辑调用update
-			doManager("imgTxtReplyManager", "updateImgTxtByImgTxtId", returnObj, function(_response){
-				if (_response.result) {
-					Base.alert("新建编辑成功！")
-				    var result =$.fromJSON(_response.data);
-				    $("input[name=hasId]").val($.toJSON(result.id));
-				}
-			});
-		}
+	var id=hasId?$("input[name=hasId]").val():null;
+	
+	
+	//提交信息
+	submitInfo(id,number);
 }
+
+function submitInfo(id,number){
+	var content=CKEDITOR.instances.returnContent.getData();
+	$.ajax({
+		type : "POST",
+		url : basePath + "/pc/addImgTextMore.do",
+		data : {
+			"id":id,
+			"title" : $("input[name=materialTitle]").val(),
+			"parent_id":$('#parentId').val(),
+			"thumb_media_id":img_id,
+			"thumb_media_url":img_url,
+			"author":"",
+			"digest":$("#abstractContent").val(),
+			"content":ajax_encode(content),
+			"content_source_url":$("input[name=materialUrl]").val(),
+			"article_order":number
+		},
+		async : false,
+		dataType : "json",
+		success : function(result) {
+			if(result.rtnCode == 0){
+				if(cover){
+					//设置parentId
+					$('#parentId').val(result.id);
+					alert("父id:"+parentId)
+				}
+				alert(result.rtnMsg);
+			}else{
+				alert(result.rtnMsg);
+			}
+		}
+	});
+	
+}
+
+function ajax_encode(str)
+{	
+	if(str!=null&&str!=''){
+		str = str.replace(/%/g,"{@bai@}");
+	    str = str.replace(/ /g,"{@kong@}");
+	    str = str.replace(/</g,"{@zuojian@}");
+	    str = str.replace(/>/g,"{@youjian@}");
+	    str = str.replace(/&/g,"{@and@}");
+	    str = str.replace(/\"/g,"{@shuang@}");
+	    str = str.replace(/\'/g,"{@dan@}");
+	    str = str.replace(/\t/g,"{@tab@}");
+	    str = str.replace(/\+/g,"{@jia@}");
+	}
+    
+    return str;
+}
+
+//转义
+function HTMLEncode(html) {
+    var temp = document.createElement("div");
+    (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+    var output = temp.innerHTML;
+    temp = null;
+    return output;
+}
+//反转义
+function HTMLDecode(text) { 
+    var temp = document.createElement("div"); 
+    temp.innerHTML = text; 
+    var output = temp.innerText || temp.textContent; 
+    temp = null; 
+    return output; 
+} 
 
 /**
  * 图片上传
@@ -264,36 +308,36 @@ function doSubmit(){
 function uploadFiles(uploadName, callback){
 	var inputFile = $("#" + uploadName).val();
     if (inputFile == "") {
-        $$.showMessage('${sup.supManager.submit.warning}', '${sup.supUpload.choiceFile}');
+    	alert("请选择上传图片");
         return;
     }
+	
     $.ajaxFileUpload({
-        url: "",
+        url: basePath + '/pc/common/uploadWxServer.do?fileType=0',
         secureuri: false,
         fileElementId: uploadName,
         dataType: 'json',
         success: function(data, status){
             if (data.message == "File suffix is not allowed.") {
-                $("#loadDiv").remove();
-				$$.showMessage('${query.ui.prompt}','${sup.supUpload.uploadInfoOne}');
+                //$("#loadDiv").remove();
+                alert("文件格式不正确");
                 return;
             }
             if (data.message == "File size is too large.") {
-                $("#loadDiv").remove();
-                $$.showMessage('${query.ui.prompt}', '${sup.supUpload.uploadInfoTwo}');
+                alert("文件太大");
                 return;
             }
-            var attInfo = $.fromJSON(data.data);
+            var attInfo = jQuery.parseJSON(data);
 			if($.isFunction(callback)){
 				callback(attInfo);
 			}
         },
         error: function(data, status, e){
-            $("#loadDiv").remove();
-            $$.showMessage('${query.ui.prompt}', e);
+        	alert(e)
         }
     })
 }
+
 
 /**
  * 点击上传响应事件
@@ -301,19 +345,21 @@ function uploadFiles(uploadName, callback){
 function uploadImg(){
 	uploadFiles("imgFile",function(data){
 		if(cover){//封面图片显示
-			if(data.id !=null && data.id !=""){
+			if(data.mediaId !=null && data.mediaId !=""){
 				imgOrCover(true);
-				$("#coverImage").attr('src', "");
-				img_id = data.id;
+				var imgPath=data.url;
+				$("#coverImage").attr('src', HTMLDecode(imgPath));
+				img_id = data.mediaId;
 				img_url=$("#coverImage").attr("src");
 				$("#haveImg").val(img_id);
 				showImg();
-				}
+			}
 		}
 		else if(!cover){//其余图片显示
-				if (data.id != null && data.id != "") {
-					$(th).find("#smallImage").attr('src', "");
-					img_id=data.id;
+				if (data.mediaId != null && data.mediaId != "") {
+					var imgPath=data.url;
+					$(th).find("#smallImage").attr('src', HTMLDecode(imgPath));
+					img_id = data.mediaId;
 					img_url=$(th).find("#smallImage").attr("src");
 					$("#haveImg").val(img_id);
 					showImg();
@@ -323,58 +369,60 @@ function uploadImg(){
 }
 
 /**
- * 通过图文id返回对应图文实体
- */
-function getInfoById(imgTxtId,callback){
-	if(imgTxtId=="topcover"||imgTxtId=="childEle"){
-		imgTxtId="";
+ * 显示右侧小图片
+ */	
+function showImg(){
+	$("#coverImg").css('display','block');	
+	if($("#haveImg").val()!==""){
+		$("p").remove(".pclass");
 	}
-	var obj={
-		id:imgTxtId
-	}
-	doManager("imgTxtReplyManager","getImgTxtByImgTxtId",$.toJSON(obj),function(_value){
-		if (_value.result) {
-			var results = $.fromJSON(_value.data);
-			if ($.isFunction(callback)) {
-				callback(results);
-			}
-		}
-		else {
-			Base.alert('${system.operator.error}');
-		}
-        }, true, {
-            showWaiting: true			
-	});
+
+	var newImg ='<p class="pclass"><img class="imgClass" src="';
+	newImg+=img_url;
+	newImg+='"/><a onclick="deleteImg()" class="deleteImg">删除</a></p>';
+	$("#imgBox").append(newImg);
+	
+	$("#haveImg").val("1");
 }
 
 
 /**
- * 不同编辑下初始化环境
+ * first_title_Img和coverImage切换
+ * flag=true     显示img
+ * flag=false    显示cover
  */
-function clearAll(){
-	//alert($(th).attr("id"))
-	if ($(th).attr("id") == "" || $(th).attr("id") == null||$(th).attr("id") == "topcover"||$(th).attr("id") == "childEle"  ) {
-			if (cover) {
-				$("#titleContent").html("");
-				imgOrCover(false);
-				$("#coverImage").attr('src',"");
-			}
-			else if(!cover){
-				$(th).find("#childTitle").html("标题");
-				$(th).find("#smallImage").attr('src',"../../Images/suoluetu.jpg");
+function imgOrCover(flag){
+	if(flag){
+		$("#first_title_Img").css('display', 'none');
+		$("#coverImage").css('display', 'block');
+	}else{
+		$("#first_title_Img").css('display', 'block');
+		$("#coverImage").css('display', 'none');
+	}
+}
+
+
+/**
+ * 通过图文id返回对应图文实体
+ */
+function getInfoById(imgTxtId,callback){
+	//通过异步获取对应图文信息并回显
+	$.ajax({
+		type : "POST",
+		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
+		async : false,
+		dataType : "json",
+		success : function(result) {
+			alert(JSON.stringify(result.data))
+			if(result.rtnCode == 0){
+				if ($.isFunction(callback)) {
+					callback(result.data);
+				}
 			}
 		}
-	img_id="";
-	img_url="";
-	$("#haveImg").val("");
-	$("input[name=materialTitle]").val("");
-	$("input[name=imgFile]").val("");
-	$("input[name=hasId]").val("");
-	$("input[name=materialUrl]").val("");
-	$("input[name=sort]").val("");
-	$("#abstractContent").val("");
-	ue.setContent("");
+	});
 }
+
 
 /**
  * link_url_wx和imgText_one_wx切换
@@ -394,20 +442,6 @@ function urlOrTxt(flag){
 	}
 }
 
-/**
- * first_title_Img和coverImage切换
- * flag=true     显示img
- * flag=false    显示cover
- */
-function imgOrCover(flag){
-	if(flag){
-		$("#first_title_Img").css('display', 'none');
-		$("#coverImage").css('display', 'block');
-	}else{
-		$("#first_title_Img").css('display', 'block');
-		$("#coverImage").css('display', 'none');
-	}
-}
 
 /**
  * 根据图文实体填写页面
@@ -439,22 +473,6 @@ function createImgTxtInit(){
 	$("input[type='radio']").eq(0).attr("checked", true);
 }
 
-/**
- * 显示右侧小图片
- */	
-function showImg(){
-	$("#coverImg").css('display','block');	
-	if($("#haveImg").val()!==""){
-		$("p").remove(".pclass");
-	}
-
-	var newImg ='<p class="pclass"><img class="imgClass" src="';
-	newImg+="";
-	newImg+='"/><a onclick="deleteImg()" class="deleteImg">删除</a></p>';
-	$("#imgBox").append(newImg);
-	
-	$("#haveImg").val("1");
-}
 
 /**
  * 清除上一个编辑图文选中效果

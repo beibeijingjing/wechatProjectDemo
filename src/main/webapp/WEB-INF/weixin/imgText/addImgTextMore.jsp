@@ -15,7 +15,6 @@
 		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/imgTextUtil.js"></script>
 		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/addImgTextMore.js"></script>
 		<link type="text/css" rel="stylesheet" href="<%=path%>/weixin/Css/imgText/addImgTextMore.css" />
-		
 		<title>多图文回复</title>
 	</head>
 		
@@ -106,7 +105,7 @@
 											<form id="upload_file" method="post" enctype="multipart/form-data" class="input_div_2"> 
 												<div id="imgBox" name="imgBox" class="_imgBox">
 													<p style="height:1px"></p>
-													<input style="width:60px;" type="file" name="imgFile" id="imgFile" onchange="uploadImg();" accept="image/*"/> 
+													<input style="width:60px;" type="file" name="file" id="imgFile" onchange="uploadImg();" accept="image/*"/> 
 												</div>
 											</form>
 										 </div>
@@ -135,7 +134,7 @@
 										 </div>
 										 
 										<div style="margin-top:10px;" id="imgText_one_wx" name="materialContent">
-										     	 <script id="contentBody" type="text/plain"  name="contentBody"></script>
+										     	  <textarea id="returnContent" cols="20" rows="2" class="ckeditor" name="returnContent"></textarea>
 										 </div>
 									 </div>
 					   	      </div>
@@ -172,7 +171,7 @@
 		 
 		 <!--记录当前编辑对象是否存在ID-->
 		 <input type="hidden" id="hasId" name="hasId"/>
-		 
+		 <input type="hidden" id="parentId" name="parentId" value="0"/>
 		 <!--记录右侧缩略图是否已经添加图片-->
 		 <input type="hidden" id="haveImg" />
 	</body>

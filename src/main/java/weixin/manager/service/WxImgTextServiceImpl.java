@@ -140,6 +140,27 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 
 	}
 
+	@Override
+	public String addImgTextMore(WxImgText imgText) {
+		String imgTextId = "";
+		if (imgText != null) {
+			imgText.setType(1);
+			imgText.setContent(AjaxDecode.ajax_decode(imgText.getContent()));
+			wxImgTextMapper.insertSelective(imgText);
+			imgTextId = imgText.getId();
+		}
+		return imgTextId;
+
+	}
+
+	@Override
+	public void updateImgTextMore(WxImgText imgText) {
+		if (imgText != null) {
+			imgText.setContent(AjaxDecode.ajax_decode(imgText.getContent()));
+			wxImgTextMapper.updateByPrimaryKeySelective(imgText);
+		}
+	}
+
 	public static void main(String[] args) {
 		String str = "<p>我的第一条单图文马上就要成功了（修改）</p>"
 				+ "<p>好开心哈哈</p>"
