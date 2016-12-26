@@ -11,11 +11,13 @@
 		<result column="show_cover_pic" property="show_cover_pic" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="content_source_url" property="content_source_url" jdbcType="VARCHAR" />
+		<result column="article_order" property="article_order" jdbcType="INTEGER" />
+		<result column="is_syn" property="is_syn" jdbcType="INTEGER" />
 		<result column="del_flag" property="delFlag" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<sql id="base_column_list">
-		id,type,title,article_id,thumb_media_id,thumb_media_url,author,digest,show_cover_pic,content,content_source_url,del_flag
+		id,type,title,article_id,thumb_media_id,thumb_media_url,author,digest,show_cover_pic,content,content_source_url,article_order,is_syn,del_flag
 	</sql>
 	
 	 <select id="selectByPrimaryKey" resultMap="baseResultMap"
@@ -79,6 +81,12 @@
 			<if test="content_source_url != null">
 				content_source_url,
 			</if>
+			<if test="article_order != null">
+				article_order,
+			</if>
+			<if test="is_syn != null">
+				is_syn,
+			</if>
 				create_time,
 				update_time,
 			<if test="delFlag != null">
@@ -124,7 +132,12 @@
 			<if test="content_source_url != null">
 				#{content_source_url,jdbcType=VARCHAR},
 			</if>
-			
+			<if test="article_order != null">
+				#{article_order,jdbcType=INTEGER},
+			</if>
+			<if test="is_syn != null">
+				#{is_syn,jdbcType=INTEGER},
+			</if>
 				now(),
 				now(),
 			<if test="delFlag != null">
@@ -198,6 +211,12 @@
 			</if>
 			<if test="content_source_url != null">
 				content_source_url=#{content_source_url,jdbcType=VARCHAR},
+			</if>
+			<if test="article_order != null">
+				article_order=#{article_order,jdbcType=INTEGER},
+			</if>
+			<if test="is_syn != null">
+				is_syn=#{is_syn,jdbcType=INTEGER},
 			</if>
 			update_time=now(),
 			<if test="delFlag != null">

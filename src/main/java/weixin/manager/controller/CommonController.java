@@ -36,12 +36,6 @@ public class CommonController extends BaseController {
 	private static final Log log = LogFactory.getLog(CommonController.class);
 	private static final String priUrl = "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=";
 
-	// String url =
-	// "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://mmbiz.qpic.cn/mmbiz_png/lTrSibc57n2axQw9I8KlW1qiccJgC0bunROFJia9mp0SS7pSS73mAkrDApqnTqetUpwveGzR4bSke7txhtW2GfaeQ/0";
-	// String titleImg =
-	// "http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://read.html5.qq.com/image?src=forum&q=5&r=0&imgflag=7&imageUrl=http://mmbiz.qpic.cn/mmbiz_jpg/lTrSibc57n2axQw9I8KlW1qiccJgC0bunRKNEnzxkff19l0S5Niceb1SVk9Z1nERubQMTLsZST02wwsg7QjKo1aOw/0?wx_fmt=jpeg";
-	// String mediaId = "";
-
 	@RequestMapping(value = "/uploadWxServer.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Object upload(@RequestParam MultipartFile file,

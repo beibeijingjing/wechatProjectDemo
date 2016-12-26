@@ -128,11 +128,42 @@ public class WxImgTextManageController extends BaseController {
 			if (articleIdArr != null && articleIdArr.length > 0) {
 				wxImgTextService.deleteSynImgText(articleIdArr[0]);
 			}
-
 		}
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/addImgTextMore.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object addImgTextMore(WxImgText imgText) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		String id = wxImgTextService.addImgTextMore(imgText);
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("id", id);
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/updateImgTextMore.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object updateImgTextMore(WxImgText imgText) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		wxImgTextService.updateImgTextMore(imgText);
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/getImgText.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getImgText(String id) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		WxImgText imgText = wxImgTextService.selectByPrimaryKey(id);
 
 		rsMap.put("rtnCode", 0);
 		rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("data", imgText);
 		return rsMap;
 	}
 

@@ -22,6 +22,8 @@ public class WxImgText extends BaseBean implements Serializable {
 	private String content;
 	private String content_source_url;
 	private String article_id;
+	private Integer article_order;
+	private Integer is_syn;
 
 	public String getParent_id() {
 		return parent_id;
@@ -109,6 +111,22 @@ public class WxImgText extends BaseBean implements Serializable {
 
 	public void setArticle_id(String article_id) {
 		this.article_id = article_id;
+	}
+
+	public Integer getArticle_order() {
+		return article_order;
+	}
+
+	public void setArticle_order(Integer article_order) {
+		this.article_order = article_order;
+	}
+
+	public Integer getIs_syn() {
+		return is_syn;
+	}
+
+	public void setIs_syn(Integer is_syn) {
+		this.is_syn = is_syn;
 	}
 
 }
