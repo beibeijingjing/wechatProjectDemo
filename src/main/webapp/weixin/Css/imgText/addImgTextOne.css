@@ -155,18 +155,17 @@ body{
 }
 
 .left_top_title{
-	padding-left:5px;
+	font-family:"微软雅黑";
+	color:#ffffff;
 	margin-left:15px;
 	margin-right:15px;
+	width:300px;
 	line-height:20px;
-	text-align:left;
-	margin-top:0px;
-	width:295px;
-	margin-bottom:0px;
+	background-color:#808080;
+	z-index:10;	
 	white-space:normal; 
-	word-break:break-all; 
+	word-break:break-all;
 	word-wrap:break-word;
-	width:290px; 
 }
 
 .c_left_top{

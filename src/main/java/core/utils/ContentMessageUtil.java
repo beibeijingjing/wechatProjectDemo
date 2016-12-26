@@ -53,7 +53,7 @@ public class ContentMessageUtil {
 			} else {
 				// 调用机器人
 				try {
-					getTulingRobotInfo(content);
+					result = getTulingRobotInfo(content);
 				} catch (JSONException e) {
 					result = RESPON_EXCEPTION_MESSAGE;
 					log.error("第三方接口报错 ：" + e.getMessage());

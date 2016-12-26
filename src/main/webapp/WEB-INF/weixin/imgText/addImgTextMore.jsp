@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="<%=path%>/weixin/Js/jquery.js"></script>
 		<script src="<%=path%>/weixin/Js/ajaxfileupload.js"></script>
 		<script type="text/javascript" src="<%=path%>/weixin/Js/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="<%=path%>/weixin/Css/imgText/imgTextUtil.js"></script>
+		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/imgTextUtil.js"></script>
 		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/addImgTextMore.js"></script>
 		<link type="text/css" rel="stylesheet" href="<%=path%>/weixin/Css/imgText/addImgTextMore.css" />
 		
@@ -20,6 +20,10 @@
 	</head>
 		
 	<body>
+	<script type="text/javascript">
+  		var basePath='<%=path%>';
+  		var sessionId='<%=sessionId%>';
+ 	</script>
 	     <div id="alert" class="alert" style="display:none">sss</div>
 		 <div id="main_content" class="main_content">
 		 	   <div id="main_title" class="main_title">图文管理： 新建多图文 </div>
