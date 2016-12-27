@@ -1,6 +1,3 @@
-/**
- * author:Tao Tianran
- */
 
 /** 关键词id */
 var keywordId="";
@@ -158,8 +155,7 @@ function editResponse(obj,flag){
 			if(img_id!=null&&img_id!=""){
 				showImg();
 			 }
-	}
-	
+		}
 	});
 }
 
@@ -176,301 +172,9 @@ function clearAll(){
 	$("input[name=materialUrl]").val("");
 	$("input[name=sort]").val("");
 	$("#abstractContent").val("");
-	$("#returnContent").val("");
-}
-
-/**
- * 设置单选值
- */
-function selectUrlOrTxt(){
-	if($("input[type='radio']").eq(0).attr("checked")==true){
-		
-		setRadioVal("materialType","0001");
-		$("#materialContent").val("");
-	}else{
-		setRadioVal("materialType","0002");
-		$("#materialUrl").val("");
-	}
-}
-
-function setRadioVal(name,vl){
-	alert(vl)
-	$('input[type=radio][name='+name+'][value='+vl+']').attr("checked");
-	
-}
-	
-/**
- * 保存当前编辑的图文实体
- */
-function doSubmit(){ 
-	//alert($("#materialTitle").val())
-	var number=0;
-	var hasId=false;
-	selectUrlOrTxt();
-	if($("input[name=hasId]").val()==null && $("input[name=hasId]").val()==""||$("input[name=hasId]").val()=="topcover"||$("input[name=hasId]").val()=="childEle"){
-		$("input[name=hasId]").val("");
-		hasId=false;
-	}
-	else{
-		hasId=true;
-	}
-	
-	if(cover){
-		number=1;
-	}
-	else{
-			if($(th).attr("id")=="childEle"){
-				number=2;
-			}
-			else if($("input[name=sort]").val()==""||$("input[name=sort]").val()==null){
-				number=parseInt($(th).attr("sort"));
-			}
-			else{
-				number=$("input[name=sort]").val();
-			}
-	}
-	var id=hasId?$("input[name=hasId]").val():null;
-	
-	
-	//提交信息
-	submitInfo(id,number);
-}
-
-function submitInfo(id,number){
-	var content=CKEDITOR.instances.returnContent.getData();
-	$.ajax({
-		type : "POST",
-		url : basePath + "/pc/addImgTextMore.do",
-		data : {
-			"id":id,
-			"title" : $("input[name=materialTitle]").val(),
-			"parent_id":$('#parentId').val(),
-			"thumb_media_id":img_id,
-			"thumb_media_url":img_url,
-			"author":"",
-			"digest":$("#abstractContent").val(),
-			"content":ajax_encode(content),
-			"content_source_url":$("input[name=materialUrl]").val(),
-			"article_order":number
-		},
-		async : false,
-		dataType : "json",
-		success : function(result) {
-			if(result.rtnCode == 0){
-				if(cover){
-					//设置parentId
-					$('#parentId').val(result.id);
-					alert("父id:"+parentId)
-				}
-				alert(result.rtnMsg);
-			}else{
-				alert(result.rtnMsg);
-			}
-		}
-	});
-	
-}
-
-function ajax_encode(str)
-{	
-	if(str!=null&&str!=''){
-		str = str.replace(/%/g,"{@bai@}");
-	    str = str.replace(/ /g,"{@kong@}");
-	    str = str.replace(/</g,"{@zuojian@}");
-	    str = str.replace(/>/g,"{@youjian@}");
-	    str = str.replace(/&/g,"{@and@}");
-	    str = str.replace(/\"/g,"{@shuang@}");
-	    str = str.replace(/\'/g,"{@dan@}");
-	    str = str.replace(/\t/g,"{@tab@}");
-	    str = str.replace(/\+/g,"{@jia@}");
-	}
-    
-    return str;
-}
-
-//转义
-function HTMLEncode(html) {
-    var temp = document.createElement("div");
-    (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
-    var output = temp.innerHTML;
-    temp = null;
-    return output;
-}
-//反转义
-function HTMLDecode(text) { 
-    var temp = document.createElement("div"); 
-    temp.innerHTML = text; 
-    var output = temp.innerText || temp.textContent; 
-    temp = null; 
-    return output; 
-} 
-
-/**
- * 图片上传
- */
-function uploadFiles(uploadName, callback){
-	var inputFile = $("#" + uploadName).val();
-    if (inputFile == "") {
-    	alert("请选择上传图片");
-        return;
-    }
-	
-    $.ajaxFileUpload({
-        url: basePath + '/pc/common/uploadWxServer.do?fileType=0',
-        secureuri: false,
-        fileElementId: uploadName,
-        dataType: 'json',
-        success: function(data, status){
-            if (data.message == "File suffix is not allowed.") {
-                //$("#loadDiv").remove();
-                alert("文件格式不正确");
-                return;
-            }
-            if (data.message == "File size is too large.") {
-                alert("文件太大");
-                return;
-            }
-            var attInfo = jQuery.parseJSON(data);
-			if($.isFunction(callback)){
-				callback(attInfo);
-			}
-        },
-        error: function(data, status, e){
-        	alert(e)
-        }
-    })
-}
-
-
-/**
- * 点击上传响应事件
- */
-function uploadImg(){
-	uploadFiles("imgFile",function(data){
-		if(cover){//封面图片显示
-			if(data.mediaId !=null && data.mediaId !=""){
-				imgOrCover(true);
-				var imgPath=data.url;
-				$("#coverImage").attr('src', HTMLDecode(imgPath));
-				img_id = data.mediaId;
-				img_url=$("#coverImage").attr("src");
-				$("#haveImg").val(img_id);
-				showImg();
-			}
-		}
-		else if(!cover){//其余图片显示
-				if (data.mediaId != null && data.mediaId != "") {
-					var imgPath=data.url;
-					$(th).find("#smallImage").attr('src', HTMLDecode(imgPath));
-					img_id = data.mediaId;
-					img_url=$(th).find("#smallImage").attr("src");
-					$("#haveImg").val(img_id);
-					showImg();
-				}
-		}
-	});
-}
-
-/**
- * 显示右侧小图片
- */	
-function showImg(){
-	$("#coverImg").css('display','block');	
-	if($("#haveImg").val()!==""){
-		$("p").remove(".pclass");
-	}
-
-	var newImg ='<p class="pclass"><img class="imgClass" src="';
-	newImg+=img_url;
-	newImg+='"/><a onclick="deleteImg()" class="deleteImg">删除</a></p>';
-	$("#imgBox").append(newImg);
-	
-	$("#haveImg").val("1");
-}
-
-
-/**
- * first_title_Img和coverImage切换
- * flag=true     显示img
- * flag=false    显示cover
- */
-function clearAll(){
-	img_id="";
-	img_url="";
-	$("#haveImg").val("");
-	$("input[name=materialTitle]").val("");
-	$("input[name=imgFile]").val("");
-	$("input[name=hasId]").val("");
-	$("input[name=materialUrl]").val("");
-	$("input[name=sort]").val("");
-	$("#abstractContent").val("");
 	//初始化文本框
 	editor.setData("");
 }
-	
-function imgOrCover(flag){
-	if(flag){
-		$("#first_title_Img").css('display', 'none');
-		$("#coverImage").css('display', 'block');
-	}else{
-		$("#first_title_Img").css('display', 'block');
-		$("#coverImage").css('display', 'none');
-	}
-}
-
-
-/**
- * 通过图文id返回对应图文实体
- */
-function getInfoById(imgTxtId,callback){
-	//通过异步获取对应图文信息并回显
-	$.ajax({
-		type : "POST",
-		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
-		async : false,
-		dataType : "json",
-		success : function(result) {
-			alert(JSON.stringify(result.data))
-			if(result.rtnCode == 0){
-				if ($.isFunction(callback)) {
-					callback(result.data);
-				}
-			}
-		}
-	});
-}
-
-function imgOrCover(flag){
-	if(flag){
-		$("#first_title_Img").css('display', 'none');
-		$("#coverImage").css('display', 'block');
-	}else{
-		$("#first_title_Img").css('display', 'block');
-		$("#coverImage").css('display', 'none');
-	}
-}
-
-
-/**
- * 通过图文id返回对应图文实体
- */
-function getInfoById(imgTxtId,callback){
-	//通过异步获取对应图文信息并回显
-	$.ajax({
-		type : "POST",
-		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
-		async : false,
-		dataType : "json",
-		success : function(result) {
-			alert(JSON.stringify(result.data))
-			if(result.rtnCode == 0){
-				if ($.isFunction(callback)) {
-					callback(result.data);
-				}
-			}
-		}
-	});
-}
 
 /**
  * 设置单选值
@@ -492,16 +196,6 @@ function setRadioVal(name,vl){
  */
 function doSubmit(){ 
 	var number=0;
-	var hasId=false;
-	selectUrlOrTxt();
-	if($("input[name=hasId]").val()==null && $("input[name=hasId]").val()==""
-		||$("input[name=hasId]").val()=="topcover"||$("input[name=hasId]").val()=="childEle"){
-		$("input[name=hasId]").val("");
-		hasId=false;
-	}
-	else{
-		hasId=true;
-	}
 	if(cover){
 		number=1;
 	}
@@ -514,7 +208,7 @@ function doSubmit(){
 				number=$("input[name=sort]").val();
 			}
 	}
-	var id=hasId?$("input[name=hasId]").val():null;
+	var id=$("input[name=hasId]").val();
 	//提交信息
 	submitInfo(id,number);
 }
@@ -714,6 +408,7 @@ function getInfoById(imgTxtId,callback){
 	if(imgTxtId==null||imgTxtId==''||imgTxtId=='0'){
 		return false;
 	}
+	$('#hasId').val(imgTxtId);
 	//通过异步获取对应图文信息并回显
 	$.ajax({
 		type : "GET",
@@ -835,4 +530,3 @@ $(function(){
 	//初始化编辑器
 	editor = CKEDITOR.replace("returnContent");
 })
-	

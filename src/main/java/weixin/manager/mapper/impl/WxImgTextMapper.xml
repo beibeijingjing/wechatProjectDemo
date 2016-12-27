@@ -226,6 +226,57 @@
 		where article_id = #{article_id,jdbcType=VARCHAR}
 	</update>
 	
+		<update id="updateImgTextById" parameterType="weixin.manager.bean.WxImgText">
+		update wx_img_text
+		<set>
+			
+			<if test="parent_id != null">
+				parent_id=#{parent_id,jdbcType=VARCHAR},
+			</if>
+			<if test="article_id != null">
+				article_id=#{article_id,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type=#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title=#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="thumb_media_id != null">
+				thumb_media_id=#{thumb_media_id,jdbcType=VARCHAR},
+			</if>
+			<if test="thumb_media_url != null">
+				thumb_media_url=#{thumb_media_url,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				author=#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="digest != null">
+				digest=#{digest,jdbcType=VARCHAR},
+			</if>
+			<if test="show_cover_pic != null">
+				show_cover_pic=#{show_cover_pic,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content=#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="content_source_url != null">
+				content_source_url=#{content_source_url,jdbcType=VARCHAR},
+			</if>
+			<if test="article_order != null">
+				article_order=#{article_order,jdbcType=INTEGER},
+			</if>
+			<if test="is_syn != null">
+				is_syn=#{is_syn,jdbcType=INTEGER},
+			</if>
+			update_time=now(),
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
 	
 	<update id="updateByPrimaryKey" parameterType="weixin.manager.bean.WxImgText">
 	</update>
@@ -246,10 +297,14 @@
 		<if test="type != null">
 				and type = #{type}
 		</if>
+		
+		ORDER BY article_order ASC
+		
 	 	 <if test="limit != null and offset != null" >
 				limit #{offset}, #{limit}
 		</if>
 		
+		 
 		
 	</select>
 	

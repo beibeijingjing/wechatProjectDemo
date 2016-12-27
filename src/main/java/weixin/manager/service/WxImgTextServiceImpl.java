@@ -147,7 +147,7 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 			imgText.setType(1);
 			imgText.setContent(AjaxDecode.ajax_decode(imgText.getContent()));
 			if (StringUtils.isNotEmpty(imgText.getId())) {
-				wxImgTextMapper.updateByPrimaryKeySelective(imgText);
+				wxImgTextMapper.updateImgTextById(imgText);
 			} else {
 				wxImgTextMapper.insertSelective(imgText);
 			}
@@ -161,7 +161,7 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 	public void updateImgTextMore(WxImgText imgText) {
 		if (imgText != null) {
 			imgText.setContent(AjaxDecode.ajax_decode(imgText.getContent()));
-			wxImgTextMapper.updateByPrimaryKeySelective(imgText);
+			wxImgTextMapper.updateImgTextById(imgText);
 		}
 	}
 

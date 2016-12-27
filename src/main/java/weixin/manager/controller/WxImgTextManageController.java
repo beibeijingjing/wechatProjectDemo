@@ -79,6 +79,11 @@ public class WxImgTextManageController extends BaseController {
 		condition.put("delFlag", 0);
 		condition.put("parent_id", imgText.getId());
 		List<WxImgText> imgTextList = wxImgTextService.selectByMap(condition);
+		WxImgText imgTextFirst = new WxImgText();
+		if (imgTextList != null && imgTextList.size() > 0) {
+			imgTextFirst = imgTextList.get(0);
+		}
+		request.setAttribute("imgTextFirst", imgTextFirst);
 		request.setAttribute("imgTextList", imgTextList);
 		return "weixin/imgText/updateImgTextMore";
 	}

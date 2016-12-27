@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -13,7 +14,7 @@
 		<script src="<%=path%>/weixin/Js/ajaxfileupload.js"></script>
 		<script type="text/javascript" src="<%=path%>/weixin/Js/ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/imgTextUtil.js"></script>
-		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/addImgTextMore.js"></script>
+		<script type="text/javascript" src="<%=path%>/weixin/Js/imgText/updateImgTextMore.js"></script>
 		<link type="text/css" rel="stylesheet" href="<%=path%>/weixin/Css/imgText/addImgTextMore.css" />
 		<title>多图文回复</title>
 	</head>
@@ -22,6 +23,30 @@
 	<script type="text/javascript">
   		var basePath='<%=path%>';
   		var sessionId='<%=sessionId%>';
+  		$(function(){
+  			init();
+  			img_id ='${imgText.thumb_media_id}';
+  			if (img_id != null) {//图片id不为空则显示图片
+  				img_url = '${imgText.thumb_media_url}';
+  				imgOrCover(true);
+				$("#coverImage").attr('src', HTMLDecode(img_url));
+				$("#haveImg").val(img_id);
+  			
+  				var newImg = "<p class='pclass'><img class='imgClass' src='";
+  				newImg += HTMLDecode(img_url);
+  				newImg += "'/><a onclick='deleteImg()' class='deleteImg'>删除</a></p>";
+  				$("#imgBox").append(newImg);
+  			 } 
+  			//回显子图文信息
+  			showLeftImgText();
+  		})
+  		
+  		function showLeftImgText(){
+  			<c:forEach items="${imgTextList}" var="imgText" begin="1">
+  				imgTextMore.appendElement('${imgText.id}','${imgText.title}','${imgText.thumb_media_url}');
+			</c:forEach>
+  		}
+  		
  	</script>
 	     <div id="alert" class="alert" style="display:none">sss</div>
 		 <div id="main_content" class="main_content">
@@ -35,16 +60,16 @@
 									 <div class="left_middle_bg">
 									 	 <div class="left_img_style" id="first_title_Img" name="first_title_Img">封面图片</div>
 									  		<img id="coverImage" class="coverImg"/>
-									  	 <div class="left_bot_title"><span id="titleContent" name="titleContent" class="titleCls"></span></div>					 	   	   	
+									  	 <div class="left_bot_title"><span id="titleContent" name="titleContent" class="titleCls">${imgText.title}</span></div>					 	   	   	
 					 	   	      	 </div>
 					 	   	      	 <div class="left_bottom_bg"></div>
 							    </div>
 										<!--子元素-->
 									<div class="left_top_bg" style="margin-top:10px"></div>
 									<div id="childEle" class="sub_img_div" onmouseenter="imgTextMore.addIcon(this);" onmouseleave="imgTextMore.delIcon(this);">
-						   	       	       <div  class="sub_left"><span id="childTitle" class="sub_title">标题</span></div>
+						   	       	       <div  class="sub_left"><span id="childTitle" class="sub_title">${imgTextFirst.title }</span></div>
 										   <div  class="sub_right">
-										   	   <img id="smallImage" name="smallImage" src="<%=path%>/weixin/Images/suoluetu.jpg" style="width:80px;">
+										   	   <img id="smallImage" name="smallImage" src="${imgTextFirst.thumb_media_url}" style="width:80px;">
 										   </div>
 						   	        </div>	
 									<div style="clear:both;"></div>
@@ -91,7 +116,7 @@
 										 <!--标题-->
 										 <div>
 											<div class="font_lable_1" >标题</div>
-											<div class="input_div_1"><input id="materialTitle" name="materialTitle" type="text"  class="input_text_1" onkeyup="showTitle();"/></div>
+											<div class="input_div_1"><input id="materialTitle" name="materialTitle" type="text"  value="${imgText.title}" class="input_text_1" onkeyup="showTitle();"/></div>
 										 </div>
 										 
 										 <!--封面-->
@@ -130,11 +155,11 @@
 										 <div style="clear:both;"></div>
 			
 										<div style="margin-top:10px;" id="link_url_wx">
-										     <div class="input_div_1"><input id="materialUrl" name="materialUrl" type="text"  class="input_text_1" /></div>
+										     <div class="input_div_1"><input id="materialUrl" name="materialUrl" type="text" value="${imgText.content_source_url}" class="input_text_1" /></div>
 										 </div>
 										 
 										<div style="margin-top:10px;" id="imgText_one_wx" name="materialContent">
-										     	  <textarea id="returnContent" cols="20" rows="2" class="ckeditor" name="returnContent"></textarea>
+										     	  <textarea id="returnContent" cols="20" rows="2" class="ckeditor" name="returnContent">${imgText.content}</textarea>
 										 </div>
 									 </div>
 					   	      </div>
@@ -168,11 +193,10 @@
 		 
 		 <!--记录排序序号-->
 		 <input type="hidden" name="sort"/>
-		 
 		 <!--记录当前编辑对象是否存在ID-->
 		 <input type="hidden" id="hasId" name="hasId"/>
-		 <input type="hidden" id="parentId" name="parentId" value="0"/>
-		 <input type="hidden" id="childId" name="childId"/>
+		 <input type="hidden" id="parentId" name="parentId" value="${imgText.id }"/>
+		 <input type="hidden" id="childId" name="childId" value="${imgTextFirst.id }"/>
 		 <!--记录右侧缩略图是否已经添加图片-->
 		 <input type="hidden" id="haveImg" />
 	</body>
