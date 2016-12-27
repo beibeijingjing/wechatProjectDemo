@@ -407,6 +407,38 @@ function clearAll(){
 	//初始化文本框
 	editor.setData("");
 }
+	
+function imgOrCover(flag){
+	if(flag){
+		$("#first_title_Img").css('display', 'none');
+		$("#coverImage").css('display', 'block');
+	}else{
+		$("#first_title_Img").css('display', 'block');
+		$("#coverImage").css('display', 'none');
+	}
+}
+
+
+/**
+ * 通过图文id返回对应图文实体
+ */
+function getInfoById(imgTxtId,callback){
+	//通过异步获取对应图文信息并回显
+	$.ajax({
+		type : "POST",
+		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
+		async : false,
+		dataType : "json",
+		success : function(result) {
+			alert(JSON.stringify(result.data))
+			if(result.rtnCode == 0){
+				if ($.isFunction(callback)) {
+					callback(result.data);
+				}
+			}
+		}
+	});
+}
 
 function imgOrCover(flag){
 	if(flag){
