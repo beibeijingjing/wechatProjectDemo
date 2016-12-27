@@ -80,7 +80,7 @@ public class WxImgTextManageController extends BaseController {
 	@RequestMapping(value = "/getImgTextList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getImgTextList(HttpServletRequest request, Integer limit,
-			Integer offset, Integer type, Integer status, String parentId)
+			Integer offset, Integer type, Integer status)
 			throws IllegalStateException, IOException {
 
 		Map<String, Object> condition = new HashMap<String, Object>();
@@ -88,7 +88,6 @@ public class WxImgTextManageController extends BaseController {
 		condition.put("limit", limit);
 		condition.put("offset", offset);
 		condition.put("type", type);
-		condition.put("parent_id", parentId);
 		List<WxImgText> imgTextList = wxImgTextService.selectByMap(condition);
 
 		Map<String, Object> rsMap = new HashMap<String, Object>();

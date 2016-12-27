@@ -111,7 +111,7 @@
 										 </div>
 										 
 										 <!--摘要-->
-										<div style="margin-top:10px;display:none;">
+										<div style="margin-top:10px;">
 										 	 <div>
 											 	 <div class="font_lable_1" style="float:left;">摘要</div>
 												 <div class="font_lable_2" style="float:left;margin-left:10px;">(选填)</div>
@@ -172,7 +172,6 @@
 		 <!--记录当前编辑对象是否存在ID-->
 		 <input type="hidden" id="hasId" name="hasId"/>
 		 <input type="hidden" id="parentId" name="parentId" value="0"/>
-		 <input type="hidden" id="childId" name="childId" value=""/>
 		 <!--记录右侧缩略图是否已经添加图片-->
 		 <input type="hidden" id="haveImg" />
 	</body>
