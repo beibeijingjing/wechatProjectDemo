@@ -74,13 +74,19 @@ public class WxImgTextManageController extends BaseController {
 		request.setAttribute("sessionId", sessionId);
 		WxImgText imgText = wxImgTextService.selectByPrimaryKey(id);
 		request.setAttribute("imgText", imgText);
+
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("delFlag", 0);
+		condition.put("parent_id", imgText.getId());
+		List<WxImgText> imgTextList = wxImgTextService.selectByMap(condition);
+		request.setAttribute("imgTextList", imgTextList);
 		return "weixin/imgText/updateImgTextMore";
 	}
 
 	@RequestMapping(value = "/getImgTextList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getImgTextList(HttpServletRequest request, Integer limit,
-			Integer offset, Integer type, Integer status)
+			Integer offset, Integer type, Integer status, String parentId)
 			throws IllegalStateException, IOException {
 
 		Map<String, Object> condition = new HashMap<String, Object>();
@@ -88,6 +94,7 @@ public class WxImgTextManageController extends BaseController {
 		condition.put("limit", limit);
 		condition.put("offset", offset);
 		condition.put("type", type);
+		condition.put("parent_id", parentId);
 		List<WxImgText> imgTextList = wxImgTextService.selectByMap(condition);
 
 		Map<String, Object> rsMap = new HashMap<String, Object>();
