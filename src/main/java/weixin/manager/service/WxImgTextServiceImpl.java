@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -151,7 +150,6 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 			} else {
 				wxImgTextMapper.insertSelective(imgText);
 			}
-
 			imgTextId = imgText.getId();
 		}
 		return imgTextId;
