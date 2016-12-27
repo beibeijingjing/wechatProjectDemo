@@ -20,6 +20,9 @@ var cover=true;
 /** 排序序号 */
 var sort=3;
 
+//富文本编辑示例
+var editor=null;
+
 /**
  * 右边标题内容显示至左边div
  */
@@ -136,26 +139,26 @@ function editResponse(obj,flag){
 	th=obj;
 	underEdit();
 	$("input[name=hasId]").val($(th).attr("id"));
+	//alert("id:"+$(th).attr("id"))
 	getInfoById($(th).attr("id"),function(_value){
-	if(_value.id!=null||_value.id!=""){
-		img_id=_value.thumb_media_id;
-		img_url=_value.thumb_media_url;
-		$("input[name=sort]").val(_value.article_order);
-		$("input[name=materialTitle]").val(_value.title);
-		$("#abstractContent").val(_value.digest);
-		if (_value.materialContent != null) {
-			urlOrTxt(false);
-			$("input[type='radio']").eq(1).attr("checked", true);
-		}else {
+		//通过id获取信息并回显
+		if(_value.id!=null||_value.id!=""){
+			img_id=_value.thumb_media_id;
+			img_url=_value.thumb_media_url;
+			$("input[name=sort]").val(_value.article_order);
+			$("input[name=materialTitle]").val(_value.title);
+			$("#abstractContent").val(_value.digest);
 			$("input[name=materialUrl]").val(_value.content_source_url);
-			urlOrTxt(true);
-			$("input[type='radio']").eq(0).attr("checked", true);
+			editor.insertHtml(_value.content);
+			if (_value.content != null) {
+				urlOrTxt(false);
+			}else {
+				urlOrTxt(true);
 			}
-		if(img_id!=null&&img_id!=""){
-			showImg();
-		 }
-	}
-	
+			if(img_id!=null&&img_id!=""){
+				showImg();
+			 }
+		}
 	});
 }
 
@@ -172,7 +175,8 @@ function clearAll(){
 	$("input[name=materialUrl]").val("");
 	$("input[name=sort]").val("");
 	$("#abstractContent").val("");
-	$("#returnContent").val("");
+	//初始化文本框
+	editor.setData("");
 }
 
 /**
@@ -180,12 +184,9 @@ function clearAll(){
  */
 function selectUrlOrTxt(){
 	if($("input[type='radio']").eq(0).attr("checked")==true){
-		
 		setRadioVal("materialType","0001");
-		$("#materialContent").val("");
 	}else{
 		setRadioVal("materialType","0002");
-		$("#materialUrl").val("");
 	}
 }
 
@@ -200,37 +201,42 @@ function doSubmit(){
 	var number=0;
 	var hasId=false;
 	selectUrlOrTxt();
-	if($("input[name=hasId]").val()==null && $("input[name=hasId]").val()==""||$("input[name=hasId]").val()=="topcover"||$("input[name=hasId]").val()=="childEle"){
+	if($("input[name=hasId]").val()==null && $("input[name=hasId]").val()==""
+		||$("input[name=hasId]").val()=="topcover"||$("input[name=hasId]").val()=="childEle"){
 		$("input[name=hasId]").val("");
 		hasId=false;
 	}
 	else{
 		hasId=true;
 	}
-	
 	if(cover){
 		number=1;
 	}
 	else{
 			if($(th).attr("id")=="childEle"){
 				number=2;
-			}
-			else if($("input[name=sort]").val()==""||$("input[name=sort]").val()==null){
+			}else if($("input[name=sort]").val()==""||$("input[name=sort]").val()==null){
 				number=parseInt($(th).attr("sort"));
-			}
-			else{
+			}else{
 				number=$("input[name=sort]").val();
 			}
 	}
 	var id=hasId?$("input[name=hasId]").val():null;
-	
-	
 	//提交信息
 	submitInfo(id,number);
 }
 
 function submitInfo(id,number){
-	var content=CKEDITOR.instances.returnContent.getData();
+	var content=editor.getData();
+	//判断封面编辑信息是否保存
+	if(!cover){
+		var parentId=$('#parentId').val();
+		if(parentId=='0'){
+			alert('请先编辑保存封面信息！');
+			return false;
+		}
+	}
+	
 	$.ajax({
 		type : "POST",
 		url : basePath + "/pc/addImgTextMore.do",
@@ -246,13 +252,18 @@ function submitInfo(id,number){
 			"content_source_url":$("input[name=materialUrl]").val(),
 			"article_order":number
 		},
-		async : false,
+		async : true,
 		dataType : "json",
 		success : function(result) {
 			if(result.rtnCode == 0){
-				if(cover){
+				if(number==1){
 					//设置parentId
 					$('#parentId').val(result.id);
+				}else if(number==2){
+					//设置childId
+					$('#childId').val(result.id);
+				}else{
+					$(th).attr("id",result.id);
 				}
 				alert(result.rtnMsg);
 			}else{
@@ -401,15 +412,23 @@ function imgOrCover(flag){
  * 通过图文id返回对应图文实体
  */
 function getInfoById(imgTxtId,callback){
-	alert(imgTxtId)
+	if(imgTxtId=='topcover'){
+		imgTxtId=$('#parentId').val();
+	}
+	if(imgTxtId=='childEle'){
+		imgTxtId=$('#childId').val();
+	}
+	if(imgTxtId==null||imgTxtId==''||imgTxtId=='0'){
+		return false;
+	}
 	//通过异步获取对应图文信息并回显
 	$.ajax({
 		type : "GET",
 		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
-		async : false,
+		async : true,
 		dataType : "json",
 		success : function(result) {
-			alert(JSON.stringify(result.data))
+			//alert(JSON.stringify(result.data))
 			if(result.rtnCode == 0){
 				if ($.isFunction(callback)) {
 					callback(result.data);
@@ -520,5 +539,7 @@ $(function(){
 	$("input[name=sort]").val("");
 	$("input[name=element]").val("");
 	createImgTxtInit();
+	//初始化编辑器
+	editor = CKEDITOR.replace("returnContent");
 })
 	

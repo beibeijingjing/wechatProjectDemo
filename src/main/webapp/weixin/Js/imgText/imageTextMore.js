@@ -21,6 +21,7 @@
                 		 limit: params.limit,
                 		 offset: params.offset,
                 		 type:1,
+                		 parentId:"0",
                 		 status:$('#status').val()
                 		 };
                 },
