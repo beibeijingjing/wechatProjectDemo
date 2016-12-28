@@ -146,11 +146,13 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 		if (imgText != null) {
 			imgText.setType(1);
 			imgText.setContent(AjaxDecode.ajax_decode(imgText.getContent()));
-			if (StringUtils.isNotEmpty(imgText.getId())) {
+			if (StringUtils.isNotEmpty(imgText.getId())
+					&& !"0".equals(imgText.getId())) {
 				wxImgTextMapper.updateImgTextById(imgText);
 			} else {
 				wxImgTextMapper.insertSelective(imgText);
 			}
+
 			imgTextId = imgText.getId();
 		}
 		return imgTextId;

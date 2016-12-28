@@ -172,7 +172,7 @@
 		 <!--记录当前编辑对象是否存在ID-->
 		 <input type="hidden" id="hasId" name="hasId"/>
 		 <input type="hidden" id="parentId" name="parentId" value="0"/>
-		 <input type="hidden" id="childId" name="childId"/>
+		 <input type="hidden" id="childId" name="childId" value="0"/>
 		 <!--记录右侧缩略图是否已经添加图片-->
 		 <input type="hidden" id="haveImg" />
 	</body>

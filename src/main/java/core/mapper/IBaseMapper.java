@@ -7,10 +7,6 @@ import org.apache.ibatis.session.RowBounds;
 
 import core.common.PageInfo;
 
-/**
- * 
- * create by Liujishuai on 2015年9月22日
- */
 public interface IBaseMapper<T> {
 
 	int deleteByPrimaryKey(String id);

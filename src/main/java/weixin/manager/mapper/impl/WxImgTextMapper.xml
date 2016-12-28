@@ -37,8 +37,8 @@
 	<insert id="insert" parameterType="weixin.manager.bean.WxImgText">
 	</insert>
 	
-	<insert id="insertSelective" parameterType="weixin.manager.bean.WxImgText">
-		<selectKey keyProperty="id" resultType="java.lang.String"
+	<insert id="insertSelective" parameterType="weixin.manager.bean.WxImgText" >
+		<selectKey keyProperty="id" resultType="Object"
 			order="BEFORE">
 			select replace(uuid(),'-','') from dual
 		</selectKey>
@@ -175,7 +175,7 @@
 	
 	
 	
-	<update id="updateByPrimaryKeySelective" parameterType="weixin.manager.bean.WxImgText">
+	<update id="updateByPrimaryKeySelective" parameterType="weixin.manager.bean.WxImgText" >
 		update wx_img_text
 		<set>
 			
@@ -226,7 +226,7 @@
 		where article_id = #{article_id,jdbcType=VARCHAR}
 	</update>
 	
-		<update id="updateImgTextById" parameterType="weixin.manager.bean.WxImgText">
+		<update id="updateImgTextById" parameterType="weixin.manager.bean.WxImgText" >
 		update wx_img_text
 		<set>
 			

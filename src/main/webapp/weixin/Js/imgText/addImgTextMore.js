@@ -135,8 +135,7 @@ function editResponse(obj,flag){
 	clearRightImg();
 	th=obj;
 	underEdit();
-	$("input[name=hasId]").val($(th).attr("id"));
-	//alert("id:"+$(th).attr("id"))
+	alert("id:"+$(th).attr("id"))
 	getInfoById($(th).attr("id"),function(_value){
 		//通过id获取信息并回显
 		if(_value.id!=null||_value.id!=""){
@@ -155,6 +154,38 @@ function editResponse(obj,flag){
 			if(img_id!=null&&img_id!=""){
 				showImg();
 			 }
+		}
+	});
+}
+
+/**
+ * 通过图文id返回对应图文实体
+ */
+function getInfoById(imgTxtId,callback){
+	if(imgTxtId=='topcover'){
+		imgTxtId=$('#parentId').val();
+	}
+	if(imgTxtId=='childEle'){
+		imgTxtId=$('#childId').val();
+	}
+	//alert(imgTxtId)
+	if(imgTxtId==null||imgTxtId==''||imgTxtId=='0'){
+		return false;
+	}
+	$('#hasId').val(imgTxtId);
+	//通过异步获取对应图文信息并回显
+	$.ajax({
+		type : "GET",
+		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
+		async : true,
+		dataType : "json",
+		success : function(result) {
+			//alert(JSON.stringify(result.data))
+			if(result.rtnCode == 0){
+				if ($.isFunction(callback)) {
+					callback(result.data);
+				}
+			}
 		}
 	});
 }
@@ -196,24 +227,31 @@ function setRadioVal(name,vl){
  */
 function doSubmit(){ 
 	var number=0;
+	var id="";
+	var parentId="";
 	if(cover){
 		number=1;
+		id=$('#parentId').val();
+		parentId="0";
 	}
 	else{
+		parentId=$('#parentId').val();
 			if($(th).attr("id")=="childEle"){
 				number=2;
+				id=$('#childId').val();
 			}else if($("input[name=sort]").val()==""||$("input[name=sort]").val()==null){
 				number=parseInt($(th).attr("sort"));
+				id=$("input[name=hasId]").val();
 			}else{
 				number=$("input[name=sort]").val();
+				id=$("input[name=hasId]").val();
 			}
 	}
-	var id=$("input[name=hasId]").val();
 	//提交信息
-	submitInfo(id,number);
+	submitInfo(id,number,parentId);
 }
 
-function submitInfo(id,number){
+function submitInfo(id,number,parentId){
 	var content=editor.getData();
 	//判断封面编辑信息是否保存
 	if(!cover){
@@ -230,7 +268,7 @@ function submitInfo(id,number){
 		data : {
 			"id":id,
 			"title" : $("input[name=materialTitle]").val(),
-			"parent_id":$('#parentId').val(),
+			"parent_id":parentId,
 			"thumb_media_id":img_id,
 			"thumb_media_url":img_url,
 			"author":"",
@@ -248,6 +286,7 @@ function submitInfo(id,number){
 					$('#parentId').val(result.id);
 				}else if(number==2){
 					//设置childId
+					alert("result.id:"+result.id)
 					$('#childId').val(result.id);
 				}else{
 					$(th).attr("id",result.id);
@@ -395,36 +434,7 @@ function imgOrCover(flag){
 }
 
 
-/**
- * 通过图文id返回对应图文实体
- */
-function getInfoById(imgTxtId,callback){
-	if(imgTxtId=='topcover'){
-		imgTxtId=$('#parentId').val();
-	}
-	if(imgTxtId=='childEle'){
-		imgTxtId=$('#childId').val();
-	}
-	if(imgTxtId==null||imgTxtId==''||imgTxtId=='0'){
-		return false;
-	}
-	$('#hasId').val(imgTxtId);
-	//通过异步获取对应图文信息并回显
-	$.ajax({
-		type : "GET",
-		url : basePath + '/pc/getImgText.do?id='+imgTxtId,
-		async : true,
-		dataType : "json",
-		success : function(result) {
-			//alert(JSON.stringify(result.data))
-			if(result.rtnCode == 0){
-				if ($.isFunction(callback)) {
-					callback(result.data);
-				}
-			}
-		}
-	});
-}
+
 
 
 /**

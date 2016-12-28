@@ -195,8 +195,8 @@
 		 <input type="hidden" name="sort"/>
 		 <!--记录当前编辑对象是否存在ID-->
 		 <input type="hidden" id="hasId" name="hasId"/>
-		 <input type="hidden" id="parentId" name="parentId" value="${imgText.id }"/>
-		 <input type="hidden" id="childId" name="childId" value="${imgTextFirst.id }"/>
+		 <input type="hidden" id="parentId" name="parentId" value="${imgText.id}"/>
+		 <input type="hidden" id="childId" name="childId" value="${imgTextFirst.id}"/>
 		 <!--记录右侧缩略图是否已经添加图片-->
 		 <input type="hidden" id="haveImg" />
 	</body>
