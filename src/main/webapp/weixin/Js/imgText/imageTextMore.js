@@ -90,7 +90,7 @@
     	var ids="";
     	if($data.length>0){
     		$($data).each(function (index, obj) {
-    			ids+=obj.article_id+"@";
+    			ids+=obj.id+"@";
             });
     	}else if($data.length>1){
     		alert("只能删除一行选中数据");
@@ -101,14 +101,48 @@
     	}
     		$.ajax({
     			type : "POST",
-    			url : basePath + "/pc/deleteImgText.do",
+    			url : basePath + "/pc/deleteImgTextMore.do",
     			data : {
-    				"mediaId" : ids,
+    				"id" : ids,
     			},
     			async : false,
     			dataType : "json",
     			success : function(result) {
     				$('#delModal').modal('hide');
+    				doSearch();
+    				if(result.rtnCode == 0){
+    					alert(result.rtnMsg);
+    				}else{
+    					alert(result.rtnMsg);
+    				}
+    			}
+    		});
+    }
+    
+    function toSyn() {
+    	var $data=$('#cusTable').bootstrapTable('getSelections');
+    	var ids="";
+    	if($data.length>0){
+    		$($data).each(function (index, obj) {
+    			ids+=obj.id+"@";
+            });
+    	}else if($data.length>1){
+    		alert("请选择一行数据");
+    		return false;
+    	}else{
+    		alert("请选择同步数据");
+    		return false;
+    	}
+    		$.ajax({
+    			type : "POST",
+    			url : basePath + "/pc/synImgTextMore.do",
+    			data : {
+    				"id" : ids,
+    			},
+    			async : false,
+    			dataType : "json",
+    			success : function(result) {
+    				$('#synModal').modal('hide');
     				doSearch();
     				if(result.rtnCode == 0){
     					alert(result.rtnMsg);
@@ -134,6 +168,9 @@
 		}
     	var url = "<a href=\"javascript:void(0);\" onclick=\"toUpdate('" + row.id + "')\">编辑</a>&nbsp;"+
     	"<a href=\"#delModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;";
+    	if(row.is_syn==0){
+    		url+="<a href=\"#synModal\" role=\"button\" data-toggle=\"modal\">同步</a>&nbsp;";
+    	}
     	
     	return url;
     }

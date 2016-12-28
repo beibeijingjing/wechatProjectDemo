@@ -146,6 +146,36 @@ public class WxImgTextManageController extends BaseController {
 		return rsMap;
 	}
 
+	@RequestMapping(value = "/deleteImgTextMore.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteImgTextMore(String id) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		if (StringUtils.isNotEmpty(id)) {
+			String articleIdArr[] = id.split("@");
+			if (articleIdArr != null && articleIdArr.length > 0) {
+				wxImgTextService.deleteImgTextMore(articleIdArr[0]);
+			}
+		}
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/synImgTextMore.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object synImgTextMore(String id) throws WxBaseException {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		if (StringUtils.isNotEmpty(id)) {
+			String articleIdArr[] = id.split("@");
+			if (articleIdArr != null && articleIdArr.length > 0) {
+				wxImgTextService.updateSynImgTextMore(articleIdArr[0]);
+			}
+		}
+		rsMap.put("rtnCode", 0);
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
 	@RequestMapping(value = "/addImgTextMore.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Object addImgTextMore(WxImgText imgText) throws WxBaseException {

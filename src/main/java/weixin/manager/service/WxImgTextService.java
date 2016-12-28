@@ -16,4 +16,8 @@ public interface WxImgTextService extends IBaseService<WxImgText> {
 
 	public void deleteSynImgText(String mediaId) throws WxBaseException;
 
+	public void deleteImgTextMore(String id) throws WxBaseException;
+
+	public void updateSynImgTextMore(String id) throws WxBaseException;
+
 }

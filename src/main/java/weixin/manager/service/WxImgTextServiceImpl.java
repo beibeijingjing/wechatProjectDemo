@@ -167,6 +167,38 @@ public class WxImgTextServiceImpl extends BaseService<WxImgText> implements
 		}
 	}
 
+	@Override
+	public void deleteImgTextMore(String id) throws WxBaseException {
+
+		WxImgText imgText = wxImgTextMapper.selectByPrimaryKey(id);
+		if (imgText != null) {
+			if (imgText.getIs_syn() == 1) {
+				// TODO 如果已同步 删除服务器数据
+			}
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("id_or", id);
+			map.put("parent_id_or", id);
+			wxImgTextMapper.deleteImgTextByMap(map);
+		}
+	}
+
+	@Override
+	public void updateSynImgTextMore(String id) throws WxBaseException {
+
+		WxImgText imgText = wxImgTextMapper.selectByPrimaryKey(id);
+		if (imgText != null) {
+			if (imgText.getIs_syn() == 0) {
+				// TODO 同步数据到微信服务器
+
+				// 更改本地状态
+				WxImgText imgTextNew = new WxImgText();
+				imgTextNew.setId(imgText.getId());
+				imgTextNew.setIs_syn(1);
+				wxImgTextMapper.updateImgTextById(imgTextNew);
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		String str = "<p>我的第一条单图文马上就要成功了（修改）</p>"
 				+ "<p>好开心哈哈</p>"

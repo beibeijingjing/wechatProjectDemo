@@ -135,7 +135,7 @@ function editResponse(obj,flag){
 	clearRightImg();
 	th=obj;
 	underEdit();
-	alert("id:"+$(th).attr("id"))
+	//alert("id:"+$(th).attr("id"))
 	getInfoById($(th).attr("id"),function(_value){
 		//通过id获取信息并回显
 		if(_value.id!=null||_value.id!=""){
@@ -286,7 +286,7 @@ function submitInfo(id,number,parentId){
 					$('#parentId').val(result.id);
 				}else if(number==2){
 					//设置childId
-					alert("result.id:"+result.id)
+					//alert("result.id:"+result.id)
 					$('#childId').val(result.id);
 				}else{
 					$(th).attr("id",result.id);
