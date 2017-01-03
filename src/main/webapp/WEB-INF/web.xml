@@ -65,4 +65,24 @@
     <load-on-startup>0</load-on-startup>
  </servlet>
  
+ 
+ <!--多个用户不能使用同一个账号同时登陆系统。为了实现这个功能，我们首先要在 web.xml
+             文件中添加一个监听器，这个监听器会在 session创建和销毁的时候通知 Spring Security。  -->
+   <listener>
+      <listener-class>
+     org.springframework.security.web.session.HttpSessionEventPublisher
+      </listener-class>
+   </listener>
+     <!-- 权限  SpringSecurity3.1的权限过滤-->
+  <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>
+           org.springframework.web.filter.DelegatingFilterProxy
+        </filter-class>
+   </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+ 
 </web-app>
