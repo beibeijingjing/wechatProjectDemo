@@ -20,5 +20,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	<!-- <context:component-scan base-package="blog.service" /> <context:component-scan 
 		base-package="blog.controller" /> -->
 	 <context:component-scan base-package="weixin" />
+	 <import resource="spring-mybatis.xml"/>
+     <import resource="spring-security.xml"/>
 
 </beans>
