@@ -149,7 +149,7 @@
 	<select id="getSysRoleListByUserId" resultMap="baseResultMap"
 		parameterType="java.lang.String">
 		select
-		 <include refid="base_column_list"/>
+		t1.role_name, t1.role_code,t1.role_type
 		from sys_role t1
 		join sys_user_role_ref t2
 		on t1.id=t2.role_id

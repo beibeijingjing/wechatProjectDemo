@@ -57,7 +57,7 @@ public class MyUserDetailService implements UserDetailsService {
 		Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 		if (roleList != null) {
 			for (SysRole role : roleList) {
-				auths.add(new GrantedAuthorityImpl(role.getRole_name()));
+				auths.add(new GrantedAuthorityImpl(role.getRole_code()));
 			}
 		}
 
