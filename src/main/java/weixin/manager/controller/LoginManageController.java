@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import core.controller.BaseController;
 
 @Controller
-@RequestMapping(value = "")
+@RequestMapping(value = "pc")
 public class LoginManageController extends BaseController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public Object toLogin() {
-		return "login";
+		return "weixin/login";
 	}
 
 	@RequestMapping(value = "/toLogin.do", method = RequestMethod.POST)

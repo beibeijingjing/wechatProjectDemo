@@ -5,4 +5,6 @@ import core.mapper.IBaseMapper;
 
 public interface SysUserMapper extends IBaseMapper<SysUser> {
 
+	public SysUser getSysUserByLoginName(String loginName);
+
 }

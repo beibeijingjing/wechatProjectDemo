@@ -269,4 +269,13 @@
 		</if>
 	</delete>
 	
+	<select id="getSysUserByLoginName" resultMap="baseResultMap"
+		parameterType="java.lang.String">
+		select
+		 <include refid="base_column_list"/>
+		from wx_user
+		where  login_name = #{login_name}
+		
+	</select>
+	
 </mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="weixin.manager.mapper.SysResourcesMapper">
+
+	 <resultMap id="baseResultMap" type="weixin.manager.bean.SysResources">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="resource_name" property="resource_name" jdbcType="VARCHAR" />
+		<result column="resource_desc" property="resource_desc" jdbcType="VARCHAR" />
+		<result column="resource_url" property="resource_url" jdbcType="VARCHAR" />
+		<result column="resource_type" property="resource_type" jdbcType="VARCHAR" />
+		<result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="roleResourcesMap" type="weixin.manager.vo.SysRoleResourcesVo">
+	    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+		<result column="roleCode" property="roleCode" jdbcType="VARCHAR" />
+		<result column="resourceUrl" property="resourceUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="base_column_list">
+		id,resource_name,resource_desc,resource_url,resource_type,del_flag
+	</sql>
+	
+	 <select id="selectByPrimaryKey" resultMap="baseResultMap"
+		parameterType="java.lang.String">
+		select
+		 <include refid="base_column_list"/>
+		from sys_resources
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+ 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_resources
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="weixin.manager.bean.SysResources">
+	<selectKey keyProperty="id" resultType="java.lang.String"
+		order="BEFORE">
+		select replace(uuid(),'-','') from dual
+	</selectKey>
+
+		insert into sys_resources
+		 (id,role_id, resource_id,create_time,update_time,del_flag)
+		values
+		(
+			 #{id,jdbcType=VARCHAR},
+			 #{resource_name,jdbcType=VARCHAR},
+			 #{resource_desc,jdbcType=VARCHAR},
+			 #{resource_url,jdbcType=VARCHAR},
+			 #{resource_type,jdbcType=INTEGER},
+			 now(),
+			 now(),
+			 0
+		 )
+	</insert>
+	
+	<insert id="insertSelective" parameterType="weixin.manager.bean.SysResources">
+		<selectKey keyProperty="id" resultType="java.lang.String"
+			order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		
+		insert into sys_resources
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="resource_name != null">
+				resource_name,
+			</if>
+			<if test="resource_desc != null">
+				resource_desc,
+			</if>
+			<if test="resource_url != null">
+				resource_url,
+			</if>
+			<if test="resource_type != null">
+				resource_type,
+			</if>
+				create_time,
+				update_time,
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+				
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR}
+			</if>
+			<if test="resource_name != null">
+				#{resource_name,jdbcType=VARCHAR}
+			</if>
+			<if test="resource_desc != null">
+				#{resource_desc,jdbcType=VARCHAR}
+			</if>
+			<if test="resource_url != null">
+				#{resource_url,jdbcType=VARCHAR}
+			</if>
+			<if test="resource_type != null">
+				#{resource_type,jdbcType=INTEGER}
+			</if>
+				now(),
+				now(),
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="weixin.manager.bean.SysResources">
+		update sys_resources
+			<set>
+				<if test="resource_name != null">
+					resource_name = #{resource_name,jdbcType=VARCHAR},
+				</if>
+				<if test="resource_desc != null">
+					resource_desc = #{resource_desc,jdbcType=VARCHAR},
+				</if>
+				<if test="resource_url != null">
+					resource_url = #{resource_url,jdbcType=VARCHAR},
+				</if>
+				<if test="resource_type != null">
+					resource_type = #{resource_type,jdbcType=INTEGER},
+				</if>
+				update_time=now(),
+				<if test="delFlag != null">
+					del_flag = #{delFlag,jdbcType=INTEGER},
+				</if>
+			</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="weixin.manager.bean.SysResources">
+	</update>
+	 
+	<select id="selectByMap" resultMap="baseResultMap"
+		parameterType="java.util.Map">
+		select
+		 <include refid="base_column_list"/>
+		from sys_resources
+		where 1=1
+		<if test="del_flag != null and del_flag!='-1' ">
+				and del_flag = #{del_flag}
+		</if>
+		<if test="resource_type != null and resource_type'-1' ">
+				and resource_type = #{resource_type}
+		</if>
+	 	 <if test="limit != null and offset != null" >
+				limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<!-- 自定义方法 -->
+	<select id="getAllResRole" resultMap="roleResourcesMap">
+		select t1.resource_url  resourceUrl,t3.role_name roleName,t3.role_code roleCode
+		from sys_resources t1
+		join sys_role_resources_ref t2
+		on t1.id=t2.resource_id
+		join sys_role t3
+		on t3.id=t2.role_id
+		where t3.del_flag=0
+		and t1.del_flag=0
+		and t2.del_flag=0
+	</select>
+	
+</mapper>
