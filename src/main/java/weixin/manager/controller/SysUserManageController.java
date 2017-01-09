@@ -1,6 +1,7 @@
 package weixin.manager.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +9,16 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import weixin.manager.bean.SysRole;
 import weixin.manager.bean.SysUser;
+import weixin.manager.service.SysRoleService;
 import weixin.manager.service.SysUserService;
 import core.controller.BaseController;
 
@@ -24,6 +28,9 @@ public class SysUserManageController extends BaseController {
 
 	@Resource
 	private SysUserService sysUserService;
+
+	@Resource
+	private SysRoleService sysRoleService;
 
 	@RequestMapping(value = "/toGetSysUserList.do")
 	public Object toGetSysUserList(HttpServletRequest request,
@@ -117,7 +124,45 @@ public class SysUserManageController extends BaseController {
 		user.setId(id);
 		user.setDelFlag(status);
 		sysUserService.updateByPrimaryKeySelective(user);
-		rsMap.put("rtnCode", 1); // 1：成功 0：失败 rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/batchBindingUserRole.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object batchBindingUserRole(String userId, String roleIds) {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+
+		sysUserService.batchBindingUserRole(userId, roleIds);
+		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/toGetUserRoleList.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Object toGetUserRoleList(String userId) {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map = null;
+		List<SysRole> roleList = sysRoleService
+				.getSysRoleRefListByUserId(userId);
+		if (roleList != null) {
+			for (SysRole role : roleList) {
+				map = new HashMap<String, Object>();
+				map.put("roleName", role.getRole_name());
+				map.put("roleId", role.getRole_id());
+				map.put("isChecked", 0);
+				if (StringUtils.isNotEmpty(role.getId())) {
+					map.put("isChecked", 1);
+				}
+				data.add(map);
+			}
+		}
+		rsMap.put("rtnCode", 0); // 1：成功 0：失败
+		rsMap.put("rtnMsg", "操作成功.");
+		rsMap.put("result", data);
 		return rsMap;
 	}
 

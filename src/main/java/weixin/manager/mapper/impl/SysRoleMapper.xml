@@ -158,4 +158,16 @@
 	    and t2.user_id = #{userId}
 	</select>
 	
+	<select id="getSysRoleRefListByUserId" resultMap="baseResultMap"
+		parameterType="java.lang.String">
+		select
+		t1.role_name, t1.role_code,t1.role_type,t2.id,t1.id role_id
+		from sys_role t1
+		left join sys_user_role_ref t2
+		on t1.id=t2.role_id
+		and t1.del_flag=0 
+		and t2.del_flag=0
+	    and t2.user_id = #{userId}
+	</select>
+	
 </mapper>

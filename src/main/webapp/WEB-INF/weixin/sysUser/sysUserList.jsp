@@ -58,6 +58,10 @@ body {
   				 toAdd(); 
   			 });
   			 
+  			$('#userRoleModel').on('shown.bs.modal', function () {
+  				toGetUserRoleList();
+  			})
+  			 
   	    }); 
  </script>
 	
@@ -105,6 +109,31 @@ body {
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消
 				</button>
 				<button type="button" class="btn btn-primary" onclick="toUpdateStatus();">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="userRoleModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					用户角色
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="userRoleDiv"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消
+				</button>
+				<button type="button" class="btn btn-primary" onclick="toBatchBindingRole();">
 					确定
 				</button>
 			</div>

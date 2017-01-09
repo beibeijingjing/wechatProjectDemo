@@ -1,5 +1,7 @@
 package weixin.manager.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,11 @@ public class SysRoleServiceImpl extends BaseService<SysRole> implements
 	@Override
 	public IBaseMapper<SysRole> getBaseMapper() {
 		return sysRoleMapper;
+	}
+
+	@Override
+	public List<SysRole> getSysRoleRefListByUserId(String userId) {
+		return sysRoleMapper.getSysRoleRefListByUserId(userId);
 	}
 
 }

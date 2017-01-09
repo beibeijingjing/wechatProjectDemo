@@ -14,6 +14,7 @@ public class SysRole extends BaseBean implements Serializable {
 	private String role_name;
 	private String role_code;
 	private Integer role_type;
+	private String role_id;
 
 	public String getRole_name() {
 		return role_name;
@@ -37,6 +38,14 @@ public class SysRole extends BaseBean implements Serializable {
 
 	public void setRole_type(Integer role_type) {
 		this.role_type = role_type;
+	}
+
+	public String getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(String role_id) {
+		this.role_id = role_id;
 	}
 
 }

@@ -7,4 +7,6 @@ import core.mapper.IBaseMapper;
 
 public interface SysRoleMapper extends IBaseMapper<SysRole> {
 	public List<SysRole> getSysRoleListByUserId(String userId);
+
+	public List<SysRole> getSysRoleRefListByUserId(String userId);
 }

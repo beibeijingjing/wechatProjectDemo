@@ -132,6 +132,78 @@
 
     
     
+    function toBatchBindingRole() {
+    	var $data=$('#cusTable').bootstrapTable('getSelections');
+    	if($data.length!=1){
+    		alert("只能选择一行用户");
+    		return false;
+    	}
+    	//alert(JSON.stringify($data));
+    	var id=$data[0].id;
+    	var roleIdArray=new Array();  
+    	$('input[name="roleId"]:checked').each(function(){  
+    		roleIdArray.push($(this).val());//向数组中添加元素  
+    	});  
+    	var roleIds=roleIdArray.join(',');//将数组元素连接起来以构建一个字符串  
+    	//alert(roleIds.length+"   "+roleIds);  
+    	if(roleIds.length<=0){
+    		alert("请至少选择一个角色");
+    		return false;
+    	}    		$.ajax({
+    			type : "POST",
+    			url : basePath + "/pc/batchBindingUserRole.do",
+    			data : {
+    				"userId" : id,
+    				"roleIds" : roleIds
+    			},
+    			async : false,
+    			dataType : "json",
+    			success : function(result) {
+    				$('#userRoleModel').modal('hide');
+    				doSearch();
+    				if(result.rtnCode == 0){
+    					alert(result.rtnMsg);
+    				}else{
+    					alert(result.rtnMsg);
+    				}
+    			}
+    		});
+    }
+
+    function toGetUserRoleList() {
+    	var $data=$('#cusTable').bootstrapTable('getSelections');
+    	if($data.length!=1){
+    		alert("只能选择一行用户");
+    		return false;
+    	}
+    	//alert(JSON.stringify($data));
+    	var id=$data[0].id;
+    		$.ajax({
+    			type : "GET",
+    			url : basePath + "/pc/toGetUserRoleList.do",
+    			data : {
+    				"userId" : id,
+    			},
+    			async : false,
+    			dataType : "json",
+    			success : function(result) {
+    				if(result.rtnCode == 0){
+    					$("#userRoleDiv").empty();
+    					var show = "";
+						$.each(result.result, function(n, value) {
+							if(value.isChecked==0){
+								show += "<input type='checkbox' name='roleId' value='"+value.roleId+"'>"+value.roleName+"&nbsp;";
+							}else{
+								show += "<input type='checkbox' name='roleId' value='"+value.roleId+"' checked='checked'>"+value.roleName+"&nbsp;";
+							}
+							//alert(show)
+						})
+						
+						$("#userRoleDiv").append(show);
+    				}
+    			}
+    		});
+    }
     
     function formatOper(value, row, index) {
     	var msg = '';
@@ -141,7 +213,8 @@
     			msg = "启用";
     		}
     	var url = "<a href=\"javascript:void(0);\" onclick=\"toUpdate('" + row.id + "')\">修改</a>&nbsp;"
-    	+"<a href=\"#myModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;";
+    	+"<a href=\"#myModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;"
+    	+"<a href=\"#userRoleModel\" role=\"button\" data-toggle=\"modal\">绑定角色</a>&nbsp;";
     	
     	return url;
     }
