@@ -75,16 +75,16 @@
 		
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
-				#{id,jdbcType=VARCHAR}
+				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="role_name != null">
-				#{role_name,jdbcType=VARCHAR}
+				#{role_name,jdbcType=VARCHAR},
 			</if>
 			<if test="role_code != null">
-				#{role_code,jdbcType=VARCHAR}
+				#{role_code,jdbcType=VARCHAR},
 			</if>
 			<if test="role_type != null">
-				#{role_type,jdbcType=INTEGER}
+				#{role_type,jdbcType=INTEGER},
 			</if>
 				now(),
 				now(),
@@ -136,7 +136,7 @@
 		<if test="del_flag != null and del_flag!='-1' ">
 				and del_flag = #{del_flag}
 		</if>
-		<if test="role_type != null and role_type'-1' ">
+		<if test="role_type != null and role_type!='-1' ">
 				and role_type = #{role_type}
 		</if>
 	 	 <if test="limit != null and offset != null" >

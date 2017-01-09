@@ -64,9 +64,10 @@
 	            {id:'1',menu:
 		        	[{text:'系统管理',items:
 		        		[
-		        		 {id:'6',text:'菜单管理',href:'<%=path%>/pc/toGetSysMenuList.do'},
-		        		 {id:'4',text:'用户管理',href:'<%=path%>/pc/toGetSysUserList.do'},
-		        		 {id:'3',text:'角色管理',href:'Role/index.html'}
+		        		 {id:'1',text:'菜单管理',href:'<%=path%>/pc/toGetSysMenuList.do'},
+		        		 {id:'2',text:'用户管理',href:'<%=path%>/pc/toGetSysUserList.do'},
+		        		 {id:'3',text:'角色管理',href:'<%=path%>/pc/toGetSysRoleList.do'},
+		        		 {id:'4',text:'资源管理',href:'<%=path%>/pc/toGetSysResourcesList.do'},
 		        		]
 		        	}]
 	            }

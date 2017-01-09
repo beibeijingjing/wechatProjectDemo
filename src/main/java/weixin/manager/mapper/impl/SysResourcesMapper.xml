@@ -88,19 +88,19 @@
 		
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
-				#{id,jdbcType=VARCHAR}
+				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="resource_name != null">
-				#{resource_name,jdbcType=VARCHAR}
+				#{resource_name,jdbcType=VARCHAR},
 			</if>
 			<if test="resource_desc != null">
-				#{resource_desc,jdbcType=VARCHAR}
+				#{resource_desc,jdbcType=VARCHAR},
 			</if>
 			<if test="resource_url != null">
-				#{resource_url,jdbcType=VARCHAR}
+				#{resource_url,jdbcType=VARCHAR},
 			</if>
 			<if test="resource_type != null">
-				#{resource_type,jdbcType=INTEGER}
+				#{resource_type,jdbcType=INTEGER},
 			</if>
 				now(),
 				now(),
@@ -145,7 +145,7 @@
 		<if test="del_flag != null and del_flag!='-1' ">
 				and del_flag = #{del_flag}
 		</if>
-		<if test="resource_type != null and resource_type'-1' ">
+		<if test="resource_type != null and resource_type!='-1' ">
 				and resource_type = #{resource_type}
 		</if>
 	 	 <if test="limit != null and offset != null" >
