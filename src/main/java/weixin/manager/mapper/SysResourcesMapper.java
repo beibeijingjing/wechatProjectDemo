@@ -8,4 +8,6 @@ import core.mapper.IBaseMapper;
 
 public interface SysResourcesMapper extends IBaseMapper<SysResources> {
 	public List<SysRoleResourcesVo> getAllResRole();
+
+	public List<SysRoleResourcesVo> getRoleResourcesVoList(String roleId);
 }

@@ -166,4 +166,15 @@
 		and t2.del_flag=0
 	</select>
 	
+	 <select id="getRoleResourcesVoList" resultMap="roleResourcesMap"
+		parameterType="java.lang.String">
+		select t1.id,t1.resource_url  resourceUrl,t1.resource_name resourceName,t1.resource_desc resourceDesc,t2.role_id roleId
+		from sys_resources t1
+		left join sys_role_resources_ref t2
+		on t1.id=t2.resource_id
+		and t1.del_flag=0
+		and t2.del_flag=0
+		and t2.role_id = #{roleId,jdbcType=VARCHAR}
+	</select>
+	
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import weixin.manager.bean.SysResources;
 import weixin.manager.service.SysResourcesService;
+import weixin.manager.vo.SysRoleResourcesVo;
 import core.controller.BaseController;
 
 @Controller
@@ -52,6 +53,14 @@ public class SysResourcesManageController extends BaseController {
 		return "weixin/sysResources/updateSysResources";
 	}
 
+	@RequestMapping(value = "/toGetBindingResourcesList.do")
+	public Object toGetBindingResourcesList(HttpServletRequest request,
+			@RequestParam(required = false) String sessionId, String id) {
+		request.setAttribute("sessionId", sessionId);
+		request.setAttribute("roleId", id);
+		return "weixin/sysResources/bindingResourcesList";
+	}
+
 	@RequestMapping(value = "/getSysResourcesList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getSysResourcesList(HttpServletRequest request,
@@ -64,6 +73,28 @@ public class SysResourcesManageController extends BaseController {
 		condition.put("offset", offset);
 		List<SysResources> resourcesList = sysResourcesService
 				.selectByMap(condition);
+
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+
+		request.setAttribute("sessionId", "");
+		rsMap.put("rows", resourcesList);
+		rsMap.put("total", 30);
+		return rsMap;
+
+	}
+
+	@RequestMapping(value = "/getSysResourcesVoList.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getSysResourcesVoList(HttpServletRequest request,
+			Integer limit, Integer offset, Integer status, String roleId)
+			throws IllegalStateException, IOException {
+
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("del_flag", status);
+		condition.put("limit", limit);
+		condition.put("offset", offset);
+		List<SysRoleResourcesVo> resourcesList = sysResourcesService
+				.getRoleResourcesVoList(roleId);
 
 		Map<String, Object> rsMap = new HashMap<String, Object>();
 
@@ -107,6 +138,16 @@ public class SysResourcesManageController extends BaseController {
 		resources.setId(id);
 		resources.setDelFlag(status);
 		sysResourcesService.updateByPrimaryKeySelective(resources);
+		rsMap.put("rtnCode", 1); // 1：成功 0：失败
+		rsMap.put("rtnMsg", "操作成功.");
+		return rsMap;
+	}
+
+	@RequestMapping(value = "/bindingRoleResources.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Object bindingRoleResources(String roleId, String resourceIds) {
+		Map<String, Object> rsMap = new HashMap<String, Object>();
+		sysResourcesService.addRoleResourcesRef(roleId, resourceIds);
 		rsMap.put("rtnCode", 1); // 1：成功 0：失败
 		rsMap.put("rtnMsg", "操作成功.");
 		return rsMap;

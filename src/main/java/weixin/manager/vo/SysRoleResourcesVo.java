@@ -17,7 +17,11 @@ package weixin.manager.vo;
 public class SysRoleResourcesVo {
 	private String roleName;
 	private String roleCode;
+	private String roleId;
 	private String resourceUrl;
+	private String resourceDesc;
+	private String resourceName;
+	private String id;// 资源id
 
 	public String getRoleName() {
 		return roleName;
@@ -41,6 +45,38 @@ public class SysRoleResourcesVo {
 
 	public void setResourceUrl(String resourceUrl) {
 		this.resourceUrl = resourceUrl;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getResourceDesc() {
+		return resourceDesc;
+	}
+
+	public void setResourceDesc(String resourceDesc) {
+		this.resourceDesc = resourceDesc;
+	}
+
+	public String getResourceName() {
+		return resourceName;
+	}
+
+	public void setResourceName(String resourceName) {
+		this.resourceName = resourceName;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

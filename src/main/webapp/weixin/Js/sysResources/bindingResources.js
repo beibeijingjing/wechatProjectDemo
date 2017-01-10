@@ -4,7 +4,7 @@
 	   		$("#cusTable").bootstrapTable('destroy'); 
 	   
             $('#cusTable').bootstrapTable({
-                url: basePath+'/pc/getSysRoleList.do',         //请求后台的URL（*）
+                url: basePath+'/pc/getSysResourcesVoList.do',         //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 toolbar: '#toolbar',                //工具按钮用哪个容器
                 striped: true,                      //是否显示行间隔色
@@ -16,6 +16,7 @@
                 	 return {
                 		 limit: params.limit,
                 		 offset: params.offset,
+                		 roleId : roleId,
                 		 status:$('#status').val()
                 		 };
                 },
@@ -37,7 +38,8 @@
 				{
 				    field: '',
 				    title: '选择框',
-				    checkbox:true
+				    checkbox:true,
+				    formatter:stateFormatter
 				},
                  {
                     field: 'id',
@@ -45,59 +47,72 @@
                     hidden:true,
                     visible:false
                 }, {
-                    field: 'role_name',
-                    title: '角色名'
+                    field: 'resourceName',
+                    title: '资源名称'
                 }, {
-                    field: 'role_code',
-                    title: '昵称'
-                }, {
-        			field : 'opt',
-        			title : '操作',
-        			width : '300px',
-        			align : 'center',
-        			formatter : formatOper
-        		}
+                    field: 'resourceUrl',
+                    title: '资源地址'
+                }/*, {
+                    field: 'sex',
+                    title: '性别',
+                    formatter: function (value, row, index) {
+                    	var msg="";
+                        if(value==0){
+                        	msg="未知"
+                        }
+                       
+                        return msg;
+                    }
+                }*/, {
+                    field: 'resourceDesc',
+                    title: '描述'
+                }
                ]
             });
     };
     
-    
-    function toUpdate(id) {
-    	window.location.href=basePath + "/pc/toGetUpdateSysRole.do?id="+id;
+    function stateFormatter(value, row, index) {
+        if (row.roleId!=null &&row.roleId!='') {
+            return {
+                //disabled: true,
+                checked: true
+            };
+        }else{
+        	 return {
+                 //disabled: true,
+                 checked: false
+             };
+        }
     }
     
-    function toBinding(id) {
-    	window.location.href=basePath + "/pc/toGetBindingResourcesList.do?id="+id;
-    }
-
-    function toAdd() {
-    	window.location.href=basePath + "/pc/toGetAddSysRole.do";
-    }
     
-    function toUpdateStatus() {
+    function toBinding() {
     	var $data=$('#cusTable').bootstrapTable('getSelections');
-    	if($data.length!=1){
-    		alert("只能选择一行修改");
+    	if($data.length<=0){
+    		alert("请选择资源文件");
     		return false;
     	}
-    	//alert(JSON.stringify($data));
-    	var id=$data[0].id;
-    	var flag=$data[0].delFlag;
-    	var status=0;
-    	if(flag==0){
-    		status=1;
-    	}
+    	
+    	var resourceIdArray=new Array();  
+    	$($data).each(function(index,value){
+    		//alert(index+"   "+value.id)
+    		resourceIdArray.push(value.id);//向数组中添加元素  
+    	});  
+    	var resourceIds=resourceIdArray.join(',');//将数组元素连接起来以构建一个字符串  
+    	
+    	//alert("resourceIds:"+"    "+resourceIds)
+    	
     		$.ajax({
     			type : "POST",
-    			url : basePath + "/pc/updateSysRoleStatus.do",
+    			url : basePath + "/pc/bindingRoleResources.do",
     			data : {
-    				"id" : id,
-    				"status" : status
+    				"roleId" : roleId,
+    				"resourceIds":resourceIds
     			},
     			async : false,
     			dataType : "json",
     			success : function(result) {
-    				$('#myModal').modal('hide');
+    				$('#bindingModal').modal('hide');
     				doSearch();
     				if(result.rtnCode == 0){
     					alert(result.rtnMsg);
@@ -106,21 +121,4 @@
     				}
     			}
     		});
-    }
-
-    
-    
-    
-    function formatOper(value, row, index) {
-    	var msg = '';
-    		if (row.delFlag == 0) {
-    			msg = "禁用";
-    		} else if (row.delFlag == 1) {
-    			msg = "启用";
-    		}
-    	var url = "<a href=\"javascript:void(0);\" onclick=\"toUpdate('" + row.id + "')\">修改</a>&nbsp;"
-    	+"<a href=\"#myModal\" role=\"button\" data-toggle=\"modal\">"+msg+"</a>&nbsp;"
-    	+"<a href=\"javascript:void(0);\" onclick=\"toBinding('" + row.id + "')\">绑定资源</a>&nbsp;";
-    	
-    	return url;
     }
