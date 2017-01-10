@@ -6,16 +6,19 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">  
   
   <!--登录页面不过滤 -->
-    <http pattern="/login.jsp" security="none" />
-    <http auto-config="true" access-denied-page="/accessDenied.jsp">
+    <http pattern="/pc/login.do" security="none" />
+    <http pattern="/pc/toIndex.do" security="none" />
+    <http auto-config="true" access-denied-page="/pc/accessDenied.do">
     	 <!-- 登录页面和忘记密码页面不过滤 -->
-        <form-login login-page="/login.jsp"  authentication-failure-url="/accessDenied.jsp"  
-        default-target-url="/index.jsp"/>
+        <form-login login-page="/pc/login.do"  authentication-failure-url="/pc/accessDenied.do"  
+        default-target-url="/pc/toIndex.do"/>
+        <!-- 退出登录 -->
+        <logout  logout-success-url="/pc/login.do" invalidate-session="true" logout-url="/j_spring_security_logout"/>
         
         <!--访问/admin.jsp资源的用户必须具有ROLE_ADMIN的权限 -->  
        <!--  <intercept-url pattern="/admin.jsp" access="ROLE_ADMIN" /> -->
         <!--访问/**资源的用户必须具有ROLE_USER的权限 -->  
-        <!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
+        <!-- <intercept-url pattern="/**" access="ROLE_ADMIN" /> -->
        
          <session-management>  
             <concurrency-control max-sessions="1"  
@@ -23,6 +26,7 @@
         </session-management>
         <!--增加一个filter，这点与 Acegi是不一样的，不能修改默认的filter了， 这个filter位于FILTER_SECURITY_INTERCEPTOR之前 -->  
          <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+        
     </http>
     
     <!--  <authentication-manager>  

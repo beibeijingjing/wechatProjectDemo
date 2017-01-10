@@ -43,7 +43,8 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 			ConfigAttribute ca = ite.next();
 			String needRole = ((SecurityConfig) ca).getAttribute();
 			for (GrantedAuthority ga : authentication.getAuthorities()) {
-				if (needRole.equals(ga.getAuthority())) {
+				if (needRole.equals(ga.getAuthority())
+						|| "ROLE_ADMIN".equals(ga.getAuthority())) {
 
 					return;
 				}

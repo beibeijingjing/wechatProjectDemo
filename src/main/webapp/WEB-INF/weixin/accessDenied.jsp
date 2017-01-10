@@ -5,7 +5,7 @@
 <title>My JSP 'admin.jsp' starting page</title>  
 </head>  
 <body>  
-    这是accessDenied页面
+    没有权限
     <br>  
 </body>  
 </html>  

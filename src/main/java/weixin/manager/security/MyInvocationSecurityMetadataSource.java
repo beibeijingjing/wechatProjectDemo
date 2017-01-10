@@ -78,8 +78,8 @@ public class MyInvocationSecurityMetadataSource implements
 		}
 
 		String URL = ((FilterInvocation) obj).getRequestUrl();
-		if (URL.contains("&")) {
-			URL = URL.substring(0, URL.indexOf("&"));
+		if (URL.contains("?")) {
+			URL = URL.substring(0, URL.indexOf("?"));
 		}
 		Collection<ConfigAttribute> attrs = NULL_CONFIG_ATTRIBUTE;
 		for (Map.Entry<String, Collection<ConfigAttribute>> entry : requestMap
@@ -88,6 +88,13 @@ public class MyInvocationSecurityMetadataSource implements
 				attrs = entry.getValue();
 				break;
 			}
+		}
+
+		// 防止数据库中没有数据，不能进行权限拦截
+		if (attrs.size() < 1) {
+			attrs = new ArrayList<ConfigAttribute>();
+			ConfigAttribute configAttribute = new SecurityConfig("ROLE_NO_USER");
+			attrs.add(configAttribute);
 		}
 		return attrs;
 	}

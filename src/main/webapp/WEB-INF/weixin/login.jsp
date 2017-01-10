@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!DOCTYPEhtmlPUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">  
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,8 +18,6 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=path%>/weixin/Css/style.css" />
 <script type="text/javascript" src="<%=path%>/weixin/Js/jquery.js"></script>
-<script type="text/javascript"
-	src="<%=path%>/weixin/Js/jquery.sorted.js"></script>
 <script type="text/javascript" src="<%=path%>/weixin/Js/bootstrap.js"></script>
 <script type="text/javascript" src="<%=path%>/weixin//Js/ckform.js"></script>
 <script type="text/javascript" src="<%=path%>/weixin/Js/common.js"></script>
@@ -58,14 +57,11 @@ body {
 <body>
 	<div class="container">
 
-		<form class="form-signin" method="post"
-			action="<%=path%>/pc/toLogin.do">
+		<form class="form-signin" method="post" action="<%=path%>/j_spring_security_check">
 			<h2 class="form-signin-heading">登录系统</h2>
-			<input type="text" name="userName" class="input-block-level"
-				placeholder="账号"> <input type="password" name="password"
-				class="input-block-level" placeholder="密码"> <input
-				type="text" name="verify" class="input-medium" placeholder="验证码">
-
+			<input type="text" name="j_username" class="input-block-level"placeholder="账号"> 
+			<input type="password" name="j_password"  class="input-block-level" placeholder="密码"> 
+			<!-- <input type="text" name="verify" class="input-medium" placeholder="验证码"> -->
 			<p>
 				<button class="btn btn-large btn-primary" type="submit">登录</button>
 			</p>

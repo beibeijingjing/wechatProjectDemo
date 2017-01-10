@@ -13,6 +13,7 @@ import weixin.manager.bean.SysResources;
 import weixin.manager.bean.SysRoleResourcesRef;
 import weixin.manager.mapper.SysResourcesMapper;
 import weixin.manager.mapper.SysRoleResourcesRefMapper;
+import weixin.manager.security.MyInvocationSecurityMetadataSource;
 import weixin.manager.vo.SysRoleResourcesVo;
 import core.mapper.IBaseMapper;
 import core.service.BaseService;
@@ -24,6 +25,8 @@ public class SysResourcesServiceImpl extends BaseService<SysResources>
 	private SysResourcesMapper sysResourcesMapper;
 	@Autowired
 	private SysRoleResourcesRefMapper sysRoleResourcesRefMapper;
+	@Autowired
+	private MyInvocationSecurityMetadataSource securityMetadataSource;
 
 	@Override
 	public IBaseMapper<SysResources> getBaseMapper() {
@@ -52,6 +55,9 @@ public class SysResourcesServiceImpl extends BaseService<SysResources>
 
 			}
 		}
+
+		// 设置权限资源过期
+		securityMetadataSource.expireNow();
 
 	}
 
