@@ -19,6 +19,8 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import core.utils.HttpRequest;
+
 /**
  * @ClassName: MyAccessDecisionManager
  * @Description: TODO
@@ -26,6 +28,7 @@ import org.springframework.security.core.GrantedAuthority;
  * @date: 2017年1月4日 上午11:47:26
  */
 public class MyAccessDecisionManager implements AccessDecisionManager {
+
 	// 检查用户是否够权限访问资源
 	// 参数authentication是从spring的全局缓存SecurityContextHolder中拿到的，里面是用户的权限信息
 	// 参数object是url

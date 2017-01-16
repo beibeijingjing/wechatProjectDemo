@@ -8,6 +8,8 @@
   <!--登录页面不过滤 -->
     <http pattern="/pc/login.do" security="none" />
     <http pattern="/pc/toIndex.do" security="none" />
+     <http pattern="/pc/accessDenied.do" security="none" />
+      <http pattern="/weixin/**" security="none" />
     <http auto-config="true" access-denied-page="/pc/accessDenied.do">
     	 <!-- 登录页面和忘记密码页面不过滤 -->
         <form-login login-page="/pc/login.do"  authentication-failure-url="/pc/accessDenied.do"  
